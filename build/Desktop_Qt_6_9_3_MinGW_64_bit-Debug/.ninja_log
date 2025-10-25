@@ -1,0 +1,14 @@
+# ninja log v6
+6	1141	7831119177022097	Traffic-DSA_autogen/timestamp	7491c87b27fb70f6
+6	1141	7831119177022097	Traffic-DSA_autogen/mocs_compilation.cpp	7491c87b27fb70f6
+6	1141	7831119177022097	C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-DSA_autogen/timestamp	7491c87b27fb70f6
+6	1141	7831119177022097	C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-DSA_autogen/mocs_compilation.cpp	7491c87b27fb70f6
+1156	6330	7831119178076384	CMakeFiles/Traffic-DSA.dir/main.cpp.obj	31c7128843dfb3e3
+1152	6451	7831119178034648	CMakeFiles/Traffic-DSA.dir/Traffic-DSA_autogen/mocs_compilation.cpp.obj	3db956ec903d9169
+1164	6990	7831119178156183	CMakeFiles/Traffic-DSA.dir/graph.cpp.obj	b2af590afb05f684
+80	337	7831119712782063	Traffic-DSA_autogen/timestamp	7491c87b27fb70f6
+80	337	7831119712782063	Traffic-DSA_autogen/mocs_compilation.cpp	7491c87b27fb70f6
+80	337	7831119712782063	C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-DSA_autogen/timestamp	7491c87b27fb70f6
+80	337	7831119712782063	C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-DSA_autogen/mocs_compilation.cpp	7491c87b27fb70f6
+339	4322	7831119715365392	CMakeFiles/Traffic-DSA.dir/mainwindow.cpp.obj	8d9e60450c9bfce8
+4323	7113	7831119755209337	Traffic-DSA.exe	5cb6a36c835f8d54

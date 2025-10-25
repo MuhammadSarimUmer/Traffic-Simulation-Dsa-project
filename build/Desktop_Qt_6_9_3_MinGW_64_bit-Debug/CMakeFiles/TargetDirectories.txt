@@ -1,0 +1,5 @@
+C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/CMakeFiles/Traffic-DSA.dir
+C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
+C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/CMakeFiles/Traffic-DSA_autogen_timestamp_deps.dir
+C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/CMakeFiles/Traffic-DSA_autogen.dir
