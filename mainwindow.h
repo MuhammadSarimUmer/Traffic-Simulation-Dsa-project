@@ -18,10 +18,12 @@ public:
 
 private slots:
     void onLoadMapClicked();
+    void onFindPathClicked();
 
 private:
     Ui::MainWindow *ui;
     Graph graph;
+    bool mapLoaded;
 };
 
 #endif // MAINWINDOW_H

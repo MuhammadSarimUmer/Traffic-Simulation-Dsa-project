@@ -10,6 +10,7 @@ C:/Users/HP/Documents/Traffic-Control-DSA/mainwindow.h
  mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/QPair
  mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/QPointF
  mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/QString
+ mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/QVector
  mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/q17memory.h
  mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/q20functional.h
  mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/q20iterator.h
@@ -132,6 +133,7 @@ C:/Users/HP/Documents/Traffic-Control-DSA/mainwindow.h
  mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/qutf8stringview.h
  mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/qvariant.h
  mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/qvarlengtharray.h
+ mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/qvector.h
  mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/qversiontagging.h
  mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/qxptype_traits.h
  mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/qyieldcpu.h
