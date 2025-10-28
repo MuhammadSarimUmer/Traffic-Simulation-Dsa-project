@@ -1,6 +1,7 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+#include <QtGlobal>
 #include <QMap>
 #include <QList>
 #include <QPair>
@@ -50,6 +51,7 @@ public:
     int getEdgeCount() const;
     bool hasNode(qint64 id) const { return nodes.contains(id); }
     Node getNode(qint64 id) const { return nodes.value(id); }
+    const QMap<qint64, Node>& getNodes() const { return nodes; }
     QList<Edge> getEdges(qint64 nodeId) const { return adj.value(nodeId); }
     QList<qint64> getAllNodeIds() const { return nodes.keys(); }
 
@@ -64,7 +66,7 @@ public:
     // Clear graph
     void clear();
 
-private:
+public:
     QMap<qint64, Node> nodes;
     QMap<qint64, QList<Edge>> adj;
     QMap<QString, qint64> nameToNodeId;  // Location name → node ID
