@@ -18,9 +18,17 @@ set(PROJECT_SOURCES
     mainwindow.ui
     graph.cpp
     graph.h
+    traffic_simulator.cpp
+    traffic_simulator.h
+    notification_manager.h
+    notification_manager.cpp
 )
 
-add_executable(Traffic-DSA ${PROJECT_SOURCES})
+add_executable(Traffic-DSA ${PROJECT_SOURCES}
+    traffic_simulator.cpp
+    traffic_simulator.h
+    notification_manager.cpp
+    notification_manager.h)
 
 target_link_libraries(Traffic-DSA Qt6::Core Qt6::Widgets)
 
