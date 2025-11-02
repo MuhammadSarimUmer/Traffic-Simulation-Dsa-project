@@ -4,70 +4,95 @@
 #include <QObject>
 #include <QTimer>
 #include <QVector>
-#include <QPointF>
-#include <QMap>
-#include <QQueue>
-#include <QRandomGenerator>
 #include <QColor>
+#include <QPointF>
+#include <QQueue>
+#include <QHash>
+#include <QMap>
+#include <QPair>
 #include "graph.h"
-
-struct Vehicle {
-    qint64 id;
-    QVector<qint64> path;    // sequence of node IDs
-    int currentIndex;         // current edge index in path
-    double progress;          // 0.0 - 1.0 along edge
-    double speed;             // m/s
-    bool waitingAtLight;
-    QColor color;
-    QPointF position;         // screen/map position
-
-    Vehicle()
-        : id(0), currentIndex(0), progress(0.0), speed(0.0),
-        waitingAtLight(false), position(0,0) {}
-};
-
-struct TrafficLight {
-    qint64 nodeId;
-    bool isGreen;
-    double timer;
-    double cycleDuration;     // seconds
-};
+#include "notification_manager.h"
 
 class TrafficSimulator : public QObject
 {
     Q_OBJECT
+
 public:
-    explicit TrafficSimulator(Graph* graph, QObject* parent = nullptr);
+    explicit TrafficSimulator(Graph* g, QObject* parent = nullptr);
 
     void start();
     void stop();
-    void addVehicle(qint64 source, qint64 destination);
     void reset();
+    void addVehicle(qint64 source, qint64 destination, bool priority = false);
+
+    struct Vehicle {
+        qint64 id;
+        QVector<qint64> path;
+        int currentIndex;
+        double progress;
+        double baseSpeed;
+        double speed;
+        bool waitingAtLight;
+        bool isPriority;
+        bool rerouted;
+        QColor color;
+        QPointF position;
+
+        // Enhancements:
+        qint64 lastRerouteTime;  // timestamp for reroute cooldown tracking
+
+        bool canReroute(qint64 now, double cooldown) const {
+            return (!rerouted || (now - lastRerouteTime) >= cooldown);
+        }
+    };
+
+    struct TrafficLight {
+        qint64 nodeId;
+        bool isGreen;
+        double timer;
+        double cycleDuration;
+    };
 
 signals:
     void vehiclesUpdated(const QVector<Vehicle>& vehicles);
     void trafficLightsUpdated(const QVector<TrafficLight>& lights);
+    void edgeCongestionUpdated(qint64 from, qint64 to, const QString& status);
+    void congestionAlert(const QString& message);
 
 private slots:
     void updateSimulation();
+    void updateCongestion();
 
 private:
-    Graph* graph;
-    QTimer timer;
-    QVector<Vehicle> vehicles;
-    QMap<qint64, TrafficLight> trafficLights;
-
-    // Per-node queues and release timers (used from cpp)
-    QMap<qint64, QQueue<qint64>> lightQueues;      // keyed by nodeId, stores vehicle ids
-    QMap<qint64, double> lightReleaseTimers;       // keyed by nodeId
-
-    double simulationSpeed;   // simulation time multiplier
-    qint64 nextVehicleId;
-
+    // Core update logic
+    void updateTrafficLights(double deltaTime);
     void updateQueues(double deltaTime);
     void updateVehicles(double deltaTime);
-    void updateTrafficLights(double deltaTime);
+    void handleRerouting(Vehicle& v, const QPair<qint64,qint64>& congestedEdge);
     QPointF interpolatePosition(const QPointF& a, const QPointF& b, double t);
+
+    // --- Simulation Core ---
+    Graph* graph;
+    QTimer timer;
+    QTimer congestionTimer;
+    NotificationManager notifier;
+
+    double simulationSpeed;
+    qint64 nextVehicleId;
+
+    QVector<Vehicle> vehicles;
+    QHash<qint64, int> vehicleIndex;
+
+    // switched to QHash for better performance on large graphs
+    QHash<QPair<qint64,qint64>, int> edgeVehicleCount;
+    QHash<qint64, TrafficLight> trafficLights;
+    QHash<qint64, QQueue<qint64>> lightQueues;
+    QHash<qint64, double> lightReleaseTimers;
+
+    // --- Enhancements ---
+    double rerouteCooldown;   // seconds before vehicle can reroute again
+    qint64 totalReroutes;     // counter for monitoring
+    qint64 lastLogTime;       // for periodic console stats
 };
 
 #endif // TRAFFIC_SIMULATOR_H
