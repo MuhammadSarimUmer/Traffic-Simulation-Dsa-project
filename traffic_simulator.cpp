@@ -2,31 +2,50 @@
 #include <QtMath>
 #include <QDebug>
 #include <QQueue>
+#include <QRandomGenerator>
+#include <QDateTime>
 
+// Constructor
 TrafficSimulator::TrafficSimulator(Graph* g, QObject* parent)
     : QObject(parent),
     graph(g),
     simulationSpeed(1.0),
-    nextVehicleId(1)
+    nextVehicleId(1),
+    rerouteCooldown(30.0) // new: 30 seconds between reroutes
 {
     connect(&timer, &QTimer::timeout, this, &TrafficSimulator::updateSimulation);
-    timer.setInterval(50); // 20 updates/sec (~smooth)
+    timer.setInterval(50); // 20 updates/sec
+
+    connect(&congestionTimer, &QTimer::timeout, this, &TrafficSimulator::updateCongestion);
+    congestionTimer.setInterval(2000); // every 2 seconds
+
+    totalReroutes = 0;
+    lastLogTime = QDateTime::currentSecsSinceEpoch();
 }
 
-void TrafficSimulator::start() { timer.start(); }
-void TrafficSimulator::stop() { timer.stop(); }
+void TrafficSimulator::start() {
+    timer.start();
+    congestionTimer.start();
+}
+
+void TrafficSimulator::stop() {
+    timer.stop();
+    congestionTimer.stop();
+}
 
 void TrafficSimulator::reset() {
     vehicles.clear();
+    vehicleIndex.clear();
     trafficLights.clear();
     lightQueues.clear();
-    lightReleaseTimers.clear();  // ✅ Added to track queue release timing
+    lightReleaseTimers.clear();
+    edgeVehicleCount.clear();
     nextVehicleId = 1;
+    totalReroutes = 0;
 }
 
-void TrafficSimulator::addVehicle(qint64 source, qint64 destination)
-{
-    if (!graph->hasNode(source) || !graph->hasNode(destination))
+void TrafficSimulator::addVehicle(qint64 source, qint64 destination, bool priority) {
+    if (!graph || !graph->hasNode(source) || !graph->hasNode(destination))
         return;
 
     Graph::PathResult path = graph->dijkstra(source, destination);
@@ -38,171 +57,250 @@ void TrafficSimulator::addVehicle(qint64 source, qint64 destination)
     v.path = path.path;
     v.currentIndex = 0;
     v.progress = 0.0;
-    v.speed = 10.0 + QRandomGenerator::global()->bounded(5.0);
+    v.baseSpeed = 10.0 + QRandomGenerator::global()->bounded(5.0);
+    v.speed = v.baseSpeed;
     v.waitingAtLight = false;
-    v.color = QColor::fromHsl(QRandomGenerator::global()->bounded(360), 255, 150);
+    v.isPriority = priority;
+    v.rerouted = false;
+    v.lastRerouteTime = 0.0; // new
+    v.color = priority ? QColor(Qt::red)
+                       : QColor::fromHsl(QRandomGenerator::global()->bounded(360), 255, 150);
 
     const Graph::Node& n = graph->getNode(v.path.first());
     v.position = QPointF(n.lon, n.lat);
 
     vehicles.append(v);
+    vehicleIndex[v.id] = vehicles.size() - 1;
 }
 
-void TrafficSimulator::updateSimulation()
-{
+void TrafficSimulator::updateSimulation() {
     double deltaTime = timer.interval() / 1000.0 * simulationSpeed;
 
     updateTrafficLights(deltaTime);
-    updateQueues(deltaTime);     // 🚦 New: handle queue release timing
+    updateQueues(deltaTime);
     updateVehicles(deltaTime);
 
     emit vehiclesUpdated(vehicles);
     emit trafficLightsUpdated(trafficLights.values().toVector());
 }
 
-void TrafficSimulator::updateTrafficLights(double deltaTime)
-{
-    if (trafficLights.isEmpty() && !graph->getNodes().isEmpty()) {
-        int count = 0;
+void TrafficSimulator::updateTrafficLights(double deltaTime) {
+    // Smarter light placement: lights only on intersections (>=3 connected edges)
+    if (trafficLights.isEmpty() && graph && !graph->getNodes().isEmpty()) {
         for (auto it = graph->getNodes().cbegin(); it != graph->getNodes().cend(); ++it) {
-            if (count % 20 == 0) {
+            const auto& node = it.value();
+            if (graph->getEdges(node.id).size() >= 3) {
                 TrafficLight t;
                 t.nodeId = it.key();
-                t.isGreen = (count % 40 == 0);
+                t.isGreen = (QRandomGenerator::global()->bounded(2) == 0);
                 t.timer = 0.0;
-                t.cycleDuration = 10.0;
+                t.cycleDuration = 8.0 + QRandomGenerator::global()->bounded(7.0); // 8–15 s
                 trafficLights[t.nodeId] = t;
-
-                // 🚦 create queue and timer for this light
                 lightQueues[t.nodeId] = QQueue<qint64>();
                 lightReleaseTimers[t.nodeId] = 0.0;
             }
-            count++;
         }
     }
 
-    // Cycle lights
+    // Adaptive green duration
     for (auto it = trafficLights.begin(); it != trafficLights.end(); ++it) {
+        int queueSize = lightQueues.value(it.key()).size();
+        double adaptiveFactor = qBound(0.8, 1.0 + queueSize * 0.1, 1.5);
+        double effectiveCycle = it->cycleDuration * adaptiveFactor;
+
         it->timer += deltaTime;
-        if (it->timer >= it->cycleDuration) {
+        if (it->timer >= effectiveCycle) {
             it->isGreen = !it->isGreen;
             it->timer = 0.0;
-
-            if (it->isGreen)
-                qDebug() << "Light GREEN at node" << it.key() << "- vehicles will start releasing";
+            qDebug() << "Light toggled at node" << it.key()
+                     << (it->isGreen ? "(GREEN)" : "(RED)");
         }
     }
 }
 
-// 🚦 New: gradual vehicle release logic
-void TrafficSimulator::updateQueues(double deltaTime)
-{
-    const double RELEASE_INTERVAL = 1.0; // release one vehicle per second
-
+void TrafficSimulator::updateQueues(double deltaTime) {
+    const double RELEASE_INTERVAL = 1.0;
     for (auto it = trafficLights.begin(); it != trafficLights.end(); ++it) {
         qint64 nodeId = it.key();
-
-        if (!it->isGreen)
-            continue; // only release when green
-
-        if (!lightQueues.contains(nodeId))
-            continue;
+        if (!it->isGreen || !lightQueues.contains(nodeId)) continue;
 
         QQueue<qint64>& queue = lightQueues[nodeId];
-        if (queue.isEmpty())
-            continue;
+        if (queue.isEmpty()) continue;
 
-        // increment timer
         lightReleaseTimers[nodeId] += deltaTime;
-
-        // if enough time passed, release next car
         if (lightReleaseTimers[nodeId] >= RELEASE_INTERVAL) {
-            int releasedId = queue.dequeue();
-            lightReleaseTimers[nodeId] = 0.0;
-
-            for (Vehicle &v : vehicles) {
-                if (v.id == releasedId) {
-                    v.waitingAtLight = false;
-                    qDebug() << "Vehicle" << v.id << "released from queue at light" << nodeId
-                             << "remaining queue size:" << queue.size();
+            int idxToRelease = -1;
+            // Priority first
+            for (int i = 0; i < queue.size(); ++i) {
+                int vidx = vehicleIndex.value(queue.at(i), -1);
+                if (vidx >= 0 && vehicles[vidx].isPriority) {
+                    idxToRelease = i;
                     break;
                 }
             }
+            if (idxToRelease == -1) idxToRelease = 0;
+
+            qint64 releasedId = queue.takeAt(idxToRelease);
+            lightReleaseTimers[nodeId] = 0.0;
+
+            int idx = vehicleIndex.value(releasedId, -1);
+            if (idx >= 0)
+                vehicles[idx].waitingAtLight = false;
         }
     }
 }
 
-void TrafficSimulator::updateVehicles(double deltaTime)
-{
+void TrafficSimulator::updateVehicles(double deltaTime) {
     const double MIN_GAP = 0.0002;
+    edgeVehicleCount.clear();
+    QHash<QPair<qint64,qint64>, QList<qint64>> edgeVehicles; // faster QHash
+
+    for (const Vehicle& v : vehicles) {
+        if (v.currentIndex >= v.path.size() - 1) continue;
+        auto edge = qMakePair(v.path[v.currentIndex], v.path[v.currentIndex + 1]);
+        edgeVehicleCount[edge] = edgeVehicleCount.value(edge, 0) + 1;
+        edgeVehicles[edge].append(v.id);
+    }
 
     for (int i = 0; i < vehicles.size(); ++i) {
-        Vehicle &v = vehicles[i];
-
-        if (v.currentIndex >= v.path.size() - 1)
-            continue;
+        Vehicle& v = vehicles[i];
+        if (v.currentIndex >= v.path.size() - 1) continue;
 
         qint64 from = v.path[v.currentIndex];
         qint64 to = v.path[v.currentIndex + 1];
-
-        const Graph::Node &n1 = graph->getNode(from);
-        const Graph::Node &n2 = graph->getNode(to);
+        const auto& n1 = graph->getNode(from);
+        const auto& n2 = graph->getNode(to);
         double edgeLength = graph->haversineDistance(n1.lat, n1.lon, n2.lat, n2.lon);
 
-        // Traffic light + queue logic
+        v.speed = v.baseSpeed * (0.95 + 0.1 * QRandomGenerator::global()->generateDouble());
+        if (v.isPriority) v.speed *= 1.2;
+        v.speed = qBound(5.0, v.speed, 25.0);
+
         bool stopForLight = false;
         if (trafficLights.contains(to)) {
-            TrafficLight &light = trafficLights[to];
+            TrafficLight& light = trafficLights[to];
             if (!light.isGreen) {
                 double remaining = edgeLength * (1.0 - v.progress);
-                if (remaining < 0.001) {
-                    stopForLight = true;
-                    v.waitingAtLight = true;
+                if (remaining < 5.0) { // smoother stop
+                    if (v.isPriority) {
+                        int vehiclesOnEdge = edgeVehicleCount.value(qMakePair(from,to),0);
+                        stopForLight = vehiclesOnEdge > 2;
+                    } else stopForLight = true;
 
-                    // enqueue if not already queued
-                    if (!lightQueues[to].contains(v.id)) {
+                    if (stopForLight && !lightQueues[to].contains(v.id))
                         lightQueues[to].enqueue(v.id);
-                        qDebug() << "Vehicle" << v.id << "queued at red light" << to
-                                 << "queue size:" << lightQueues[to].size();
+                    v.waitingAtLight = stopForLight;
+                }
+            }
+        }
+
+        // too close to next vehicle
+        bool tooClose = false;
+        const QList<qint64>& listOnEdge = edgeVehicles.value(qMakePair(from,to));
+        for (qint64 otherId : listOnEdge) {
+            if (otherId == v.id) continue;
+            int otherIdx = vehicleIndex.value(otherId, -1);
+            if (otherIdx < 0) continue;
+            const Vehicle& other = vehicles[otherIdx];
+            if (other.currentIndex == v.currentIndex && other.progress > v.progress) {
+                if ((other.progress - v.progress) < MIN_GAP) { tooClose = true; break; }
+            }
+        }
+        if (stopForLight || tooClose || v.waitingAtLight) continue;
+
+        if (edgeLength <= 0.0) continue;
+        v.progress += (v.speed * deltaTime) / edgeLength;
+        if (v.progress > 1.0) {
+            v.progress = 0.0;
+            v.currentIndex++;
+            if (v.currentIndex >= v.path.size()-1) continue;
+        }
+
+        const Graph::Node& a = graph->getNode(v.path[v.currentIndex]);
+        const Graph::Node& b = graph->getNode(v.path[v.currentIndex+1]);
+        QPointF pa = a.pos.isNull() ? QPointF(a.lon, a.lat) : a.pos;
+        QPointF pb = b.pos.isNull() ? QPointF(b.lon, b.lat) : b.pos;
+        v.position = interpolatePosition(pa, pb, v.progress);
+
+        double offsetX = (QRandomGenerator::global()->bounded(10) - 5) * 0.0001;
+        double offsetY = (QRandomGenerator::global()->bounded(10) - 5) * 0.0001;
+        v.position.rx() += offsetX;
+        v.position.ry() += offsetY;
+
+        vehicleIndex[v.id] = i;
+    }
+}
+
+void TrafficSimulator::updateCongestion() {
+    for (auto it = edgeVehicleCount.begin(); it != edgeVehicleCount.end(); ++it) {
+        QPair<qint64,qint64> edge = it.key();
+        int count = it.value();
+        QString status = (count <= 2) ? "Green" : (count <= 5 ? "Yellow" : "Red");
+
+        emit edgeCongestionUpdated(edge.first, edge.second, status);
+
+        if (status == "Red") {
+            for (Vehicle& v : vehicles) {
+                if (v.currentIndex < v.path.size()-1 &&
+                    v.path[v.currentIndex] == edge.first &&
+                    v.path[v.currentIndex+1] == edge.second) {
+
+                    qint64 now = QDateTime::currentSecsSinceEpoch();
+                    if (v.rerouted && (now - v.lastRerouteTime) < rerouteCooldown)
+                        continue; // cooldown active
+
+                    QString email = QString("owner%1@mailtrap.test").arg(v.id);
+                    QString subject = QString("Traffic Alert: Congestion Ahead (Vehicle %1)").arg(v.id);
+                    QString body = QString(
+                                       "Dear Driver %1,\n\n"
+                                       "A congestion has been detected ahead on your route between nodes %2 and %3.\n"
+                                       "Please consider an alternate route.\n\n"
+                                       "— Smart Traffic Control System"
+                                       ).arg(v.id).arg(edge.first).arg(edge.second);
+
+                    notifier.sendCongestionEmail(email, v.id, subject, body);
+
+                    if (!v.rerouted || (now - v.lastRerouteTime) >= rerouteCooldown) {
+                        handleRerouting(v, edge);
+                        v.lastRerouteTime = now;
+                        v.rerouted = true;
+                        totalReroutes++;
                     }
                 }
             }
         }
+    }
 
-        // Collision check
-        bool tooClose = false;
-        for (int j = 0; j < vehicles.size(); ++j) {
-            if (i == j) continue;
-            Vehicle &other = vehicles[j];
-            if (other.currentIndex == v.currentIndex && other.progress > v.progress) {
-                double diff = other.progress - v.progress;
-                if (diff < MIN_GAP)
-                    tooClose = true;
-            }
-        }
-
-        // Stop if red light, queued, or too close
-        if (stopForLight || tooClose || v.waitingAtLight)
-            continue;
-
-        // Move vehicle
-        v.progress += (v.speed * deltaTime) / (edgeLength * 1000.0);
-        if (v.progress > 1.0) {
-            v.progress = 0.0;
-            v.currentIndex++;
-            if (v.currentIndex >= v.path.size() - 1)
-                continue;
-        }
-
-        // Update position
-        const Graph::Node &a = graph->getNode(v.path[v.currentIndex]);
-        const Graph::Node &b = graph->getNode(v.path[v.currentIndex + 1]);
-        v.position = interpolatePosition(a.pos, b.pos, v.progress);
+    // Log congestion stats every 10s
+    qint64 now = QDateTime::currentSecsSinceEpoch();
+    if (now - lastLogTime >= 10) {
+        qDebug() << "[Stats] Edges:" << edgeVehicleCount.size()
+        << "Total vehicles:" << vehicles.size()
+        << "Total reroutes:" << totalReroutes;
+        lastLogTime = now;
     }
 }
 
-QPointF TrafficSimulator::interpolatePosition(const QPointF& a, const QPointF& b, double t)
-{
-    return QPointF(a.x() + (b.x() - a.x()) * t,
-                   a.y() + (b.y() - a.y()) * t);
+void TrafficSimulator::handleRerouting(Vehicle& v, const QPair<qint64,qint64>& congestedEdge) {
+    qint64 currentNode = v.path[v.currentIndex];
+    qint64 finalNode = v.path.last();
+    Graph::PathResult newPath = graph->dijkstra(currentNode, finalNode);
+    if (newPath.found && newPath.path.size() > 1) {
+        QVector<qint64> reroutePath = newPath.path;
+        v.path.clear();
+        v.path.append(currentNode);
+        for (qint64 nodeId : reroutePath)
+            if (nodeId != currentNode)
+                v.path.append(nodeId);
+
+        v.currentIndex = 0;
+        v.progress = 0.0;
+        qDebug() << "Vehicle" << v.id
+                 << "rerouted due to congestion on edge"
+                 << congestedEdge.first << "->" << congestedEdge.second;
+    }
+}
+
+QPointF TrafficSimulator::interpolatePosition(const QPointF& a, const QPointF& b, double t) {
+    return QPointF(a.x() + (b.x() - a.x()) * t, a.y() + (b.y() - a.y()) * t);
 }
