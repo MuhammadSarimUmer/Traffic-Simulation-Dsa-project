@@ -11,7 +11,7 @@ TrafficSimulator::TrafficSimulator(Graph* g, QObject* parent)
     graph(g),
     simulationSpeed(1.0),
     nextVehicleId(1),
-    rerouteCooldown(30.0) // new: 30 seconds between reroutes
+    rerouteCooldown(30.0) // 30 seconds between reroutes
 {
     connect(&timer, &QTimer::timeout, this, &TrafficSimulator::updateSimulation);
     timer.setInterval(50); // 20 updates/sec
@@ -48,7 +48,8 @@ void TrafficSimulator::addVehicle(qint64 source, qint64 destination, bool priori
     if (!graph || !graph->hasNode(source) || !graph->hasNode(destination))
         return;
 
-    Graph::PathResult path = graph->dijkstra(source, destination);
+    // --- Use aStar for adding new vehicles ---
+    Graph::PathResult path = graph->aStar(source, destination);
     if (!path.found || path.path.size() < 2)
         return;
 
@@ -62,11 +63,13 @@ void TrafficSimulator::addVehicle(qint64 source, qint64 destination, bool priori
     v.waitingAtLight = false;
     v.isPriority = priority;
     v.rerouted = false;
-    v.lastRerouteTime = 0.0; // new
+    v.lastRerouteTime = 0.0;
     v.color = priority ? QColor(Qt::red)
                        : QColor::fromHsl(QRandomGenerator::global()->bounded(360), 255, 150);
 
-    const Graph::Node& n = graph->getNode(v.path.first());
+    // --- THIS IS THE FIX ---
+    // Was: const Graph::Node& n = ...
+    Graph::Node n = graph->getNode(v.path.first());
     v.position = QPointF(n.lon, n.lat);
 
     vehicles.append(v);
@@ -112,8 +115,7 @@ void TrafficSimulator::updateTrafficLights(double deltaTime) {
         if (it->timer >= effectiveCycle) {
             it->isGreen = !it->isGreen;
             it->timer = 0.0;
-            qDebug() << "Light toggled at node" << it.key()
-                     << (it->isGreen ? "(GREEN)" : "(RED)");
+            // qDebug() << "Light toggled at node" << it.key() << (it.isGreen ? "(GREEN)" : "(RED)");
         }
     }
 }
@@ -168,8 +170,13 @@ void TrafficSimulator::updateVehicles(double deltaTime) {
 
         qint64 from = v.path[v.currentIndex];
         qint64 to = v.path[v.currentIndex + 1];
-        const auto& n1 = graph->getNode(from);
-        const auto& n2 = graph->getNode(to);
+
+        // --- THIS IS THE FIX ---
+        // Was: const auto& n1 = ...
+        Graph::Node n1 = graph->getNode(from);
+        // Was: const auto& n2 = ...
+        Graph::Node n2 = graph->getNode(to);
+
         double edgeLength = graph->haversineDistance(n1.lat, n1.lon, n2.lat, n2.lon);
 
         v.speed = v.baseSpeed * (0.95 + 0.1 * QRandomGenerator::global()->generateDouble());
@@ -216,8 +223,12 @@ void TrafficSimulator::updateVehicles(double deltaTime) {
             if (v.currentIndex >= v.path.size()-1) continue;
         }
 
-        const Graph::Node& a = graph->getNode(v.path[v.currentIndex]);
-        const Graph::Node& b = graph->getNode(v.path[v.currentIndex+1]);
+        // --- THIS IS THE FIX ---
+        // Was: const Graph::Node& a = ...
+        Graph::Node a = graph->getNode(v.path[v.currentIndex]);
+        // Was: const Graph::Node& b = ...
+        Graph::Node b = graph->getNode(v.path[v.currentIndex+1]);
+
         QPointF pa = a.pos.isNull() ? QPointF(a.lon, a.lat) : a.pos;
         QPointF pb = b.pos.isNull() ? QPointF(b.lon, b.lat) : b.pos;
         v.position = interpolatePosition(pa, pb, v.progress);
@@ -284,7 +295,9 @@ void TrafficSimulator::updateCongestion() {
 void TrafficSimulator::handleRerouting(Vehicle& v, const QPair<qint64,qint64>& congestedEdge) {
     qint64 currentNode = v.path[v.currentIndex];
     qint64 finalNode = v.path.last();
-    Graph::PathResult newPath = graph->dijkstra(currentNode, finalNode);
+
+    // --- Use aStar for rerouting ---
+    Graph::PathResult newPath = graph->aStar(currentNode, finalNode);
     if (newPath.found && newPath.path.size() > 1) {
         QVector<qint64> reroutePath = newPath.path;
         v.path.clear();
@@ -296,7 +309,7 @@ void TrafficSimulator::handleRerouting(Vehicle& v, const QPair<qint64,qint64>& c
         v.currentIndex = 0;
         v.progress = 0.0;
         qDebug() << "Vehicle" << v.id
-                 << "rerouted due to congestion on edge"
+                 << "rerouted (A*) due to congestion on edge"
                  << congestedEdge.first << "->" << congestedEdge.second;
     }
 }

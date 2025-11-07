@@ -6,8 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Debug-f25f75e8a809f01f478b.json",
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16"
@@ -30,7 +29,7 @@
 					[
 						0
 					],
-					"name" : "Traffic-Control-DSA",
+					"name" : "Traffic-DSA",
 					"targetIndexes" : 
 					[
 						0,
@@ -43,23 +42,23 @@
 			[
 				{
 					"directoryIndex" : 0,
-					"id" : "Traffic-Control-DSA::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Traffic-Control-DSA-Debug-c31594248888a54beeee.json",
-					"name" : "Traffic-Control-DSA",
+					"id" : "Traffic-DSA::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Traffic-DSA-Debug-8e97bdbbc58a73a22120.json",
+					"name" : "Traffic-DSA",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
-					"id" : "Traffic-Control-DSA_autogen::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Traffic-Control-DSA_autogen-Debug-9b7df0ac75dc302654b2.json",
-					"name" : "Traffic-Control-DSA_autogen",
+					"id" : "Traffic-DSA_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Traffic-DSA_autogen-Debug-aa8f9f22fd571b12d210.json",
+					"name" : "Traffic-DSA_autogen",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
-					"id" : "Traffic-Control-DSA_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Traffic-Control-DSA_autogen_timestamp_deps-Debug-27c40bcd0eca3ef8d304.json",
-					"name" : "Traffic-Control-DSA_autogen_timestamp_deps",
+					"id" : "Traffic-DSA_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Traffic-DSA_autogen_timestamp_deps-Debug-338db4512146523a03a2.json",
+					"name" : "Traffic-DSA_autogen_timestamp_deps",
 					"projectIndex" : 0
 				}
 			]

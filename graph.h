@@ -8,6 +8,7 @@
 #include <QString>
 #include <QPointF>
 #include <QVector>
+#include <QByteArray> // Needed for JSON data
 
 class Graph
 {
@@ -20,8 +21,8 @@ public:
         double lat;
         double lon;
         QPointF pos;
-        QString name;        // Location name (e.g., "Gulshan-e-Iqbal")
-        QString streetName;  // Street name if available
+        QString name;
+        QString streetName;
     };
 
     struct Edge {
@@ -38,19 +39,23 @@ public:
 
     struct NamedLocation {
         qint64 nodeId;
-        QString displayName;  // "Gulshan-e-Iqbal (24.8600, 67.0100)"
+        QString displayName;
         double lat;
         double lon;
     };
 
     // Map parsing
-    bool loadFromOSM(const QString& filePath);
+    bool loadFromOSM(const QString& filePath); // Original function
+    bool loadFromOverpassJSON(const QByteArray& jsonData); // New API parser
 
     // Graph queries
     int getNodeCount() const { return nodes.size(); }
     int getEdgeCount() const;
     bool hasNode(qint64 id) const { return nodes.contains(id); }
-    Node getNode(qint64 id) const { return nodes.value(id); }
+
+    // --- THIS IS THE IMPORTANT LINE ---
+    Node getNode(qint64 id) const; // Takes ID by value, returns a copy
+
     const QMap<qint64, Node>& getNodes() const { return nodes; }
     QList<Edge> getEdges(qint64 nodeId) const { return adj.value(nodeId); }
     QList<qint64> getAllNodeIds() const { return nodes.keys(); }
@@ -61,7 +66,8 @@ public:
     QString getNodeDisplayName(qint64 nodeId) const;
 
     // Pathfinding
-    PathResult dijkstra(qint64 source, qint64 destination);
+    PathResult dijkstra(qint64 source, qint64 destination); // Original
+    PathResult aStar(qint64 source, qint64 destination);    // New
 
     // Clear graph
     void clear();
@@ -69,7 +75,7 @@ public:
 public:
     QMap<qint64, Node> nodes;
     QMap<qint64, QList<Edge>> adj;
-    QMap<QString, qint64> nameToNodeId;  // Location name → node ID
+    QMap<QString, qint64> nameToNodeId;
 
     // Helper functions
     double haversineDistance(double lat1, double lon1, double lat2, double lon2);

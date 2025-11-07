@@ -9,7 +9,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
+# We must add QtNetwork to handle API calls
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Network)
 
 set(PROJECT_SOURCES
     main.cpp
@@ -22,15 +23,14 @@ set(PROJECT_SOURCES
     traffic_simulator.h
     notification_manager.h
     notification_manager.cpp
+    map_loader.h
+    map_loader.cpp
 )
 
-add_executable(Traffic-DSA ${PROJECT_SOURCES}
-    traffic_simulator.cpp
-    traffic_simulator.h
-    notification_manager.cpp
-    notification_manager.h)
+add_executable(Traffic-DSA ${PROJECT_SOURCES})
 
-target_link_libraries(Traffic-DSA Qt6::Core Qt6::Widgets)
+# Link all required Qt libraries
+target_link_libraries(Traffic-DSA Qt6::Core Qt6::Widgets Qt6::Network)
 
 # Set output directory
 set_target_properties(Traffic-DSA PROPERTIES

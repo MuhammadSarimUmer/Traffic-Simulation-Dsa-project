@@ -12,13 +12,12 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QComboBox>
-#include <QtWidgets/QGroupBox>
+#include <QtWidgets/QFormLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -30,17 +29,16 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout;
+    QHBoxLayout *areaLayout;
+    QLabel *areaLabel;
+    QComboBox *areaSelectionCombo;
     QPushButton *loadMapButton;
-    QGroupBox *pathfindingGroup;
-    QVBoxLayout *verticalLayout_2;
-    QHBoxLayout *horizontalLayout;
-    QLabel *sourceLabel;
+    QFormLayout *formLayout;
+    QLabel *label;
     QComboBox *sourceCombo;
-    QHBoxLayout *horizontalLayout_2;
-    QLabel *destLabel;
+    QLabel *label_2;
     QComboBox *destCombo;
     QPushButton *findPathButton;
-    QSpacerItem *verticalSpacer;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -48,80 +46,65 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(700, 400);
+        MainWindow->resize(400, 300);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         verticalLayout = new QVBoxLayout(centralwidget);
         verticalLayout->setObjectName("verticalLayout");
+        areaLayout = new QHBoxLayout();
+        areaLayout->setObjectName("areaLayout");
+        areaLabel = new QLabel(centralwidget);
+        areaLabel->setObjectName("areaLabel");
+
+        areaLayout->addWidget(areaLabel);
+
+        areaSelectionCombo = new QComboBox(centralwidget);
+        areaSelectionCombo->setObjectName("areaSelectionCombo");
+
+        areaLayout->addWidget(areaSelectionCombo);
+
+
+        verticalLayout->addLayout(areaLayout);
+
         loadMapButton = new QPushButton(centralwidget);
         loadMapButton->setObjectName("loadMapButton");
-        loadMapButton->setMinimumSize(QSize(0, 50));
-        QFont font;
-        font.setPointSize(11);
-        font.setBold(true);
-        loadMapButton->setFont(font);
 
         verticalLayout->addWidget(loadMapButton);
 
-        pathfindingGroup = new QGroupBox(centralwidget);
-        pathfindingGroup->setObjectName("pathfindingGroup");
-        verticalLayout_2 = new QVBoxLayout(pathfindingGroup);
-        verticalLayout_2->setObjectName("verticalLayout_2");
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName("horizontalLayout");
-        sourceLabel = new QLabel(pathfindingGroup);
-        sourceLabel->setObjectName("sourceLabel");
-        sourceLabel->setMinimumWidth(60);
+        formLayout = new QFormLayout();
+        formLayout->setObjectName("formLayout");
+        label = new QLabel(centralwidget);
+        label->setObjectName("label");
 
-        horizontalLayout->addWidget(sourceLabel);
+        formLayout->setWidget(0, QFormLayout::ItemRole::LabelRole, label);
 
-        sourceCombo = new QComboBox(pathfindingGroup);
+        sourceCombo = new QComboBox(centralwidget);
         sourceCombo->setObjectName("sourceCombo");
-        sourceCombo->setMinimumHeight(35);
 
-        horizontalLayout->addWidget(sourceCombo);
+        formLayout->setWidget(0, QFormLayout::ItemRole::FieldRole, sourceCombo);
 
+        label_2 = new QLabel(centralwidget);
+        label_2->setObjectName("label_2");
 
-        verticalLayout_2->addLayout(horizontalLayout);
+        formLayout->setWidget(1, QFormLayout::ItemRole::LabelRole, label_2);
 
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setObjectName("horizontalLayout_2");
-        destLabel = new QLabel(pathfindingGroup);
-        destLabel->setObjectName("destLabel");
-        destLabel->setMinimumWidth(60);
-
-        horizontalLayout_2->addWidget(destLabel);
-
-        destCombo = new QComboBox(pathfindingGroup);
+        destCombo = new QComboBox(centralwidget);
         destCombo->setObjectName("destCombo");
-        destCombo->setMinimumHeight(35);
 
-        horizontalLayout_2->addWidget(destCombo);
+        formLayout->setWidget(1, QFormLayout::ItemRole::FieldRole, destCombo);
 
 
-        verticalLayout_2->addLayout(horizontalLayout_2);
+        verticalLayout->addLayout(formLayout);
 
-        findPathButton = new QPushButton(pathfindingGroup);
+        findPathButton = new QPushButton(centralwidget);
         findPathButton->setObjectName("findPathButton");
-        findPathButton->setMinimumSize(QSize(0, 45));
-        QFont font1;
-        font1.setPointSize(10);
-        font1.setBold(true);
-        findPathButton->setFont(font1);
 
-        verticalLayout_2->addWidget(findPathButton);
-
-
-        verticalLayout->addWidget(pathfindingGroup);
-
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
-
-        verticalLayout->addItem(verticalSpacer);
+        verticalLayout->addWidget(findPathButton);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 700, 21));
+        menubar->setGeometry(QRect(0, 0, 400, 21));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName("statusbar");
@@ -135,11 +118,11 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Traffic Control Simulator", nullptr));
-        loadMapButton->setText(QCoreApplication::translate("MainWindow", "\360\237\223\202 Load Map", nullptr));
-        pathfindingGroup->setTitle(QCoreApplication::translate("MainWindow", "Find Shortest Route (Dijkstra's Algorithm)", nullptr));
-        sourceLabel->setText(QCoreApplication::translate("MainWindow", "From:", nullptr));
-        destLabel->setText(QCoreApplication::translate("MainWindow", "To:", nullptr));
-        findPathButton->setText(QCoreApplication::translate("MainWindow", "\360\237\224\215 Find Shortest Path", nullptr));
+        areaLabel->setText(QCoreApplication::translate("MainWindow", "Select Area:", nullptr));
+        loadMapButton->setText(QCoreApplication::translate("MainWindow", "Load Map", nullptr));
+        label->setText(QCoreApplication::translate("MainWindow", "Source:", nullptr));
+        label_2->setText(QCoreApplication::translate("MainWindow", "Destination:", nullptr));
+        findPathButton->setText(QCoreApplication::translate("MainWindow", "Find Shortest Path", nullptr));
     } // retranslateUi
 
 };

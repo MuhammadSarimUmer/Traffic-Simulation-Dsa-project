@@ -1,30 +1,27 @@
-C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-DSA_autogen/EWIEGA46WW/moc_mainwindow.cpp: C:/Users/HP/Documents/Traffic-Control-DSA/mainwindow.h \
+C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-DSA_autogen/EWIEGA46WW/moc_traffic_simulator.cpp: C:/Users/HP/Documents/Traffic-Control-DSA/traffic_simulator.h \
   C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-DSA_autogen/moc_predefs.h \
   C:/Users/HP/Documents/Traffic-Control-DSA/graph.h \
-  C:/Users/HP/Documents/Traffic-Control-DSA/map_loader.h \
+  C:/Users/HP/Documents/Traffic-Control-DSA/notification_manager.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/QByteArray \
-  E:/Qt/6.9.3/mingw_64/include/QtCore/QFlags \
-  E:/Qt/6.9.3/mingw_64/include/QtCore/QIODevice \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/QDateTime \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/QHash \
   E:/Qt/6.9.3/mingw_64/include/QtCore/QList \
   E:/Qt/6.9.3/mingw_64/include/QtCore/QMap \
-  E:/Qt/6.9.3/mingw_64/include/QtCore/QMetaType \
   E:/Qt/6.9.3/mingw_64/include/QtCore/QObject \
   E:/Qt/6.9.3/mingw_64/include/QtCore/QPair \
   E:/Qt/6.9.3/mingw_64/include/QtCore/QPointF \
-  E:/Qt/6.9.3/mingw_64/include/QtCore/QSharedDataPointer \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/QQueue \
   E:/Qt/6.9.3/mingw_64/include/QtCore/QString \
-  E:/Qt/6.9.3/mingw_64/include/QtCore/QUrl \
-  E:/Qt/6.9.3/mingw_64/include/QtCore/QVariant \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/QTimer \
   E:/Qt/6.9.3/mingw_64/include/QtCore/QVector \
   E:/Qt/6.9.3/mingw_64/include/QtCore/QtGlobal \
   E:/Qt/6.9.3/mingw_64/include/QtCore/q17memory.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/q20functional.h \
-  E:/Qt/6.9.3/mingw_64/include/QtCore/q20iterator.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/q20memory.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/q20type_traits.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/q20utility.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/q23utility.h \
-  E:/Qt/6.9.3/mingw_64/include/QtCore/q26numeric.h \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/qabstracteventdispatcher.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qalgorithms.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qanystringview.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qarraydata.h \
@@ -34,6 +31,7 @@ C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-De
   E:/Qt/6.9.3/mingw_64/include/QtCore/qatomic.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qatomic_cxx11.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qbasicatomic.h \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/qbasictimer.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qbindingstorage.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qbytearray.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qbytearrayalgorithms.h \
@@ -51,12 +49,13 @@ C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-De
   E:/Qt/6.9.3/mingw_64/include/QtCore/qcontainerinfo.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qcontainertools_impl.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qcontiguouscache.h \
-  E:/Qt/6.9.3/mingw_64/include/QtCore/qcryptographichash.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qdarwinhelpers.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qdatastream.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qdatetime.h \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/qdeadlinetimer.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qdebug.h \
-  E:/Qt/6.9.3/mingw_64/include/QtCore/qendian.h \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/qelapsedtimer.h \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/qeventloop.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qexceptionhandling.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qflags.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qfloat16.h \
@@ -68,18 +67,15 @@ C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-De
   E:/Qt/6.9.3/mingw_64/include/QtCore/qglobalstatic.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qhash.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qhashfunctions.h \
-  E:/Qt/6.9.3/mingw_64/include/QtCore/qiodevice.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qiodevicebase.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qiterable.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qiterator.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qlatin1stringview.h \
-  E:/Qt/6.9.3/mingw_64/include/QtCore/qline.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qlist.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qlocale.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qlogging.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qmalloc.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qmap.h \
-  E:/Qt/6.9.3/mingw_64/include/QtCore/qmargins.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qmath.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qmetacontainer.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qmetatype.h \
@@ -94,7 +90,7 @@ C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-De
   E:/Qt/6.9.3/mingw_64/include/QtCore/qpair.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qpoint.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qprocessordetection.h \
-  E:/Qt/6.9.3/mingw_64/include/QtCore/qrect.h \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/qqueue.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qrefcount.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qscopedpointer.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qscopeguard.h \
@@ -103,8 +99,6 @@ C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-De
   E:/Qt/6.9.3/mingw_64/include/QtCore/qshareddata_impl.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qsharedpointer.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qsharedpointer_impl.h \
-  E:/Qt/6.9.3/mingw_64/include/QtCore/qsize.h \
-  E:/Qt/6.9.3/mingw_64/include/QtCore/qspan.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qstdlibdetection.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qstring.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qstringalgorithms.h \
@@ -132,6 +126,7 @@ C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-De
   E:/Qt/6.9.3/mingw_64/include/QtCore/qtenvironmentvariables.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qtextstream.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qtformat_impl.h \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/qtimer.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qtmetamacros.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qtnoop.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qtpreprocessorsupport.h \
@@ -142,7 +137,6 @@ C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-De
   E:/Qt/6.9.3/mingw_64/include/QtCore/qtversionchecks.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qtypeinfo.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qtypes.h \
-  E:/Qt/6.9.3/mingw_64/include/QtCore/qurl.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qutf8stringview.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qvariant.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qvarlengtharray.h \
@@ -150,61 +144,13 @@ C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-De
   E:/Qt/6.9.3/mingw_64/include/QtCore/qversiontagging.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qxptype_traits.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qyieldcpu.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qaction.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qbitmap.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qbrush.h \
+  E:/Qt/6.9.3/mingw_64/include/QtGui/QColor \
   E:/Qt/6.9.3/mingw_64/include/QtGui/qcolor.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qcursor.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qfont.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qfontinfo.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qfontmetrics.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qfontvariableaxis.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qicon.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qimage.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qkeysequence.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qpaintdevice.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qpalette.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qpixelformat.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qpixmap.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qpolygon.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qregion.h \
   E:/Qt/6.9.3/mingw_64/include/QtGui/qrgb.h \
   E:/Qt/6.9.3/mingw_64/include/QtGui/qrgba64.h \
   E:/Qt/6.9.3/mingw_64/include/QtGui/qtgui-config.h \
   E:/Qt/6.9.3/mingw_64/include/QtGui/qtguiexports.h \
   E:/Qt/6.9.3/mingw_64/include/QtGui/qtguiglobal.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qtransform.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qwindowdefs.h \
-  E:/Qt/6.9.3/mingw_64/include/QtGui/qwindowdefs_win.h \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/QNetworkAccessManager \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/QNetworkReply \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/QNetworkRequest \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/QSslConfiguration \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/qabstractsocket.h \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/qhostaddress.h \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/qhttpheaders.h \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/qnetworkaccessmanager.h \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/qnetworkreply.h \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/qnetworkrequest.h \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/qssl.h \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/qsslcertificate.h \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/qsslconfiguration.h \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/qsslerror.h \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/qsslsocket.h \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/qtcpsocket.h \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
-  E:/Qt/6.9.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
-  E:/Qt/6.9.3/mingw_64/include/QtWidgets/QMainWindow \
-  E:/Qt/6.9.3/mingw_64/include/QtWidgets/qmainwindow.h \
-  E:/Qt/6.9.3/mingw_64/include/QtWidgets/qsizepolicy.h \
-  E:/Qt/6.9.3/mingw_64/include/QtWidgets/qtabwidget.h \
-  E:/Qt/6.9.3/mingw_64/include/QtWidgets/qtwidgets-config.h \
-  E:/Qt/6.9.3/mingw_64/include/QtWidgets/qtwidgetsexports.h \
-  E:/Qt/6.9.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
-  E:/Qt/6.9.3/mingw_64/include/QtWidgets/qwidget.h \
   E:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/algorithm \
   E:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/array \
   E:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/atomic \
@@ -298,7 +244,6 @@ C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-De
   E:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/uses_allocator_args.h \
   E:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/utility.h \
   E:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/vector.tcc \
-  E:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cassert \
   E:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cctype \
   E:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cerrno \
   E:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/chrono \
