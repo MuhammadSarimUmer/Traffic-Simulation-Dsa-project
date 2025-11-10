@@ -4,13 +4,14 @@
 #include <QMainWindow>
 #include <QMap>
 #include "graph.h"
-#include "map_loader.h" // Include the new loader
+#include "map_loader.h"
+#include "mapwidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-// --- Added Struct for Area Bounds ---
+// Struct for Area Bounds
 struct BoundingBox {
     double minLat;
     double minLon;
@@ -27,21 +28,30 @@ public:
     ~MainWindow();
 
 private slots:
-    void onLoadMapAreaClicked();              // ✅ Added missing slot
-    void onFindPathClicked();                 // ✅ Already used
+    void onLoadMapAreaClicked();
+    void onFindPathClicked();
     void onMapDataLoaded(const QByteArray& data);
     void onMapLoadFailed(const QString& error);
+    void onClearPathClicked();
 
 private:
-    void setupAreaSelection();                // ✅ Added missing helper
-    void populateComboBoxes();                // ✅ Already exists
+    void setupAreaSelection();
+    void populateComboBoxes();
+    void showDetailedRoute(const Graph::PathResult& result);
+
+    // New methods for sidebar
+    void setupRouteDetailsPanel();
+    void displayRouteDetails(const Graph::PathResult& result);
+    void clearRouteDetails();
 
     Ui::MainWindow *ui;
     Graph graph;
     MapLoader *mapLoader;
     bool mapLoaded;
+    QMap<QString, BoundingBox> areaBounds;
 
-    QMap<QString, BoundingBox> areaBounds;    // ✅ Added for district boundaries
+    // Map Visualization Widget
+    MapWidget *mapVisualization;
 };
 
 #endif // MAINWINDOW_H

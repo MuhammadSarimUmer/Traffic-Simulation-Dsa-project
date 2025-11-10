@@ -1,39 +1,58 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.10)
 
-project(Traffic-DSA VERSION 1.0 LANGUAGES CXX)
+# Set the project name
+project(Traffic-Simulation-Dsa-project VERSION 1.0 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-set(CMAKE_AUTOMOC ON)
+# Tell CMake to use moc, uic, and rcc tools automatically
 set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
-# We must add QtNetwork to handle API calls
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets Network)
+# Find Qt 6 and the necessary modules for a Widgets application
+# NOTE: Using 'Qt6' components now, which matches your installed version.
+find_package(Qt6 REQUIRED COMPONENTS Widgets Core Gui Network)
 
+# Define source, header, and UI files based on your project structure
 set(PROJECT_SOURCES
     main.cpp
     mainwindow.cpp
-    mainwindow.h
-    mainwindow.ui
     graph.cpp
-    graph.h
-    traffic_simulator.cpp
-    traffic_simulator.h
-    notification_manager.h
-    notification_manager.cpp
-    map_loader.h
     map_loader.cpp
+    notification_manager.cpp
+    traffic_simulator.cpp
 )
 
-add_executable(Traffic-DSA ${PROJECT_SOURCES})
-
-# Link all required Qt libraries
-target_link_libraries(Traffic-DSA Qt6::Core Qt6::Widgets Qt6::Network)
-
-# Set output directory
-set_target_properties(Traffic-DSA PROPERTIES
-    WIN32_EXECUTABLE TRUE
-    MACOSX_BUNDLE TRUE
+set(PROJECT_HEADERS
+    mainwindow.h
+    graph.h
+    map_loader.h
+    notification_manager.h
+    traffic_simulator.h
 )
+
+set(PROJECT_FORMS
+    mainwindow.ui
+)
+
+# Create the executable target
+add_executable(${PROJECT_NAME}
+    ${PROJECT_SOURCES}
+    ${PROJECT_HEADERS}
+    ${PROJECT_FORMS}
+    mapwidget.h mapwidget.cpp
+)
+
+# Link the executable to the required Qt 6 libraries
+# NOTE: Linking to the 'Qt6::' namespace now.
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    Qt6::Widgets
+    Qt6::Gui
+    Qt6::Core
+    Qt6::Network
+)
+
+# Install the executable (optional, but good practice)
+install(TARGETS ${PROJECT_NAME}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+#add_subdirectory(untitled)

@@ -1,0 +1,9 @@
+C:/Users/Mesam/Desktop/Fall_Dsa/build/Qt_6_10_0_mingw_64_temporary-Debug/CMakeFiles/Traffic-Simulation-Dsa-project.dir
+C:/Users/Mesam/Desktop/Fall_Dsa/build/Qt_6_10_0_mingw_64_temporary-Debug/CMakeFiles/edit_cache.dir
+C:/Users/Mesam/Desktop/Fall_Dsa/build/Qt_6_10_0_mingw_64_temporary-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Mesam/Desktop/Fall_Dsa/build/Qt_6_10_0_mingw_64_temporary-Debug/CMakeFiles/list_install_components.dir
+C:/Users/Mesam/Desktop/Fall_Dsa/build/Qt_6_10_0_mingw_64_temporary-Debug/CMakeFiles/install.dir
+C:/Users/Mesam/Desktop/Fall_Dsa/build/Qt_6_10_0_mingw_64_temporary-Debug/CMakeFiles/install/local.dir
+C:/Users/Mesam/Desktop/Fall_Dsa/build/Qt_6_10_0_mingw_64_temporary-Debug/CMakeFiles/install/strip.dir
+C:/Users/Mesam/Desktop/Fall_Dsa/build/Qt_6_10_0_mingw_64_temporary-Debug/CMakeFiles/Traffic-Simulation-Dsa-project_autogen_timestamp_deps.dir
+C:/Users/Mesam/Desktop/Fall_Dsa/build/Qt_6_10_0_mingw_64_temporary-Debug/CMakeFiles/Traffic-Simulation-Dsa-project_autogen.dir

@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-b625dd84e1b0ffed4a61.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Traffic-Simulation-Dsa-project",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Traffic-Simulation-Dsa-project::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Traffic-Simulation-Dsa-project-Debug-1f070b88c9d2d4007a54.json",
+					"name" : "Traffic-Simulation-Dsa-project",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Traffic-Simulation-Dsa-project_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Traffic-Simulation-Dsa-project_autogen-Debug-e32fe9d40dcfadf3f884.json",
+					"name" : "Traffic-Simulation-Dsa-project_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Traffic-Simulation-Dsa-project_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Traffic-Simulation-Dsa-project_autogen_timestamp_deps-Debug-62f3ebadaf8defd0ab05.json",
+					"name" : "Traffic-Simulation-Dsa-project_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/Mesam/Desktop/Fall_Dsa/build/Qt_6_10_0_mingw_64_temporary-Debug",
+		"source" : "C:/Users/Mesam/Desktop/Fall_Dsa"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

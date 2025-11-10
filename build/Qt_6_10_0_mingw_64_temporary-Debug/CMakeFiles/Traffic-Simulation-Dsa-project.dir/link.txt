@@ -1,0 +1,3 @@
+C:\Users\Mesam\Desktop\newqt\Tools\CMake_64\bin\cmake.exe -E rm -f CMakeFiles\Traffic-Simulation-Dsa-project.dir/objects.a
+C:\Users\Mesam\Desktop\newqt\Tools\mingw1310_64\bin\ar.exe qc CMakeFiles\Traffic-Simulation-Dsa-project.dir/objects.a @CMakeFiles\Traffic-Simulation-Dsa-project.dir\objects1.rsp
+C:\Users\Mesam\Desktop\newqt\Tools\mingw1310_64\bin\g++.exe -DQT_QML_DEBUG -g -Wl,--whole-archive CMakeFiles\Traffic-Simulation-Dsa-project.dir/objects.a -Wl,--no-whole-archive -o Traffic-Simulation-Dsa-project.exe -Wl,--out-implib,libTraffic-Simulation-Dsa-project.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Traffic-Simulation-Dsa-project.dir\linkLibs.rsp

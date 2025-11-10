@@ -3,14 +3,27 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QDir>
+#include <QDialog>
+#include <QVBoxLayout>
+#include <QTextEdit>
+#include <QLabel>
+#include <QPushButton>
+#include <QScrollArea>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , mapLoader(new MapLoader(this))
     , mapLoaded(false)
+    , mapVisualization(new MapWidget(this))
 {
     ui->setupUi(this);
+
+    // Set MapWidget as central widget
+    setCentralWidget(mapVisualization);
+
+    // Setup the route details text area (add this to your UI if not present)
+    setupRouteDetailsPanel();
 
     // Connect "Load Map" button
     connect(ui->loadMapButton, &QPushButton::clicked, this, &MainWindow::onLoadMapAreaClicked);
@@ -21,6 +34,14 @@ MainWindow::MainWindow(QWidget *parent)
     // Connect "Find Path" button
     connect(ui->findPathButton, &QPushButton::clicked, this, &MainWindow::onFindPathClicked);
 
+    // Connect "Clear Path" button
+    connect(ui->clearPathButton, &QPushButton::clicked, this, &MainWindow::onClearPathClicked);
+
+    // Connect zoom control buttons
+    connect(ui->zoomInButton, &QPushButton::clicked, mapVisualization, &MapWidget::zoomIn);
+    connect(ui->zoomOutButton, &QPushButton::clicked, mapVisualization, &MapWidget::zoomOut);
+    connect(ui->resetViewButton, &QPushButton::clicked, mapVisualization, &MapWidget::resetView);
+
     // Connect map loader signals
     connect(mapLoader, &MapLoader::mapDataReady, this, &MainWindow::onMapDataLoaded);
     connect(mapLoader, &MapLoader::mapLoadFailed, this, &MainWindow::onMapLoadFailed);
@@ -29,8 +50,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->sourceCombo->setEnabled(false);
     ui->destCombo->setEnabled(false);
     ui->findPathButton->setEnabled(false);
+    ui->clearPathButton->setEnabled(false);
 
     setWindowTitle("Traffic Control Simulator - Karachi");
+
+    // Set status bar message
+    statusBar()->showMessage("Ready. Select an area and click 'Load Map Area' to begin.");
 }
 
 MainWindow::~MainWindow()
@@ -38,7 +63,118 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-// --- Fill the area dropdown with all Karachi districts ---
+void MainWindow::setupRouteDetailsPanel()
+{
+    // If you have a QTextEdit named routeDetailsText in your UI
+    if (ui->routeDetailsText) {
+        ui->routeDetailsText->setReadOnly(true);
+        ui->routeDetailsText->setStyleSheet(
+            "QTextEdit {"
+            "   background-color: #2b2b2b;"
+            "   color: #ffffff;"
+            "   border: 1px solid #444;"
+            "   border-radius: 5px;"
+            "   padding: 10px;"
+            "   font-family: 'Segoe UI', Arial;"
+            "   font-size: 11pt;"
+            "}"
+            );
+        clearRouteDetails();
+    }
+}
+
+void MainWindow::clearRouteDetails()
+{
+    if (ui->routeDetailsText) {
+        ui->routeDetailsText->setHtml(
+            "<div style='text-align: center; padding: 20px; color: #888;'>"
+            "<h3 style='color: #aaa;'>📍 Route Details</h3>"
+            "<p>Select source and destination, then click<br>"
+            "<b>'Find Shortest Path'</b> to see directions here.</p>"
+            "</div>"
+            );
+    }
+}
+
+void MainWindow::displayRouteDetails(const Graph::PathResult& result)
+{
+    if (!ui->routeDetailsText) return;
+
+    QString html = QString(
+                       "<div style='padding: 10px;'>"
+                       "<h2 style='color: #4CAF50; margin: 0 0 10px 0;'>✅ Route Found</h2>"
+                       "<div style='background: #1e1e1e; padding: 10px; border-radius: 5px; margin-bottom: 15px;'>"
+                       "<p style='margin: 5px 0;'><b>📏 Distance:</b> <span style='color: #4CAF50;'>%1 km</span></p>"
+                       "<p style='margin: 5px 0;'><b>📍 Stops:</b> <span style='color: #2196F3;'>%2</span></p>"
+                       "</div>"
+                       "<h3 style='color: #fff; margin: 15px 0 10px 0;'>Turn-by-Turn Directions:</h3>"
+                       "<ol style='padding-left: 20px; margin: 0;'>"
+                       ).arg(result.totalDistance, 0, 'f', 2).arg(result.path.size());
+
+    double cumulativeDistance = 0.0;
+
+    for (int i = 0; i < result.path.size(); ++i) {
+        qint64 nodeId = result.path[i];
+        const Graph::Node node = graph.getNode(nodeId);
+        QString name = graph.getNodeDisplayName(nodeId);
+
+        QString segmentInfo = "";
+        if (i > 0) {
+            qint64 prevNodeId = result.path[i - 1];
+            const Graph::Node prevNode = graph.getNode(prevNodeId);
+            double segmentDist = graph.haversineDistance(
+                prevNode.lat, prevNode.lon,
+                node.lat, node.lon
+                );
+            cumulativeDistance += segmentDist;
+
+            int distanceMeters = qRound(segmentDist * 1000);
+            segmentInfo = QString(" <span style='color: #888; font-style: italic;'>(%1 m)</span>")
+                              .arg(distanceMeters);
+        }
+
+        QString stepHtml;
+        if (i == 0) {
+            // Start point
+            stepHtml = QString(
+                           "<li style='margin: 10px 0; padding: 8px; background: #1a3d1a; border-left: 4px solid #4CAF50; border-radius: 3px;'>"
+                           "<b style='color: #4CAF50;'>START:</b> %1<br>"
+                           "<small style='color: #888;'>Coordinates: %2, %3</small>"
+                           "</li>"
+                           ).arg(name).arg(node.lat, 0, 'f', 6).arg(node.lon, 0, 'f', 6);
+        }
+        else if (i == result.path.size() - 1) {
+            // End point
+            stepHtml = QString(
+                           "<li style='margin: 10px 0; padding: 8px; background: #3d1a1a; border-left: 4px solid #f44336; border-radius: 3px;'>"
+                           "<b style='color: #f44336;'>END:</b> %1%2<br>"
+                           "<small style='color: #888;'>Coordinates: %3, %4</small>"
+                           "</li>"
+                           ).arg(name).arg(segmentInfo).arg(node.lat, 0, 'f', 6).arg(node.lon, 0, 'f', 6);
+        }
+        else {
+            // Via point
+            stepHtml = QString(
+                           "<li style='margin: 10px 0; padding: 8px; background: #1a2a3d; border-left: 4px solid #2196F3; border-radius: 3px;'>"
+                           "<b style='color: #2196F3;'>Via:</b> %1%2<br>"
+                           "<small style='color: #888;'>Coordinates: %3, %4</small>"
+                           "</li>"
+                           ).arg(name).arg(segmentInfo).arg(node.lat, 0, 'f', 6).arg(node.lon, 0, 'f', 6);
+        }
+
+        html += stepHtml;
+    }
+
+    html += "</ol></div>";
+
+    ui->routeDetailsText->setHtml(html);
+
+    // Scroll to top
+    QTextCursor cursor = ui->routeDetailsText->textCursor();
+    cursor.movePosition(QTextCursor::Start);
+    ui->routeDetailsText->setTextCursor(cursor);
+}
+
 void MainWindow::setupAreaSelection()
 {
     ui->areaSelectionCombo->clear();
@@ -77,9 +213,12 @@ void MainWindow::setupAreaSelection()
     ui->areaSelectionCombo->addItems(areaBounds.keys());
 }
 
-// --- Load Map Button ---
 void MainWindow::onLoadMapAreaClicked()
 {
+    mapVisualization->clearPath();
+    mapVisualization->setGraphData(Graph());
+    clearRouteDetails();
+
     QString selectedArea = ui->areaSelectionCombo->currentText();
     if (!areaBounds.contains(selectedArea)) {
         QMessageBox::warning(this, "Error", "Please select a valid area.");
@@ -91,34 +230,51 @@ void MainWindow::onLoadMapAreaClicked()
     ui->loadMapButton->setEnabled(false);
     ui->loadMapButton->setText("Loading...");
     ui->findPathButton->setEnabled(false);
+    ui->clearPathButton->setEnabled(false);
     ui->sourceCombo->setEnabled(false);
     ui->destCombo->setEnabled(false);
 
+    statusBar()->showMessage(QString("Fetching map data for %1...").arg(selectedArea));
+
     QMessageBox::information(this, "Loading Map",
-                             QString("Fetching map for %1. This may take a moment...").arg(selectedArea));
+                             QString("Fetching map for %1.\n\nThis may take a moment. "
+                                     "The map will load with interactive zoom and pan features!")
+                                 .arg(selectedArea));
 
     mapLoader->fetchMapData(bounds.minLat, bounds.minLon, bounds.maxLat, bounds.maxLon);
 }
 
-// --- Map Load Success ---
 void MainWindow::onMapDataLoaded(const QByteArray& data)
 {
     bool success = graph.loadFromOverpassJSON(data);
 
     if (success && graph.getNodeCount() > 0 && graph.getEdgeCount() > 0) {
         mapLoaded = true;
+
+        mapVisualization->setGraphData(graph);
         populateComboBoxes();
+
+
 
         ui->sourceCombo->setEnabled(true);
         ui->destCombo->setEnabled(true);
         ui->findPathButton->setEnabled(true);
+        ui->clearPathButton->setEnabled(true);
         ui->loadMapButton->setText("Load Map Area");
         ui->loadMapButton->setEnabled(true);
 
         QString message = QString(
                               "✅ Map loaded successfully!\n\n"
-                              "Nodes: %1\nEdges: %2\n\nSelect locations to find routes!"
+                              "📍 Nodes: %1\n"
+                              "🛣️  Edges: %2\n\n"
+                              "You can now:\n"
+                              "• Use mouse wheel to zoom in/out\n"
+                              "• Click and drag to pan the map\n"
+                              "• Select locations to find routes!"
                               ).arg(graph.getNodeCount()).arg(graph.getEdgeCount());
+
+        statusBar()->showMessage(QString("Map loaded: %1 nodes, %2 edges")
+                                     .arg(graph.getNodeCount()).arg(graph.getEdgeCount()));
 
         QMessageBox::information(this, "Success", message);
     } else {
@@ -126,15 +282,17 @@ void MainWindow::onMapDataLoaded(const QByteArray& data)
     }
 }
 
-// --- Map Load Failure ---
 void MainWindow::onMapLoadFailed(const QString& error)
 {
     ui->loadMapButton->setText("Load Map Area");
     ui->loadMapButton->setEnabled(true);
-    QMessageBox::critical(this, "Error", "Failed to load map data.\nError: " + error);
+    statusBar()->showMessage("Map load failed");
+    QMessageBox::critical(this, "Error",
+                          QString("Failed to load map data.\n\nError: %1\n\n"
+                                  "Please try a different area or check your internet connection.")
+                              .arg(error));
 }
 
-// --- Populate source/destination dropdowns ---
 void MainWindow::populateComboBoxes()
 {
     ui->sourceCombo->clear();
@@ -153,15 +311,20 @@ void MainWindow::populateComboBoxes()
         ui->sourceCombo->addItem(loc.displayName, QVariant::fromValue(loc.nodeId));
         ui->destCombo->addItem(loc.displayName, QVariant::fromValue(loc.nodeId));
     }
+
+    statusBar()->showMessage(QString("Ready to find routes between %1 locations")
+                                 .arg(locations.size()));
 }
 
-// --- Pathfinding button ---
 void MainWindow::onFindPathClicked()
 {
     if (!mapLoaded) {
         QMessageBox::warning(this, "Warning", "Please load a map first!");
         return;
     }
+
+    mapVisualization->clearPath();
+    clearRouteDetails();
 
     qint64 sourceId = ui->sourceCombo->currentData().toLongLong();
     qint64 destId = ui->destCombo->currentData().toLongLong();
@@ -172,32 +335,116 @@ void MainWindow::onFindPathClicked()
     }
 
     if (sourceId == destId) {
-        QMessageBox::information(this, "Same Location", "Source and destination are the same!");
+        QMessageBox::information(this, "Same Location",
+                                 "Source and destination are the same!");
         return;
     }
+
+    statusBar()->showMessage("Calculating shortest path...");
 
     Graph::PathResult result = graph.aStar(sourceId, destId);
 
     if (!result.found) {
+        statusBar()->showMessage("No path found");
         QMessageBox::warning(this, "Path Not Found", result.errorMessage);
+        clearRouteDetails();
         return;
     }
 
-    QString pathStr = "Route:\n\n";
+    mapVisualization->setShortestPath(result.path);
+    displayRouteDetails(result);
+
+    statusBar()->showMessage(QString("Route found: %1 km, %2 stops")
+                                 .arg(result.totalDistance, 0, 'f', 2)
+                                 .arg(result.path.size()));
+
+    // Show simple notification
+    QString summary = QString(
+                          "✅ Route calculated!\n\n"
+                          "📏 Distance: %1 km\n"
+                          "📍 Stops: %2\n\n"
+                          "View turn-by-turn directions in the sidebar."
+                          ).arg(result.totalDistance, 0, 'f', 2)
+                          .arg(result.path.size());
+
+    QMessageBox::information(this, "Route Found", summary);
+}
+
+void MainWindow::onClearPathClicked()
+{
+    mapVisualization->clearPath();
+    clearRouteDetails();
+    statusBar()->showMessage("Path cleared");
+}
+
+void MainWindow::showDetailedRoute(const Graph::PathResult& result)
+{
+    // This is now shown in the sidebar, but keep for backwards compatibility
+    QDialog *dialog = new QDialog(this);
+    dialog->setWindowTitle("Route Details");
+    dialog->setMinimumSize(600, 500);
+
+    QVBoxLayout *layout = new QVBoxLayout(dialog);
+
+    QLabel *header = new QLabel(QString(
+                                    "<h2>Route Found</h2>"
+                                    "<p><b>Distance:</b> %1 km | <b>Stops:</b> %2</p>"
+                                    ).arg(result.totalDistance, 0, 'f', 3).arg(result.path.size()));
+    header->setWordWrap(true);
+    layout->addWidget(header);
+
+    QTextEdit *textEdit = new QTextEdit();
+    textEdit->setReadOnly(true);
+
+    QString directions = "<h3>Turn-by-Turn Directions:</h3><ol>";
+
+    double cumulativeDistance = 0.0;
+
     for (int i = 0; i < result.path.size(); ++i) {
         qint64 nodeId = result.path[i];
+        const Graph::Node node = graph.getNode(nodeId);
         QString name = graph.getNodeDisplayName(nodeId);
 
-        if (i == 0) pathStr += QString("🚩 START: %1\n").arg(name);
-        else if (i == result.path.size() - 1) pathStr += QString("🏁 END: %1\n").arg(name);
-        else pathStr += QString("   ↓ Via: %1\n").arg(name);
+        QString segmentInfo = "";
+        if (i > 0) {
+            qint64 prevNodeId = result.path[i - 1];
+            const Graph::Node prevNode = graph.getNode(prevNodeId);
+            double segmentDist = graph.haversineDistance(
+                prevNode.lat, prevNode.lon,
+                node.lat, node.lon
+                );
+            cumulativeDistance += segmentDist;
+            segmentInfo = QString(" <i>(%1 m)</i>").arg(qRound(segmentDist * 1000));
+        }
+
+        if (i == 0) {
+            directions += QString("<li><b>START:</b> %1<br><small>Coordinates: %2, %3</small></li>")
+            .arg(name)
+                .arg(node.lat, 0, 'f', 6)
+                .arg(node.lon, 0, 'f', 6);
+        } else if (i == result.path.size() - 1) {
+            directions += QString("<li><b>END:</b> %1%2<br><small>Coordinates: %3, %4</small></li>")
+            .arg(name)
+                .arg(segmentInfo)
+                .arg(node.lat, 0, 'f', 6)
+                .arg(node.lon, 0, 'f', 6);
+        } else {
+            directions += QString("<li><b>Via:</b> %1%2<br><small>Coordinates: %3, %4</small></li>")
+            .arg(name)
+                .arg(segmentInfo)
+                .arg(node.lat, 0, 'f', 6)
+                .arg(node.lon, 0, 'f', 6);
+        }
     }
 
-    QString message = QString(
-                          "✅ Shortest path found!\n\n"
-                          "📏 Distance: %1 km\n"
-                          "📍 Stops: %2\n\n%3"
-                          ).arg(result.totalDistance, 0, 'f', 3).arg(result.path.size()).arg(pathStr);
+    directions += "</ol>";
+    textEdit->setHtml(directions);
+    layout->addWidget(textEdit);
 
-    QMessageBox::information(this, "Route Found", message);
+    QPushButton *closeButton = new QPushButton("Close");
+    connect(closeButton, &QPushButton::clicked, dialog, &QDialog::accept);
+    layout->addWidget(closeButton);
+
+    dialog->exec();
+    delete dialog;
 }
