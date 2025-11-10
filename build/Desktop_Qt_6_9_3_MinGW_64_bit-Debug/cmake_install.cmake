@@ -37,6 +37,16 @@ if(NOT DEFINED CMAKE_OBJDUMP)
   set(CMAKE_OBJDUMP "E:/Qt/Tools/mingw1310_64/bin/objdump.exe")
 endif()
 
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project.exe")
+  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/Traffic-Simulation-Dsa-project.exe" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/Traffic-Simulation-Dsa-project.exe")
+    if(CMAKE_INSTALL_DO_STRIP)
+      execute_process(COMMAND "E:/Qt/Tools/mingw1310_64/bin/strip.exe" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/Traffic-Simulation-Dsa-project.exe")
+    endif()
+  endif()
+endif()
+
 if(CMAKE_INSTALL_COMPONENT)
   if(CMAKE_INSTALL_COMPONENT MATCHES "^[a-zA-Z0-9_.+-]+$")
     set(CMAKE_INSTALL_MANIFEST "install_manifest_${CMAKE_INSTALL_COMPONENT}.txt")

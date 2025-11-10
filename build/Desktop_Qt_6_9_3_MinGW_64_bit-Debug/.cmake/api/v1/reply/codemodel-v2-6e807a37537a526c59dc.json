@@ -6,7 +6,8 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-b625dd84e1b0ffed4a61.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16"
@@ -29,7 +30,7 @@
 					[
 						0
 					],
-					"name" : "Traffic-DSA",
+					"name" : "Traffic-Simulation-Dsa-project",
 					"targetIndexes" : 
 					[
 						0,
@@ -42,23 +43,23 @@
 			[
 				{
 					"directoryIndex" : 0,
-					"id" : "Traffic-DSA::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Traffic-DSA-Debug-8e97bdbbc58a73a22120.json",
-					"name" : "Traffic-DSA",
+					"id" : "Traffic-Simulation-Dsa-project::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Traffic-Simulation-Dsa-project-Debug-677d0595e70dc280a070.json",
+					"name" : "Traffic-Simulation-Dsa-project",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
-					"id" : "Traffic-DSA_autogen::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Traffic-DSA_autogen-Debug-aa8f9f22fd571b12d210.json",
-					"name" : "Traffic-DSA_autogen",
+					"id" : "Traffic-Simulation-Dsa-project_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Traffic-Simulation-Dsa-project_autogen-Debug-9d9d2c3d3677cef2f313.json",
+					"name" : "Traffic-Simulation-Dsa-project_autogen",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
-					"id" : "Traffic-DSA_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Traffic-DSA_autogen_timestamp_deps-Debug-338db4512146523a03a2.json",
-					"name" : "Traffic-DSA_autogen_timestamp_deps",
+					"id" : "Traffic-Simulation-Dsa-project_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Traffic-Simulation-Dsa-project_autogen_timestamp_deps-Debug-62f3ebadaf8defd0ab05.json",
+					"name" : "Traffic-Simulation-Dsa-project_autogen_timestamp_deps",
 					"projectIndex" : 0
 				}
 			]

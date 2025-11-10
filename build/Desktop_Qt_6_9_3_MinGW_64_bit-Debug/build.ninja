@@ -11,7 +11,7 @@
 # =============================================================================
 
 # =============================================================================
-# Project: Traffic-DSA
+# Project: Traffic-Simulation-Dsa-project
 # Configurations: Debug
 # =============================================================================
 
@@ -41,88 +41,95 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = C$:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/
 # =============================================================================
-# Object build statements for EXECUTABLE target Traffic-DSA
+# Object build statements for EXECUTABLE target Traffic-Simulation-Dsa-project
 
 
 #############################################
-# Order-only phony target for Traffic-DSA
+# Order-only phony target for Traffic-Simulation-Dsa-project
 
-build cmake_object_order_depends_target_Traffic-DSA: phony || Traffic-DSA_autogen Traffic-DSA_autogen/mocs_compilation.cpp Traffic-DSA_autogen/timestamp Traffic-DSA_autogen_timestamp_deps
+build cmake_object_order_depends_target_Traffic-Simulation-Dsa-project: phony || Traffic-Simulation-Dsa-project_autogen Traffic-Simulation-Dsa-project_autogen/mocs_compilation.cpp Traffic-Simulation-Dsa-project_autogen/timestamp Traffic-Simulation-Dsa-project_autogen_timestamp_deps
 
-build CMakeFiles/Traffic-DSA.dir/Traffic-DSA_autogen/mocs_compilation.cpp.obj: CXX_COMPILER__Traffic-DSA_unscanned_Debug C$:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-DSA_autogen/mocs_compilation.cpp || cmake_object_order_depends_target_Traffic-DSA
-  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
-  DEP_FILE = CMakeFiles\Traffic-DSA.dir\Traffic-DSA_autogen\mocs_compilation.cpp.obj.d
-  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-DSA_autogen/include -isystem E:/Qt/6.9.3/mingw_64/include/QtCore -isystem E:/Qt/6.9.3/mingw_64/include -isystem E:/Qt/6.9.3/mingw_64/mkspecs/win32-g++ -isystem E:/Qt/6.9.3/mingw_64/include/QtWidgets -isystem E:/Qt/6.9.3/mingw_64/include/QtGui -isystem E:/Qt/6.9.3/mingw_64/include/QtNetwork
-  OBJECT_DIR = CMakeFiles\Traffic-DSA.dir
-  OBJECT_FILE_DIR = CMakeFiles\Traffic-DSA.dir\Traffic-DSA_autogen
+build CMakeFiles/Traffic-Simulation-Dsa-project.dir/Traffic-Simulation-Dsa-project_autogen/mocs_compilation.cpp.obj: CXX_COMPILER__Traffic-Simulation-Dsa-project_unscanned_Debug C$:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/mocs_compilation.cpp || cmake_object_order_depends_target_Traffic-Simulation-Dsa-project
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\Traffic-Simulation-Dsa-project.dir\Traffic-Simulation-Dsa-project_autogen\mocs_compilation.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/include -isystem E:/Qt/6.9.3/mingw_64/include/QtWidgets -isystem E:/Qt/6.9.3/mingw_64/include -isystem E:/Qt/6.9.3/mingw_64/include/QtCore -isystem E:/Qt/6.9.3/mingw_64/mkspecs/win32-g++ -isystem E:/Qt/6.9.3/mingw_64/include/QtGui -isystem E:/Qt/6.9.3/mingw_64/include/QtNetwork
+  OBJECT_DIR = CMakeFiles\Traffic-Simulation-Dsa-project.dir
+  OBJECT_FILE_DIR = CMakeFiles\Traffic-Simulation-Dsa-project.dir\Traffic-Simulation-Dsa-project_autogen
 
-build CMakeFiles/Traffic-DSA.dir/main.cpp.obj: CXX_COMPILER__Traffic-DSA_unscanned_Debug C$:/Users/HP/Documents/Traffic-Control-DSA/main.cpp || cmake_object_order_depends_target_Traffic-DSA
-  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
-  DEP_FILE = CMakeFiles\Traffic-DSA.dir\main.cpp.obj.d
-  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-DSA_autogen/include -isystem E:/Qt/6.9.3/mingw_64/include/QtCore -isystem E:/Qt/6.9.3/mingw_64/include -isystem E:/Qt/6.9.3/mingw_64/mkspecs/win32-g++ -isystem E:/Qt/6.9.3/mingw_64/include/QtWidgets -isystem E:/Qt/6.9.3/mingw_64/include/QtGui -isystem E:/Qt/6.9.3/mingw_64/include/QtNetwork
-  OBJECT_DIR = CMakeFiles\Traffic-DSA.dir
-  OBJECT_FILE_DIR = CMakeFiles\Traffic-DSA.dir
+build CMakeFiles/Traffic-Simulation-Dsa-project.dir/main.cpp.obj: CXX_COMPILER__Traffic-Simulation-Dsa-project_unscanned_Debug C$:/Users/HP/Documents/Traffic-Control-DSA/main.cpp || cmake_object_order_depends_target_Traffic-Simulation-Dsa-project
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\Traffic-Simulation-Dsa-project.dir\main.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/include -isystem E:/Qt/6.9.3/mingw_64/include/QtWidgets -isystem E:/Qt/6.9.3/mingw_64/include -isystem E:/Qt/6.9.3/mingw_64/include/QtCore -isystem E:/Qt/6.9.3/mingw_64/mkspecs/win32-g++ -isystem E:/Qt/6.9.3/mingw_64/include/QtGui -isystem E:/Qt/6.9.3/mingw_64/include/QtNetwork
+  OBJECT_DIR = CMakeFiles\Traffic-Simulation-Dsa-project.dir
+  OBJECT_FILE_DIR = CMakeFiles\Traffic-Simulation-Dsa-project.dir
 
-build CMakeFiles/Traffic-DSA.dir/mainwindow.cpp.obj: CXX_COMPILER__Traffic-DSA_unscanned_Debug C$:/Users/HP/Documents/Traffic-Control-DSA/mainwindow.cpp || cmake_object_order_depends_target_Traffic-DSA
-  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
-  DEP_FILE = CMakeFiles\Traffic-DSA.dir\mainwindow.cpp.obj.d
-  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-DSA_autogen/include -isystem E:/Qt/6.9.3/mingw_64/include/QtCore -isystem E:/Qt/6.9.3/mingw_64/include -isystem E:/Qt/6.9.3/mingw_64/mkspecs/win32-g++ -isystem E:/Qt/6.9.3/mingw_64/include/QtWidgets -isystem E:/Qt/6.9.3/mingw_64/include/QtGui -isystem E:/Qt/6.9.3/mingw_64/include/QtNetwork
-  OBJECT_DIR = CMakeFiles\Traffic-DSA.dir
-  OBJECT_FILE_DIR = CMakeFiles\Traffic-DSA.dir
+build CMakeFiles/Traffic-Simulation-Dsa-project.dir/mainwindow.cpp.obj: CXX_COMPILER__Traffic-Simulation-Dsa-project_unscanned_Debug C$:/Users/HP/Documents/Traffic-Control-DSA/mainwindow.cpp || cmake_object_order_depends_target_Traffic-Simulation-Dsa-project
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\Traffic-Simulation-Dsa-project.dir\mainwindow.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/include -isystem E:/Qt/6.9.3/mingw_64/include/QtWidgets -isystem E:/Qt/6.9.3/mingw_64/include -isystem E:/Qt/6.9.3/mingw_64/include/QtCore -isystem E:/Qt/6.9.3/mingw_64/mkspecs/win32-g++ -isystem E:/Qt/6.9.3/mingw_64/include/QtGui -isystem E:/Qt/6.9.3/mingw_64/include/QtNetwork
+  OBJECT_DIR = CMakeFiles\Traffic-Simulation-Dsa-project.dir
+  OBJECT_FILE_DIR = CMakeFiles\Traffic-Simulation-Dsa-project.dir
 
-build CMakeFiles/Traffic-DSA.dir/graph.cpp.obj: CXX_COMPILER__Traffic-DSA_unscanned_Debug C$:/Users/HP/Documents/Traffic-Control-DSA/graph.cpp || cmake_object_order_depends_target_Traffic-DSA
-  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
-  DEP_FILE = CMakeFiles\Traffic-DSA.dir\graph.cpp.obj.d
-  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-DSA_autogen/include -isystem E:/Qt/6.9.3/mingw_64/include/QtCore -isystem E:/Qt/6.9.3/mingw_64/include -isystem E:/Qt/6.9.3/mingw_64/mkspecs/win32-g++ -isystem E:/Qt/6.9.3/mingw_64/include/QtWidgets -isystem E:/Qt/6.9.3/mingw_64/include/QtGui -isystem E:/Qt/6.9.3/mingw_64/include/QtNetwork
-  OBJECT_DIR = CMakeFiles\Traffic-DSA.dir
-  OBJECT_FILE_DIR = CMakeFiles\Traffic-DSA.dir
+build CMakeFiles/Traffic-Simulation-Dsa-project.dir/graph.cpp.obj: CXX_COMPILER__Traffic-Simulation-Dsa-project_unscanned_Debug C$:/Users/HP/Documents/Traffic-Control-DSA/graph.cpp || cmake_object_order_depends_target_Traffic-Simulation-Dsa-project
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\Traffic-Simulation-Dsa-project.dir\graph.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/include -isystem E:/Qt/6.9.3/mingw_64/include/QtWidgets -isystem E:/Qt/6.9.3/mingw_64/include -isystem E:/Qt/6.9.3/mingw_64/include/QtCore -isystem E:/Qt/6.9.3/mingw_64/mkspecs/win32-g++ -isystem E:/Qt/6.9.3/mingw_64/include/QtGui -isystem E:/Qt/6.9.3/mingw_64/include/QtNetwork
+  OBJECT_DIR = CMakeFiles\Traffic-Simulation-Dsa-project.dir
+  OBJECT_FILE_DIR = CMakeFiles\Traffic-Simulation-Dsa-project.dir
 
-build CMakeFiles/Traffic-DSA.dir/traffic_simulator.cpp.obj: CXX_COMPILER__Traffic-DSA_unscanned_Debug C$:/Users/HP/Documents/Traffic-Control-DSA/traffic_simulator.cpp || cmake_object_order_depends_target_Traffic-DSA
-  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
-  DEP_FILE = CMakeFiles\Traffic-DSA.dir\traffic_simulator.cpp.obj.d
-  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-DSA_autogen/include -isystem E:/Qt/6.9.3/mingw_64/include/QtCore -isystem E:/Qt/6.9.3/mingw_64/include -isystem E:/Qt/6.9.3/mingw_64/mkspecs/win32-g++ -isystem E:/Qt/6.9.3/mingw_64/include/QtWidgets -isystem E:/Qt/6.9.3/mingw_64/include/QtGui -isystem E:/Qt/6.9.3/mingw_64/include/QtNetwork
-  OBJECT_DIR = CMakeFiles\Traffic-DSA.dir
-  OBJECT_FILE_DIR = CMakeFiles\Traffic-DSA.dir
+build CMakeFiles/Traffic-Simulation-Dsa-project.dir/map_loader.cpp.obj: CXX_COMPILER__Traffic-Simulation-Dsa-project_unscanned_Debug C$:/Users/HP/Documents/Traffic-Control-DSA/map_loader.cpp || cmake_object_order_depends_target_Traffic-Simulation-Dsa-project
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\Traffic-Simulation-Dsa-project.dir\map_loader.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/include -isystem E:/Qt/6.9.3/mingw_64/include/QtWidgets -isystem E:/Qt/6.9.3/mingw_64/include -isystem E:/Qt/6.9.3/mingw_64/include/QtCore -isystem E:/Qt/6.9.3/mingw_64/mkspecs/win32-g++ -isystem E:/Qt/6.9.3/mingw_64/include/QtGui -isystem E:/Qt/6.9.3/mingw_64/include/QtNetwork
+  OBJECT_DIR = CMakeFiles\Traffic-Simulation-Dsa-project.dir
+  OBJECT_FILE_DIR = CMakeFiles\Traffic-Simulation-Dsa-project.dir
 
-build CMakeFiles/Traffic-DSA.dir/notification_manager.cpp.obj: CXX_COMPILER__Traffic-DSA_unscanned_Debug C$:/Users/HP/Documents/Traffic-Control-DSA/notification_manager.cpp || cmake_object_order_depends_target_Traffic-DSA
-  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
-  DEP_FILE = CMakeFiles\Traffic-DSA.dir\notification_manager.cpp.obj.d
-  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-DSA_autogen/include -isystem E:/Qt/6.9.3/mingw_64/include/QtCore -isystem E:/Qt/6.9.3/mingw_64/include -isystem E:/Qt/6.9.3/mingw_64/mkspecs/win32-g++ -isystem E:/Qt/6.9.3/mingw_64/include/QtWidgets -isystem E:/Qt/6.9.3/mingw_64/include/QtGui -isystem E:/Qt/6.9.3/mingw_64/include/QtNetwork
-  OBJECT_DIR = CMakeFiles\Traffic-DSA.dir
-  OBJECT_FILE_DIR = CMakeFiles\Traffic-DSA.dir
+build CMakeFiles/Traffic-Simulation-Dsa-project.dir/notification_manager.cpp.obj: CXX_COMPILER__Traffic-Simulation-Dsa-project_unscanned_Debug C$:/Users/HP/Documents/Traffic-Control-DSA/notification_manager.cpp || cmake_object_order_depends_target_Traffic-Simulation-Dsa-project
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\Traffic-Simulation-Dsa-project.dir\notification_manager.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/include -isystem E:/Qt/6.9.3/mingw_64/include/QtWidgets -isystem E:/Qt/6.9.3/mingw_64/include -isystem E:/Qt/6.9.3/mingw_64/include/QtCore -isystem E:/Qt/6.9.3/mingw_64/mkspecs/win32-g++ -isystem E:/Qt/6.9.3/mingw_64/include/QtGui -isystem E:/Qt/6.9.3/mingw_64/include/QtNetwork
+  OBJECT_DIR = CMakeFiles\Traffic-Simulation-Dsa-project.dir
+  OBJECT_FILE_DIR = CMakeFiles\Traffic-Simulation-Dsa-project.dir
 
-build CMakeFiles/Traffic-DSA.dir/map_loader.cpp.obj: CXX_COMPILER__Traffic-DSA_unscanned_Debug C$:/Users/HP/Documents/Traffic-Control-DSA/map_loader.cpp || cmake_object_order_depends_target_Traffic-DSA
-  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
-  DEP_FILE = CMakeFiles\Traffic-DSA.dir\map_loader.cpp.obj.d
-  FLAGS = -DQT_QML_DEBUG -g -std=gnu++17 -fdiagnostics-color=always
-  INCLUDES = -IC:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-DSA_autogen/include -isystem E:/Qt/6.9.3/mingw_64/include/QtCore -isystem E:/Qt/6.9.3/mingw_64/include -isystem E:/Qt/6.9.3/mingw_64/mkspecs/win32-g++ -isystem E:/Qt/6.9.3/mingw_64/include/QtWidgets -isystem E:/Qt/6.9.3/mingw_64/include/QtGui -isystem E:/Qt/6.9.3/mingw_64/include/QtNetwork
-  OBJECT_DIR = CMakeFiles\Traffic-DSA.dir
-  OBJECT_FILE_DIR = CMakeFiles\Traffic-DSA.dir
+build CMakeFiles/Traffic-Simulation-Dsa-project.dir/traffic_simulator.cpp.obj: CXX_COMPILER__Traffic-Simulation-Dsa-project_unscanned_Debug C$:/Users/HP/Documents/Traffic-Control-DSA/traffic_simulator.cpp || cmake_object_order_depends_target_Traffic-Simulation-Dsa-project
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\Traffic-Simulation-Dsa-project.dir\traffic_simulator.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/include -isystem E:/Qt/6.9.3/mingw_64/include/QtWidgets -isystem E:/Qt/6.9.3/mingw_64/include -isystem E:/Qt/6.9.3/mingw_64/include/QtCore -isystem E:/Qt/6.9.3/mingw_64/mkspecs/win32-g++ -isystem E:/Qt/6.9.3/mingw_64/include/QtGui -isystem E:/Qt/6.9.3/mingw_64/include/QtNetwork
+  OBJECT_DIR = CMakeFiles\Traffic-Simulation-Dsa-project.dir
+  OBJECT_FILE_DIR = CMakeFiles\Traffic-Simulation-Dsa-project.dir
+
+build CMakeFiles/Traffic-Simulation-Dsa-project.dir/mapwidget.cpp.obj: CXX_COMPILER__Traffic-Simulation-Dsa-project_unscanned_Debug C$:/Users/HP/Documents/Traffic-Control-DSA/mapwidget.cpp || cmake_object_order_depends_target_Traffic-Simulation-Dsa-project
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\Traffic-Simulation-Dsa-project.dir\mapwidget.cpp.obj.d
+  FLAGS = -DQT_QML_DEBUG -g -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/include -isystem E:/Qt/6.9.3/mingw_64/include/QtWidgets -isystem E:/Qt/6.9.3/mingw_64/include -isystem E:/Qt/6.9.3/mingw_64/include/QtCore -isystem E:/Qt/6.9.3/mingw_64/mkspecs/win32-g++ -isystem E:/Qt/6.9.3/mingw_64/include/QtGui -isystem E:/Qt/6.9.3/mingw_64/include/QtNetwork
+  OBJECT_DIR = CMakeFiles\Traffic-Simulation-Dsa-project.dir
+  OBJECT_FILE_DIR = CMakeFiles\Traffic-Simulation-Dsa-project.dir
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target Traffic-DSA
+# Link build statements for EXECUTABLE target Traffic-Simulation-Dsa-project
 
 
 #############################################
-# Link the executable Traffic-DSA.exe
+# Link the executable Traffic-Simulation-Dsa-project.exe
 
-build Traffic-DSA.exe: CXX_EXECUTABLE_LINKER__Traffic-DSA_Debug CMakeFiles/Traffic-DSA.dir/Traffic-DSA_autogen/mocs_compilation.cpp.obj CMakeFiles/Traffic-DSA.dir/main.cpp.obj CMakeFiles/Traffic-DSA.dir/mainwindow.cpp.obj CMakeFiles/Traffic-DSA.dir/graph.cpp.obj CMakeFiles/Traffic-DSA.dir/traffic_simulator.cpp.obj CMakeFiles/Traffic-DSA.dir/notification_manager.cpp.obj CMakeFiles/Traffic-DSA.dir/map_loader.cpp.obj | E$:/Qt/6.9.3/mingw_64/lib/libQt6Widgets.a E$:/Qt/6.9.3/mingw_64/lib/libQt6Network.a E$:/Qt/6.9.3/mingw_64/lib/libQt6Gui.a E$:/Qt/6.9.3/mingw_64/lib/libQt6Core.a E$:/Qt/6.9.3/mingw_64/lib/libQt6EntryPoint.a || Traffic-DSA_autogen Traffic-DSA_autogen_timestamp_deps
+build Traffic-Simulation-Dsa-project.exe: CXX_EXECUTABLE_LINKER__Traffic-Simulation-Dsa-project_Debug CMakeFiles/Traffic-Simulation-Dsa-project.dir/Traffic-Simulation-Dsa-project_autogen/mocs_compilation.cpp.obj CMakeFiles/Traffic-Simulation-Dsa-project.dir/main.cpp.obj CMakeFiles/Traffic-Simulation-Dsa-project.dir/mainwindow.cpp.obj CMakeFiles/Traffic-Simulation-Dsa-project.dir/graph.cpp.obj CMakeFiles/Traffic-Simulation-Dsa-project.dir/map_loader.cpp.obj CMakeFiles/Traffic-Simulation-Dsa-project.dir/notification_manager.cpp.obj CMakeFiles/Traffic-Simulation-Dsa-project.dir/traffic_simulator.cpp.obj CMakeFiles/Traffic-Simulation-Dsa-project.dir/mapwidget.cpp.obj | E$:/Qt/6.9.3/mingw_64/lib/libQt6Widgets.a E$:/Qt/6.9.3/mingw_64/lib/libQt6Gui.a E$:/Qt/6.9.3/mingw_64/lib/libQt6Network.a E$:/Qt/6.9.3/mingw_64/lib/libQt6Core.a || Traffic-Simulation-Dsa-project_autogen Traffic-Simulation-Dsa-project_autogen_timestamp_deps
   FLAGS = -DQT_QML_DEBUG -g
-  LINK_FLAGS = -mwindows
-  LINK_LIBRARIES = E:/Qt/6.9.3/mingw_64/lib/libQt6Widgets.a  E:/Qt/6.9.3/mingw_64/lib/libQt6Network.a  E:/Qt/6.9.3/mingw_64/lib/libQt6Gui.a  -ld3d11  -ldxgi  -ldxguid  -ld3d12  E:/Qt/6.9.3/mingw_64/lib/libQt6Core.a  -lmpr  -luserenv  -lmingw32  E:/Qt/6.9.3/mingw_64/lib/libQt6EntryPoint.a  -lshell32  -lws2_32  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\Traffic-DSA.dir
+  LINK_LIBRARIES = E:/Qt/6.9.3/mingw_64/lib/libQt6Widgets.a  E:/Qt/6.9.3/mingw_64/lib/libQt6Gui.a  E:/Qt/6.9.3/mingw_64/lib/libQt6Network.a  -ld3d11  -ldxgi  -ldxguid  -ld3d12  E:/Qt/6.9.3/mingw_64/lib/libQt6Core.a  -lmpr  -luserenv  -lws2_32  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\Traffic-Simulation-Dsa-project.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_FILE = Traffic-DSA.exe
-  TARGET_IMPLIB = libTraffic-DSA.dll.a
-  TARGET_PDB = Traffic-DSA.exe.dbg
+  TARGET_FILE = Traffic-Simulation-Dsa-project.exe
+  TARGET_IMPLIB = libTraffic-Simulation-Dsa-project.dll.a
+  TARGET_PDB = Traffic-Simulation-Dsa-project.exe.dbg
 
 
 #############################################
@@ -150,37 +157,79 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 
 
 #############################################
-# Utility command for Traffic-DSA_autogen_timestamp_deps
+# Utility command for list_install_components
 
-build Traffic-DSA_autogen_timestamp_deps: phony
-
-
-#############################################
-# Utility command for Traffic-DSA_autogen
-
-build Traffic-DSA_autogen: phony CMakeFiles/Traffic-DSA_autogen Traffic-DSA_autogen/include/ui_mainwindow.h Traffic-DSA_autogen/timestamp Traffic-DSA_autogen/mocs_compilation.cpp Traffic-DSA_autogen_timestamp_deps
+build list_install_components: phony
 
 
 #############################################
-# Custom command for Traffic-DSA_autogen\timestamp
+# Utility command for install
 
-build Traffic-DSA_autogen/timestamp Traffic-DSA_autogen/mocs_compilation.cpp | ${cmake_ninja_workdir}Traffic-DSA_autogen/timestamp ${cmake_ninja_workdir}Traffic-DSA_autogen/mocs_compilation.cpp: CUSTOM_COMMAND E$:/Qt/6.9.3/mingw_64/bin/moc.exe E$:/Qt/6.9.3/mingw_64/bin/uic.exe || Traffic-DSA_autogen_timestamp_deps
-  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\HP\Documents\Traffic-Control-DSA\build\Desktop_Qt_6_9_3_MinGW_64_bit-Debug && E:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_autogen C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/CMakeFiles/Traffic-DSA_autogen.dir/AutogenInfo.json Debug && E:\Qt\Tools\CMake_64\bin\cmake.exe -E touch C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-DSA_autogen/timestamp && E:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_transform_depfile Ninja gccdepfile C:/Users/HP/Documents/Traffic-Control-DSA C:/Users/HP/Documents/Traffic-Control-DSA C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-DSA_autogen/deps C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/CMakeFiles/d/cfe8e09980661b7e3e8eca5f69be88eafde397c71f01795b041365bf6c3e64d0.d"
-  DESC = Automatic MOC and UIC for target Traffic-DSA
-  depfile = CMakeFiles\d\cfe8e09980661b7e3e8eca5f69be88eafde397c71f01795b041365bf6c3e64d0.d
+build CMakeFiles/install.util: CUSTOM_COMMAND all
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\HP\Documents\Traffic-Control-DSA\build\Desktop_Qt_6_9_3_MinGW_64_bit-Debug && E:\Qt\Tools\CMake_64\bin\cmake.exe -P cmake_install.cmake"
+  DESC = Install the project...
+  pool = console
+  restat = 1
+
+build install: phony CMakeFiles/install.util
+
+
+#############################################
+# Utility command for install/local
+
+build CMakeFiles/install/local.util: CUSTOM_COMMAND all
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\HP\Documents\Traffic-Control-DSA\build\Desktop_Qt_6_9_3_MinGW_64_bit-Debug && E:\Qt\Tools\CMake_64\bin\cmake.exe -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake"
+  DESC = Installing only the local directory...
+  pool = console
+  restat = 1
+
+build install/local: phony CMakeFiles/install/local.util
+
+
+#############################################
+# Utility command for install/strip
+
+build CMakeFiles/install/strip.util: CUSTOM_COMMAND all
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\HP\Documents\Traffic-Control-DSA\build\Desktop_Qt_6_9_3_MinGW_64_bit-Debug && E:\Qt\Tools\CMake_64\bin\cmake.exe -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake"
+  DESC = Installing the project stripped...
+  pool = console
+  restat = 1
+
+build install/strip: phony CMakeFiles/install/strip.util
+
+
+#############################################
+# Utility command for Traffic-Simulation-Dsa-project_autogen_timestamp_deps
+
+build Traffic-Simulation-Dsa-project_autogen_timestamp_deps: phony
+
+
+#############################################
+# Utility command for Traffic-Simulation-Dsa-project_autogen
+
+build Traffic-Simulation-Dsa-project_autogen: phony CMakeFiles/Traffic-Simulation-Dsa-project_autogen Traffic-Simulation-Dsa-project_autogen/include/ui_mainwindow.h Traffic-Simulation-Dsa-project_autogen/timestamp Traffic-Simulation-Dsa-project_autogen/mocs_compilation.cpp Traffic-Simulation-Dsa-project_autogen_timestamp_deps
+
+
+#############################################
+# Custom command for Traffic-Simulation-Dsa-project_autogen\timestamp
+
+build Traffic-Simulation-Dsa-project_autogen/timestamp Traffic-Simulation-Dsa-project_autogen/mocs_compilation.cpp | ${cmake_ninja_workdir}Traffic-Simulation-Dsa-project_autogen/timestamp ${cmake_ninja_workdir}Traffic-Simulation-Dsa-project_autogen/mocs_compilation.cpp: CUSTOM_COMMAND E$:/Qt/6.9.3/mingw_64/bin/moc.exe E$:/Qt/6.9.3/mingw_64/bin/uic.exe || Traffic-Simulation-Dsa-project_autogen_timestamp_deps
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\HP\Documents\Traffic-Control-DSA\build\Desktop_Qt_6_9_3_MinGW_64_bit-Debug && E:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_autogen C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/CMakeFiles/Traffic-Simulation-Dsa-project_autogen.dir/AutogenInfo.json Debug && E:\Qt\Tools\CMake_64\bin\cmake.exe -E touch C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/timestamp && E:\Qt\Tools\CMake_64\bin\cmake.exe -E cmake_transform_depfile Ninja gccdepfile C:/Users/HP/Documents/Traffic-Control-DSA C:/Users/HP/Documents/Traffic-Control-DSA C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/deps C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/CMakeFiles/d/c2abdb3f692f07ded8a990499d2f27461d9afda1d224fdd1c2bd74eaaa15e650.d"
+  DESC = Automatic MOC and UIC for target Traffic-Simulation-Dsa-project
+  depfile = CMakeFiles\d\c2abdb3f692f07ded8a990499d2f27461d9afda1d224fdd1c2bd74eaaa15e650.d
   deps = gcc
   restat = 1
 
 
 #############################################
-# Phony custom command for CMakeFiles\Traffic-DSA_autogen
+# Phony custom command for CMakeFiles\Traffic-Simulation-Dsa-project_autogen
 
-build CMakeFiles/Traffic-DSA_autogen Traffic-DSA_autogen/include/ui_mainwindow.h | ${cmake_ninja_workdir}CMakeFiles/Traffic-DSA_autogen ${cmake_ninja_workdir}Traffic-DSA_autogen/include/ui_mainwindow.h: phony Traffic-DSA_autogen/timestamp || Traffic-DSA_autogen_timestamp_deps
+build CMakeFiles/Traffic-Simulation-Dsa-project_autogen Traffic-Simulation-Dsa-project_autogen/include/ui_mainwindow.h | ${cmake_ninja_workdir}CMakeFiles/Traffic-Simulation-Dsa-project_autogen ${cmake_ninja_workdir}Traffic-Simulation-Dsa-project_autogen/include/ui_mainwindow.h: phony Traffic-Simulation-Dsa-project_autogen/timestamp || Traffic-Simulation-Dsa-project_autogen_timestamp_deps
 
 # =============================================================================
 # Target aliases.
 
-build Traffic-DSA: phony Traffic-DSA.exe
+build Traffic-Simulation-Dsa-project: phony Traffic-Simulation-Dsa-project.exe
 
 # =============================================================================
 # Folder targets.
@@ -190,7 +239,7 @@ build Traffic-DSA: phony Traffic-DSA.exe
 #############################################
 # Folder: C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug
 
-build all: phony Traffic-DSA.exe
+build all: phony Traffic-Simulation-Dsa-project.exe
 
 # =============================================================================
 # Built-in targets
