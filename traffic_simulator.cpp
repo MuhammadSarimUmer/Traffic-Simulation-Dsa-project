@@ -212,7 +212,7 @@ void TrafficSimulator::updateVehicles(double deltaTime) {
             if (other.currentIndex == v.currentIndex && other.progress > v.progress) {
                 if ((other.progress - v.progress) < MIN_GAP) { tooClose = true; break; }
             }
-        }
+        }//new
         if (stopForLight || tooClose || v.waitingAtLight) continue;
 
         if (edgeLength <= 0.0) continue;
