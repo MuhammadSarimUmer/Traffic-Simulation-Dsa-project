@@ -9,6 +9,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QScrollArea>
+#include <QDebug> // <-- Added for logging
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,13 +17,14 @@ MainWindow::MainWindow(QWidget *parent)
     , mapLoader(new MapLoader(this))
     , mapLoaded(false)
     , mapVisualization(new MapWidget(this))
+    , trafficSimulator(nullptr)
 {
     ui->setupUi(this);
 
     // Set MapWidget as central widget
     setCentralWidget(mapVisualization);
 
-    // Setup the route details text area (add this to your UI if not present)
+    // Setup the route details text area
     setupRouteDetailsPanel();
 
     // Connect "Load Map" button
@@ -46,37 +48,65 @@ MainWindow::MainWindow(QWidget *parent)
     connect(mapLoader, &MapLoader::mapDataReady, this, &MainWindow::onMapDataLoaded);
     connect(mapLoader, &MapLoader::mapLoadFailed, this, &MainWindow::onMapLoadFailed);
 
+    // Connect area selection for highlighting
+    connect(ui->areaSelectionCombo, &QComboBox::currentTextChanged,
+            this, &MainWindow::onAreaSelected);
+
+    // Connect traffic simulator buttons
+    connect(ui->startSimButton, &QPushButton::clicked, this, &MainWindow::onStartSimulationClicked);
+    connect(ui->stopSimButton, &QPushButton::clicked, this, &MainWindow::onStopSimulationClicked);
+    connect(ui->resetSimButton, &QPushButton::clicked, this, &MainWindow::onResetSimulationClicked);
+    connect(ui->addVehicleButton, &QPushButton::clicked, this, &MainWindow::onAddVehicleClicked);
+    connect(ui->addPriorityButton, &QPushButton::clicked, this, &MainWindow::onAddPriorityVehicleClicked);
+    connect(ui->speedSlider, &QSlider::valueChanged, this, &MainWindow::onSimulationSpeedChanged);
+
     // Disable pathfinding UI until map loads
     ui->sourceCombo->setEnabled(false);
     ui->destCombo->setEnabled(false);
     ui->findPathButton->setEnabled(false);
     ui->clearPathButton->setEnabled(false);
 
+    // Disable traffic simulator UI until map loads
+    ui->startSimButton->setEnabled(false);
+    ui->stopSimButton->setEnabled(false);
+    ui->resetSimButton->setEnabled(false);
+    ui->addVehicleButton->setEnabled(false);
+    ui->addPriorityButton->setEnabled(false);
+    ui->simSourceCombo->setEnabled(false);
+    ui->simDestCombo->setEnabled(false);
+    ui->speedSlider->setEnabled(false);
+
     setWindowTitle("Traffic Control Simulator - Karachi");
 
     // Set status bar message
     statusBar()->showMessage("Ready. Select an area and click 'Load Map Area' to begin.");
+
+    // Trigger highlight for the initially selected area
+    onAreaSelected(ui->areaSelectionCombo->currentText());
 }
 
 MainWindow::~MainWindow()
 {
+    if (trafficSimulator) {
+        trafficSimulator->stop();
+        delete trafficSimulator;
+    }
     delete ui;
 }
 
 void MainWindow::setupRouteDetailsPanel()
 {
-    // If you have a QTextEdit named routeDetailsText in your UI
     if (ui->routeDetailsText) {
         ui->routeDetailsText->setReadOnly(true);
         ui->routeDetailsText->setStyleSheet(
             "QTextEdit {"
-            "   background-color: #2b2b2b;"
-            "   color: #ffffff;"
-            "   border: 1px solid #444;"
-            "   border-radius: 5px;"
-            "   padding: 10px;"
-            "   font-family: 'Segoe UI', Arial;"
-            "   font-size: 11pt;"
+            "    background-color: #2b2b2b;"
+            "    color: #ffffff;"
+            "    border: 1px solid #444;"
+            "    border-radius: 5px;"
+            "    padding: 10px;"
+            "    font-family: 'Segoe UI', Arial;"
+            "    font-size: 11pt;"
             "}"
             );
         clearRouteDetails();
@@ -135,7 +165,6 @@ void MainWindow::displayRouteDetails(const Graph::PathResult& result)
 
         QString stepHtml;
         if (i == 0) {
-            // Start point
             stepHtml = QString(
                            "<li style='margin: 10px 0; padding: 8px; background: #1a3d1a; border-left: 4px solid #4CAF50; border-radius: 3px;'>"
                            "<b style='color: #4CAF50;'>START:</b> %1<br>"
@@ -144,7 +173,6 @@ void MainWindow::displayRouteDetails(const Graph::PathResult& result)
                            ).arg(name).arg(node.lat, 0, 'f', 6).arg(node.lon, 0, 'f', 6);
         }
         else if (i == result.path.size() - 1) {
-            // End point
             stepHtml = QString(
                            "<li style='margin: 10px 0; padding: 8px; background: #3d1a1a; border-left: 4px solid #f44336; border-radius: 3px;'>"
                            "<b style='color: #f44336;'>END:</b> %1%2<br>"
@@ -153,7 +181,6 @@ void MainWindow::displayRouteDetails(const Graph::PathResult& result)
                            ).arg(name).arg(segmentInfo).arg(node.lat, 0, 'f', 6).arg(node.lon, 0, 'f', 6);
         }
         else {
-            // Via point
             stepHtml = QString(
                            "<li style='margin: 10px 0; padding: 8px; background: #1a2a3d; border-left: 4px solid #2196F3; border-radius: 3px;'>"
                            "<b style='color: #2196F3;'>Via:</b> %1%2<br>"
@@ -169,7 +196,6 @@ void MainWindow::displayRouteDetails(const Graph::PathResult& result)
 
     ui->routeDetailsText->setHtml(html);
 
-    // Scroll to top
     QTextCursor cursor = ui->routeDetailsText->textCursor();
     cursor.movePosition(QTextCursor::Start);
     ui->routeDetailsText->setTextCursor(cursor);
@@ -217,6 +243,8 @@ void MainWindow::onLoadMapAreaClicked()
 {
     mapVisualization->clearPath();
     mapVisualization->setGraphData(Graph());
+    mapVisualization->clearHighlight();
+    mapVisualization->clearTrafficVisualization();
     clearRouteDetails();
 
     QString selectedArea = ui->areaSelectionCombo->currentText();
@@ -225,7 +253,8 @@ void MainWindow::onLoadMapAreaClicked()
         return;
     }
 
-    BoundingBox bounds = areaBounds[selectedArea];
+    MapWidget::BoundingBox bounds = areaBounds[selectedArea];
+    mapVisualization->setLoadedAreaBounds(bounds);
 
     ui->loadMapButton->setEnabled(false);
     ui->loadMapButton->setText("Loading...");
@@ -254,14 +283,15 @@ void MainWindow::onMapDataLoaded(const QByteArray& data)
         mapVisualization->setGraphData(graph);
         populateComboBoxes();
 
-
-
         ui->sourceCombo->setEnabled(true);
         ui->destCombo->setEnabled(true);
         ui->findPathButton->setEnabled(true);
         ui->clearPathButton->setEnabled(true);
         ui->loadMapButton->setText("Load Map Area");
         ui->loadMapButton->setEnabled(true);
+
+        // Initialize traffic simulator
+        setupTrafficSimulator();
 
         QString message = QString(
                               "✅ Map loaded successfully!\n\n"
@@ -270,7 +300,8 @@ void MainWindow::onMapDataLoaded(const QByteArray& data)
                               "You can now:\n"
                               "• Use mouse wheel to zoom in/out\n"
                               "• Click and drag to pan the map\n"
-                              "• Select locations to find routes!"
+                              "• Select locations to find routes!\n"
+                              "• Run traffic simulation!"
                               ).arg(graph.getNodeCount()).arg(graph.getEdgeCount());
 
         statusBar()->showMessage(QString("Map loaded: %1 nodes, %2 edges")
@@ -297,6 +328,8 @@ void MainWindow::populateComboBoxes()
 {
     ui->sourceCombo->clear();
     ui->destCombo->clear();
+    ui->simSourceCombo->clear();
+    ui->simDestCombo->clear();
 
     QList<Graph::NamedLocation> locations = graph.getNamedLocations();
 
@@ -304,12 +337,16 @@ void MainWindow::populateComboBoxes()
         qWarning() << "No named locations found.";
         ui->sourceCombo->addItem("No locations found", QVariant::fromValue(qint64(-1)));
         ui->destCombo->addItem("No locations found", QVariant::fromValue(qint64(-1)));
+        ui->simSourceCombo->addItem("No locations found", QVariant::fromValue(qint64(-1)));
+        ui->simDestCombo->addItem("No locations found", QVariant::fromValue(qint64(-1)));
         return;
     }
 
     for (const Graph::NamedLocation& loc : locations) {
         ui->sourceCombo->addItem(loc.displayName, QVariant::fromValue(loc.nodeId));
         ui->destCombo->addItem(loc.displayName, QVariant::fromValue(loc.nodeId));
+        ui->simSourceCombo->addItem(loc.displayName, QVariant::fromValue(loc.nodeId));
+        ui->simDestCombo->addItem(loc.displayName, QVariant::fromValue(loc.nodeId));
     }
 
     statusBar()->showMessage(QString("Ready to find routes between %1 locations")
@@ -353,17 +390,18 @@ void MainWindow::onFindPathClicked()
 
     mapVisualization->setShortestPath(result.path);
     displayRouteDetails(result);
+    mapVisualization->focusOnPath(result.path);
 
     statusBar()->showMessage(QString("Route found: %1 km, %2 stops")
                                  .arg(result.totalDistance, 0, 'f', 2)
                                  .arg(result.path.size()));
 
-    // Show simple notification
     QString summary = QString(
                           "✅ Route calculated!\n\n"
                           "📏 Distance: %1 km\n"
                           "📍 Stops: %2\n\n"
-                          "View turn-by-turn directions in the sidebar."
+                          "View turn-by-turn directions in the sidebar.\n"
+                          "Map has been focused on the route."
                           ).arg(result.totalDistance, 0, 'f', 2)
                           .arg(result.path.size());
 
@@ -377,9 +415,191 @@ void MainWindow::onClearPathClicked()
     statusBar()->showMessage("Path cleared");
 }
 
+void MainWindow::onAreaSelected(const QString& areaName)
+{
+    if (areaBounds.contains(areaName)) {
+        mapVisualization->setHighlightArea(areaBounds[areaName]);
+    }
+}
+
+void MainWindow::setupTrafficSimulator()
+{
+    if (trafficSimulator) {
+        trafficSimulator->stop();
+        delete trafficSimulator;
+    }
+
+    trafficSimulator = new TrafficSimulator(&graph, this);
+
+    // Connect simulator signals
+    connect(trafficSimulator, &TrafficSimulator::vehiclesUpdated,
+            this, &MainWindow::onVehiclesUpdated);
+    connect(trafficSimulator, &TrafficSimulator::trafficLightsUpdated,
+            this, &MainWindow::onTrafficLightsUpdated);
+    connect(trafficSimulator, &TrafficSimulator::edgeCongestionUpdated,
+            this, &MainWindow::onEdgeCongestionUpdated);
+
+    // Enable simulator controls
+    ui->startSimButton->setEnabled(true);
+    ui->stopSimButton->setEnabled(false);
+    ui->resetSimButton->setEnabled(true);
+    ui->addVehicleButton->setEnabled(true);
+    ui->addPriorityButton->setEnabled(true);
+    ui->simSourceCombo->setEnabled(true);
+    ui->simDestCombo->setEnabled(true);
+    ui->speedSlider->setEnabled(true);
+    ui->speedSlider->setValue(10); // Default speed 1.0x
+
+    ui->simStatsLabel->setText("Vehicles: 0 | Lights: 0 | Speed: 1.0x");
+}
+
+void MainWindow::onStartSimulationClicked()
+{
+    if (!trafficSimulator) return;
+
+    trafficSimulator->start();
+    ui->startSimButton->setEnabled(false);
+    ui->stopSimButton->setEnabled(true);
+    statusBar()->showMessage("Traffic simulation started");
+
+    // --- NEW: Add a manual jam for demonstration ---
+    // (This is a temporary hack to show the feature)
+    if (ui->simSourceCombo->count() > 20) {
+        // Find two different, valid nodes to create a jam
+        qint64 from = ui->simSourceCombo->itemData(10).toLongLong();
+        qint64 to = ui->simSourceCombo->itemData(11).toLongLong();
+
+        if (from > 0 && to > 0 && from != to) {
+            trafficSimulator->addManualJam(from, to);
+            qDebug() << "--- MANUAL JAM ADDED between nodes" << from << "and" << to << "---";
+            QMessageBox::information(this, "Traffic Jam Added",
+                                     QString("A static traffic jam has been created between %1 and %2 to demonstrate rerouting.")
+                                         .arg(ui->simSourceCombo->itemText(10))
+                                         .arg(ui->simSourceCombo->itemText(11)));
+        } else {
+            qDebug() << "--- Could not add manual jam (not enough nodes) ---";
+        }
+    }
+    // --- END NEW ---
+}
+
+void MainWindow::onStopSimulationClicked()
+{
+    if (!trafficSimulator) return;
+
+    trafficSimulator->stop();
+    ui->startSimButton->setEnabled(true);
+    ui->stopSimButton->setEnabled(false);
+    statusBar()->showMessage("Traffic simulation stopped");
+}
+
+void MainWindow::onResetSimulationClicked()
+{
+    if (!trafficSimulator) return;
+
+    trafficSimulator->stop();
+    trafficSimulator->reset();
+    mapVisualization->clearTrafficVisualization();
+
+    ui->startSimButton->setEnabled(true);
+    ui->stopSimButton->setEnabled(false);
+    ui->simStatsLabel->setText("Vehicles: 0 | Lights: 0 | Speed: 1.0x");
+
+    statusBar()->showMessage("Traffic simulation reset");
+}
+
+void MainWindow::onAddVehicleClicked()
+{
+    if (!trafficSimulator) return;
+
+    qint64 source = ui->simSourceCombo->currentData().toLongLong();
+    qint64 dest = ui->simDestCombo->currentData().toLongLong();
+
+    if (source <= 0 || dest <= 0) {
+        QMessageBox::warning(this, "Invalid Selection", "Please select valid source and destination.");
+        return;
+    }
+
+    if (source == dest) {
+        QMessageBox::warning(this, "Same Location", "Source and destination cannot be the same.");
+        return;
+    }
+
+    trafficSimulator->addVehicle(source, dest, false);
+    statusBar()->showMessage("Regular vehicle added");
+}
+
+void MainWindow::onAddPriorityVehicleClicked()
+{
+    if (!trafficSimulator) return;
+
+    qint64 source = ui->simSourceCombo->currentData().toLongLong();
+    qint64 dest = ui->simDestCombo->currentData().toLongLong();
+
+    if (source <= 0 || dest <= 0) {
+        QMessageBox::warning(this, "Invalid Selection", "Please select valid source and destination.");
+        return;
+    }
+
+    if (source == dest) {
+        QMessageBox::warning(this, "Same Location", "Source and destination cannot be the same.");
+        return;
+    }
+
+    trafficSimulator->addVehicle(source, dest, true);
+    statusBar()->showMessage("Priority vehicle (ambulance) added");
+}
+
+// --- MODIFIED ---
+void MainWindow::onSimulationSpeedChanged(int value)
+{
+    if (!trafficSimulator) return;
+
+    // Slider value 0-20 maps to speed 0.5x - 2.5x
+    double speed = 0.5 + (value / 10.0);
+    trafficSimulator->setSimulationSpeed(speed); // <-- Actually set the speed
+    updateSimulationStats(); // <-- Update the label
+}
+
+void MainWindow::onVehiclesUpdated(const QVector<TrafficSimulator::Vehicle>& vehicles)
+{
+    mapVisualization->setVehicles(vehicles);
+    updateSimulationStats(); // <-- Update stats when vehicles update
+}
+// --- END MODIFIED ---
+
+void MainWindow::onTrafficLightsUpdated(const QVector<TrafficSimulator::TrafficLight>& lights)
+{
+    mapVisualization->setTrafficLights(lights);
+    updateSimulationStats(); // <-- Update stats when lights update
+}
+
+void MainWindow::onEdgeCongestionUpdated(qint64 from, qint64 to, const QString& status)
+{
+    // You could visualize this in the status bar or a separate panel
+    // For now, just log it
+    //qDebug() << "Edge" << from << "->" << to << "status:" << status;
+}
+
+// --- MODIFIED ---
+void MainWindow::updateSimulationStats()
+{
+    if (!trafficSimulator) return;
+
+    // Use the new getter methods
+    int vehicleCount = trafficSimulator->getVehicleCount();
+    int lightCount = trafficSimulator->getTrafficLightCount();
+    double speed = 0.5 + (ui->speedSlider->value() / 10.0);
+
+    ui->simStatsLabel->setText(QString("Vehicles: %1 | Lights: %2 | Speed: %3x")
+                                   .arg(vehicleCount)
+                                   .arg(lightCount)
+                                   .arg(speed, 0, 'f', 1));
+}
+// --- END MODIFIED ---
+
 void MainWindow::showDetailedRoute(const Graph::PathResult& result)
 {
-    // This is now shown in the sidebar, but keep for backwards compatibility
     QDialog *dialog = new QDialog(this);
     dialog->setWindowTitle("Route Details");
     dialog->setMinimumSize(600, 500);

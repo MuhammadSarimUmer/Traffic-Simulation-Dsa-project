@@ -10,6 +10,7 @@
 #include <QHash>
 #include <QMap>
 #include <QPair>
+#include <QSet> // <-- Added for manualJams
 #include "graph.h"
 #include "notification_manager.h"
 
@@ -24,6 +25,14 @@ public:
     void stop();
     void reset();
     void addVehicle(qint64 source, qint64 destination, bool priority = false);
+
+    // --- NEW ---
+    // Methods for live stats and manual jams
+    void setSimulationSpeed(double speed) { simulationSpeed = speed; }
+    int getVehicleCount() const { return vehicles.size(); }
+    int getTrafficLightCount() const { return trafficLights.size(); }
+    void addManualJam(qint64 from, qint64 to);
+    // --- END NEW ---
 
     struct Vehicle {
         qint64 id;
@@ -51,6 +60,7 @@ public:
         bool isGreen;
         double timer;
         double cycleDuration;
+        int queueSize; // <-- NEW: To show light only when active
     };
 
 signals:
@@ -93,6 +103,7 @@ private:
     double rerouteCooldown;   // seconds before vehicle can reroute again
     qint64 totalReroutes;     // counter for monitoring
     qint64 lastLogTime;       // for periodic console stats
+    QSet<QPair<qint64, qint64>> manualJams; // <-- NEW
 };
 
 #endif // TRAFFIC_SIMULATOR_H

@@ -6,23 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>700</height>
+    <width>1200</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Traffic Control Simulator - Karachi</string>
   </property>
-  
-  <widget class="QWidget" name="centralWidget"/> 
-  
+  <widget class="QWidget" name="centralWidget"/>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1000</width>
-     <height>22</height>
+     <width>1200</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
@@ -35,184 +33,151 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  
+
+  <!-- LEFT DOCK: Map and Pathfinding Controls -->
   <widget class="QDockWidget" name="controlDockWidget">
    <property name="minimumSize">
     <size>
-     <width>300</width>
-     <height>200</height>
+     <width>320</width>
+     <height>608</height>
     </size>
    </property>
    <property name="windowTitle">
-    <string>Map Controls</string>
+    <string>Map &amp; Pathfinding</string>
    </property>
    <attribute name="dockWidgetArea">
-    <number>2</number>
+    <number>1</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents">
     <layout class="QVBoxLayout" name="verticalLayout">
-     
-     <!-- Area Selection -->
      <item>
       <widget class="QLabel" name="areaLabel">
-       <property name="text">
-        <string>1. Select Area:</string>
-       </property>
        <property name="font">
         <font>
          <weight>75</weight>
          <bold>true</bold>
+         <pointsize>10</pointsize>
         </font>
+       </property>
+       <property name="text">
+        <string>1. Select Area:</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QComboBox" name="areaSelectionCombo"/>
      </item>
-     
      <item>
       <widget class="QPushButton" name="loadMapButton">
-       <property name="text">
-        <string>Load Map Area</string>
-       </property>
        <property name="styleSheet">
-        <string>QPushButton { background-color: #4CAF50; color: white; padding: 8px; border-radius: 4px; }
+        <string notr="true">QPushButton { background-color: #4CAF50; color: white; padding: 8px; border-radius: 4px; font-weight: bold; }
 QPushButton:hover { background-color: #45a049; }
 QPushButton:disabled { background-color: #cccccc; }</string>
        </property>
+       <property name="text">
+        <string>Load Map Area</string>
+       </property>
       </widget>
      </item>
-     
+
      <item>
-      <spacer name="verticalSpacer_1">
+      <widget class="Line" name="separator1">
        <property name="orientation">
-        <enum>Qt::Vertical</enum>
+        <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>15</height>
-        </size>
-       </property>
-      </spacer>
+      </widget>
      </item>
-     
-     <!-- Source Selection -->
+
      <item>
       <widget class="QLabel" name="sourceLabel">
-       <property name="text">
-        <string>2. Select Source:</string>
-       </property>
        <property name="font">
         <font>
          <weight>75</weight>
          <bold>true</bold>
+         <pointsize>10</pointsize>
         </font>
+       </property>
+       <property name="text">
+        <string>2. Select Source:</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QComboBox" name="sourceCombo"/>
      </item>
-     
-     <!-- Destination Selection -->
      <item>
       <widget class="QLabel" name="destLabel">
-       <property name="text">
-        <string>3. Select Destination:</string>
-       </property>
        <property name="font">
         <font>
          <weight>75</weight>
          <bold>true</bold>
+         <pointsize>10</pointsize>
         </font>
+       </property>
+       <property name="text">
+        <string>3. Select Destination:</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QComboBox" name="destCombo"/>
      </item>
-     
      <item>
       <widget class="QPushButton" name="findPathButton">
-       <property name="text">
-        <string>Find Shortest Path</string>
-       </property>
        <property name="styleSheet">
-        <string>QPushButton { background-color: #2196F3; color: white; padding: 8px; border-radius: 4px; }
+        <string notr="true">QPushButton { background-color: #2196F3; color: white; padding: 8px; border-radius: 4px; font-weight: bold; }
 QPushButton:hover { background-color: #0b7dda; }
 QPushButton:disabled { background-color: #cccccc; }</string>
        </property>
+       <property name="text">
+        <string>Find Shortest Path</string>
+       </property>
       </widget>
      </item>
-     
      <item>
       <widget class="QPushButton" name="clearPathButton">
+       <property name="styleSheet">
+        <string notr="true">QPushButton { background-color: #f44336; color: white; padding: 8px; border-radius: 4px; }
+QPushButton:hover { background-color: #da190b; }</string>
+       </property>
        <property name="text">
         <string>Clear Path</string>
        </property>
-       <property name="styleSheet">
-        <string>QPushButton { background-color: #f44336; color: white; padding: 8px; border-radius: 4px; }
-QPushButton:hover { background-color: #da190b; }</string>
+      </widget>
+     </item>
+
+     <item>
+      <widget class="Line" name="separator2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
-     
-     <item>
-      <spacer name="verticalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>15</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     
-     <!-- Route Details Section -->
+
      <item>
       <widget class="QLabel" name="routeDetailsLabel">
-       <property name="text">
-        <string>📍 Route Details:</string>
-       </property>
        <property name="font">
         <font>
          <weight>75</weight>
          <bold>true</bold>
+         <pointsize>10</pointsize>
         </font>
+       </property>
+       <property name="text">
+        <string>Route Details:</string>
        </property>
       </widget>
      </item>
-     
      <item>
       <widget class="QTextEdit" name="routeDetailsText">
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>250</height>
+         <height>200</height>
         </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-       <property name="html">
-        <string>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd"&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name="qrichtext" content="1" /&gt;&lt;style type="text/css"&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;"&gt;
-&lt;p align="center" style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;&lt;span style=" font-size:10pt; color:#888888;"&gt;Route details will appear here&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="styleSheet">
-        <string>QTextEdit {
+        <string notr="true">QTextEdit {
     background-color: #2b2b2b;
     color: #ffffff;
     border: 1px solid #444;
@@ -225,94 +190,420 @@ QTextEdit:focus {
     border: 1px solid #2196F3;
 }</string>
        </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
-     
+
      <item>
-      <spacer name="verticalSpacer_3">
+      <widget class="Line" name="separator3">
        <property name="orientation">
-        <enum>Qt::Vertical</enum>
+        <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>15</height>
-        </size>
-       </property>
-      </spacer>
+      </widget>
      </item>
-     
-     <!-- Zoom Controls -->
+
      <item>
       <widget class="QLabel" name="zoomLabel">
-       <property name="text">
-        <string>Map Zoom:</string>
-       </property>
        <property name="font">
         <font>
          <weight>75</weight>
          <bold>true</bold>
+         <pointsize>10</pointsize>
         </font>
+       </property>
+       <property name="text">
+        <string>Map Zoom:</string>
        </property>
       </widget>
      </item>
-     
      <item>
       <layout class="QHBoxLayout" name="zoomLayout">
        <item>
         <widget class="QPushButton" name="zoomInButton">
+         <property name="styleSheet">
+          <string notr="true">QPushButton { padding: 6px; }</string>
+         </property>
          <property name="text">
           <string>Zoom In (+)</string>
-         </property>
-         <property name="styleSheet">
-          <string>QPushButton { padding: 6px; }</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="zoomOutButton">
+         <property name="styleSheet">
+          <string notr="true">QPushButton { padding: 6px; }</string>
+         </property>
          <property name="text">
           <string>Zoom Out (-)</string>
-         </property>
-         <property name="styleSheet">
-          <string>QPushButton { padding: 6px; }</string>
          </property>
         </widget>
        </item>
       </layout>
      </item>
-     
      <item>
       <widget class="QPushButton" name="resetViewButton">
+       <property name="styleSheet">
+        <string notr="true">QPushButton { padding: 6px; }</string>
+       </property>
        <property name="text">
         <string>Reset View</string>
        </property>
-       <property name="styleSheet">
-        <string>QPushButton { padding: 6px; }</string>
-       </property>
       </widget>
      </item>
-     
+
      <item>
-      <spacer name="verticalSpacer_4">
+      <spacer name="verticalSpacer">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>10</height>
+         <height>40</height>
         </size>
        </property>
       </spacer>
      </item>
-     
     </layout>
    </widget>
   </widget>
+
+  <!-- RIGHT DOCK: Traffic Simulator Controls -->
+  <widget class="QDockWidget" name="simulatorDockWidget">
+   <property name="minimumSize">
+    <size>
+     <width>320</width>
+     <height>608</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>Traffic Simulator</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="simulatorDockContents">
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QLabel" name="simulatorTitleLabel">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Traffic Simulation Control</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+
+     <item>
+      <widget class="Line" name="separator4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+
+     <item>
+      <widget class="QLabel" name="simControlLabel">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Simulation Control:</string>
+       </property>
+      </widget>
+     </item>
+
+     <item>
+      <layout class="QHBoxLayout" name="simControlLayout">
+       <item>
+        <widget class="QPushButton" name="startSimButton">
+         <property name="styleSheet">
+          <string notr="true">QPushButton { background-color: #4CAF50; color: white; padding: 10px; border-radius: 4px; font-weight: bold; }
+QPushButton:hover { background-color: #45a049; }
+QPushButton:disabled { background-color: #cccccc; }</string>
+         </property>
+         <property name="text">
+          <string>Start</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="stopSimButton">
+         <property name="styleSheet">
+          <string notr="true">QPushButton { background-color: #ff9800; color: white; padding: 10px; border-radius: 4px; font-weight: bold; }
+QPushButton:hover { background-color: #e68900; }
+QPushButton:disabled { background-color: #cccccc; }</string>
+         </property>
+         <property name="text">
+          <string>Stop</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+
+     <item>
+      <widget class="QPushButton" name="resetSimButton">
+       <property name="styleSheet">
+        <string notr="true">QPushButton { background-color: #f44336; color: white; padding: 8px; border-radius: 4px; }
+QPushButton:hover { background-color: #da190b; }
+QPushButton:disabled { background-color: #cccccc; }</string>
+       </property>
+       <property name="text">
+        <string>Reset Simulation</string>
+       </property>
+      </widget>
+     </item>
+
+     <item>
+      <widget class="Line" name="separator5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+
+     <item>
+      <widget class="QLabel" name="addVehicleLabel">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Add Vehicles:</string>
+       </property>
+      </widget>
+     </item>
+
+     <item>
+      <widget class="QLabel" name="simSourceLabel">
+       <property name="text">
+        <string>From:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="simSourceCombo"/>
+     </item>
+
+     <item>
+      <widget class="QLabel" name="simDestLabel">
+       <property name="text">
+        <string>To:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="simDestCombo"/>
+     </item>
+
+     <item>
+      <widget class="QPushButton" name="addVehicleButton">
+       <property name="styleSheet">
+        <string notr="true">QPushButton { background-color: #2196F3; color: white; padding: 10px; border-radius: 4px; font-weight: bold; }
+QPushButton:hover { background-color: #0b7dda; }
+QPushButton:disabled { background-color: #cccccc; }</string>
+       </property>
+       <property name="text">
+        <string>Add Regular Vehicle</string>
+       </property>
+      </widget>
+     </item>
+
+     <item>
+      <widget class="QPushButton" name="addPriorityButton">
+       <property name="styleSheet">
+        <string notr="true">QPushButton { background-color: #e91e63; color: white; padding: 10px; border-radius: 4px; font-weight: bold; }
+QPushButton:hover { background-color: #c2185b; }
+QPushButton:disabled { background-color: #cccccc; }</string>
+       </property>
+       <property name="text">
+        <string>Add Priority Vehicle (Ambulance)</string>
+       </property>
+      </widget>
+     </item>
+
+     <item>
+      <widget class="Line" name="separator6">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+
+     <item>
+      <widget class="QLabel" name="speedLabel">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Simulation Speed:</string>
+       </property>
+      </widget>
+     </item>
+
+     <item>
+      <layout class="QHBoxLayout" name="speedLayout">
+       <item>
+        <widget class="QLabel" name="speedMinLabel">
+         <property name="text">
+          <string>0.5x</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSlider" name="speedSlider">
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="maximum">
+          <number>20</number>
+         </property>
+         <property name="value">
+          <number>10</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="speedMaxLabel">
+         <property name="text">
+          <string>2.5x</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+
+     <item>
+      <widget class="Line" name="separator7">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+
+     <item>
+      <widget class="QLabel" name="statsLabel">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Statistics:</string>
+       </property>
+      </widget>
+     </item>
+
+     <item>
+      <widget class="QLabel" name="simStatsLabel">
+       <property name="styleSheet">
+        <string notr="true">QLabel {
+    background-color: #2b2b2b;
+    color: #ffffff;
+    border: 1px solid #444;
+    border-radius: 5px;
+    padding: 15px;
+    font-family: 'Courier New', monospace;
+    font-size: 10pt;
+}</string>
+       </property>
+       <property name="text">
+        <string>Vehicles: 0 | Lights: 0 | Speed: 1.0x</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+
+     <item>
+      <widget class="QTextEdit" name="simInfoText">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>150</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QTextEdit {
+    background-color: #2b2b2b;
+    color: #aaaaaa;
+    border: 1px solid #444;
+    border-radius: 5px;
+    padding: 10px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 9pt;
+}</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="html">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;How to use:&lt;/span&gt;&lt;/p&gt;
+&lt;ol style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Load a map area first&lt;/li&gt;
+&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Click 'Start' to begin simulation&lt;/li&gt;
+&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Add vehicles between locations&lt;/li&gt;
+&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Watch traffic flow in real-time&lt;/li&gt;
+&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Red vehicles = Priority (ambulances)&lt;/li&gt;
+&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Green/Red circles = Traffic lights&lt;/li&gt;&lt;/ol&gt;
+&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+
+     <item>
+      <spacer name="verticalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets/>
  <resources/>
  <connections/>
 </ui>

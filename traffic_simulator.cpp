@@ -40,9 +40,22 @@ void TrafficSimulator::reset() {
     lightQueues.clear();
     lightReleaseTimers.clear();
     edgeVehicleCount.clear();
+    manualJams.clear(); // <-- NEW
     nextVehicleId = 1;
     totalReroutes = 0;
 }
+
+// --- NEW ---
+void TrafficSimulator::addManualJam(qint64 from, qint64 to)
+{
+    if (graph->hasNode(from) && graph->hasNode(to)) {
+        manualJams.insert(qMakePair(from, to));
+        // Also jam the other direction for simplicity
+        manualJams.insert(qMakePair(to, from));
+        qDebug() << "Manual jam added for edge" << from << "<->" << to;
+    }
+}
+// --- END NEW ---
 
 void TrafficSimulator::addVehicle(qint64 source, qint64 destination, bool priority) {
     if (!graph || !graph->hasNode(source) || !graph->hasNode(destination))
@@ -67,8 +80,6 @@ void TrafficSimulator::addVehicle(qint64 source, qint64 destination, bool priori
     v.color = priority ? QColor(Qt::red)
                        : QColor::fromHsl(QRandomGenerator::global()->bounded(360), 255, 150);
 
-    // --- THIS IS THE FIX ---
-    // Was: const Graph::Node& n = ...
     Graph::Node n = graph->getNode(v.path.first());
     v.position = QPointF(n.lon, n.lat);
 
@@ -83,8 +94,18 @@ void TrafficSimulator::updateSimulation() {
     updateQueues(deltaTime);
     updateVehicles(deltaTime);
 
+    // --- MODIFIED ---
+    // Emit traffic light data including queue size
+    QVector<TrafficLight> lightsVector;
+    lightsVector.reserve(trafficLights.size());
+    for (auto it = trafficLights.begin(); it != trafficLights.end(); ++it) {
+        it.value().queueSize = lightQueues.value(it.key()).size(); // <-- Add queue size
+        lightsVector.append(it.value());
+    }
+    emit trafficLightsUpdated(lightsVector);
+    // --- END MODIFIED ---
+
     emit vehiclesUpdated(vehicles);
-    emit trafficLightsUpdated(trafficLights.values().toVector());
 }
 
 void TrafficSimulator::updateTrafficLights(double deltaTime) {
@@ -97,7 +118,8 @@ void TrafficSimulator::updateTrafficLights(double deltaTime) {
                 t.nodeId = it.key();
                 t.isGreen = (QRandomGenerator::global()->bounded(2) == 0);
                 t.timer = 0.0;
-                t.cycleDuration = 8.0 + QRandomGenerator::global()->bounded(7.0); // 8–15 s
+                t.cycleDuration = 15.0 + QRandomGenerator::global()->bounded(6.0); // 15–20 s
+                t.queueSize = 0;
                 trafficLights[t.nodeId] = t;
                 lightQueues[t.nodeId] = QQueue<qint64>();
                 lightReleaseTimers[t.nodeId] = 0.0;
@@ -164,6 +186,14 @@ void TrafficSimulator::updateVehicles(double deltaTime) {
         edgeVehicles[edge].append(v.id);
     }
 
+    // --- NEW ---
+    // Inject manual jams into the vehicle count
+    for (const auto& edge : manualJams) {
+        edgeVehicleCount[edge] = 100; // Force a "Red" status
+    }
+    // --- END NEW ---
+
+
     for (int i = 0; i < vehicles.size(); ++i) {
         Vehicle& v = vehicles[i];
         if (v.currentIndex >= v.path.size() - 1) continue;
@@ -171,10 +201,7 @@ void TrafficSimulator::updateVehicles(double deltaTime) {
         qint64 from = v.path[v.currentIndex];
         qint64 to = v.path[v.currentIndex + 1];
 
-        // --- THIS IS THE FIX ---
-        // Was: const auto& n1 = ...
         Graph::Node n1 = graph->getNode(from);
-        // Was: const auto& n2 = ...
         Graph::Node n2 = graph->getNode(to);
 
         double edgeLength = graph->haversineDistance(n1.lat, n1.lon, n2.lat, n2.lon);
@@ -223,10 +250,7 @@ void TrafficSimulator::updateVehicles(double deltaTime) {
             if (v.currentIndex >= v.path.size()-1) continue;
         }
 
-        // --- THIS IS THE FIX ---
-        // Was: const Graph::Node& a = ...
         Graph::Node a = graph->getNode(v.path[v.currentIndex]);
-        // Was: const Graph::Node& b = ...
         Graph::Node b = graph->getNode(v.path[v.currentIndex+1]);
 
         QPointF pa = a.pos.isNull() ? QPointF(a.lon, a.lat) : a.pos;
@@ -247,6 +271,14 @@ void TrafficSimulator::updateCongestion() {
         QPair<qint64,qint64> edge = it.key();
         int count = it.value();
         QString status = (count <= 2) ? "Green" : (count <= 5 ? "Yellow" : "Red");
+
+        // --- NEW ---
+        // Manually jammed edges are always Red
+        if (manualJams.contains(edge)) {
+            status = "Red";
+            count = 100; // ensure red status
+        }
+        // --- END NEW ---
 
         emit edgeCongestionUpdated(edge.first, edge.second, status);
 

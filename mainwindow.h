@@ -2,22 +2,15 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QMap>
-#include "graph.h"
 #include "map_loader.h"
+#include "graph.h"
 #include "mapwidget.h"
+#include "traffic_simulator.h"
+#include <QMap>
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
-
-// Struct for Area Bounds
-struct BoundingBox {
-    double minLat;
-    double minLon;
-    double maxLat;
-    double maxLon;
-};
+namespace Ui {
+class MainWindow;
+}
 
 class MainWindow : public QMainWindow
 {
@@ -28,30 +21,51 @@ public:
     ~MainWindow();
 
 private slots:
+    // Map loading slots
     void onLoadMapAreaClicked();
-    void onFindPathClicked();
     void onMapDataLoaded(const QByteArray& data);
     void onMapLoadFailed(const QString& error);
+
+    // Pathfinding slots
+    void onFindPathClicked();
     void onClearPathClicked();
+    void showDetailedRoute(const Graph::PathResult& result);
+    void onAreaSelected(const QString& areaName);
+
+    // Traffic simulator slots
+    void onStartSimulationClicked();
+    void onStopSimulationClicked();
+    void onResetSimulationClicked();
+    void onAddVehicleClicked();
+    void onAddPriorityVehicleClicked();
+    void onSimulationSpeedChanged(int value);
+
+    // Simulator update slots
+    void onVehiclesUpdated(const QVector<TrafficSimulator::Vehicle>& vehicles);
+    void onTrafficLightsUpdated(const QVector<TrafficSimulator::TrafficLight>& lights);
+    void onEdgeCongestionUpdated(qint64 from, qint64 to, const QString& status);
 
 private:
     void setupAreaSelection();
     void populateComboBoxes();
-    void showDetailedRoute(const Graph::PathResult& result);
-
-    // New methods for sidebar
     void setupRouteDetailsPanel();
-    void displayRouteDetails(const Graph::PathResult& result);
     void clearRouteDetails();
+    void displayRouteDetails(const Graph::PathResult& result);
+
+    // Traffic simulator setup
+    void setupTrafficSimulator();
+    void updateSimulationStats();
 
     Ui::MainWindow *ui;
-    Graph graph;
     MapLoader *mapLoader;
     bool mapLoaded;
-    QMap<QString, BoundingBox> areaBounds;
-
-    // Map Visualization Widget
     MapWidget *mapVisualization;
+    Graph graph;
+
+    // Traffic simulator
+    TrafficSimulator *trafficSimulator;
+
+    QMap<QString, MapWidget::BoundingBox> areaBounds;
 };
 
 #endif // MAINWINDOW_H
