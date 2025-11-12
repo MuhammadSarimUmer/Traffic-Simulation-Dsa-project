@@ -194,7 +194,7 @@ CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 CMAKE_PROJECT_INCLUDE_BEFORE:FILEPATH=C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/.qtc/package-manager/auto-setup.cmake
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=Traffic-DSA
+CMAKE_PROJECT_NAME:STATIC=Traffic-Simulation-Dsa-project
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION:STATIC=1.0
@@ -381,6 +381,15 @@ Traffic-DSA_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
 Traffic-DSA_SOURCE_DIR:STATIC=C:/Users/HP/Documents/Traffic-Control-DSA
+
+//Value Computed by CMake
+Traffic-Simulation-Dsa-project_BINARY_DIR:STATIC=C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug
+
+//Value Computed by CMake
+Traffic-Simulation-Dsa-project_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+Traffic-Simulation-Dsa-project_SOURCE_DIR:STATIC=C:/Users/HP/Documents/Traffic-Control-DSA
 
 //Path to a program.
 Vulkan_GLSLANG_VALIDATOR_EXECUTABLE:FILEPATH=Vulkan_GLSLANG_VALIDATOR_EXECUTABLE-NOTFOUND

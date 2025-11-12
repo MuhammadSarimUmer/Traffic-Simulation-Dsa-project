@@ -35,7 +35,7 @@ set(PROJECT_FORMS
 )
 
 # Create the executable target
-add_executable(${PROJECT_NAME}
+add_executable(${PROJECT_NAME} WIN32
     ${PROJECT_SOURCES}
     ${PROJECT_HEADERS}
     ${PROJECT_FORMS}

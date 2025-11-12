@@ -836,6 +836,7 @@ C:/Users/HP/Documents/Traffic-Control-DSA/map_loader.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
+C:/Users/HP/Documents/Traffic-Control-DSA/main.cpp
 C:/Users/HP/Documents/Traffic-Control-DSA/mapwidget.h
  mmc:Q_OBJECT
  mdp:C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/moc_predefs.h
@@ -1293,7 +1294,6 @@ C:/Users/HP/Documents/Traffic-Control-DSA/mapwidget.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
-C:/Users/HP/Documents/Traffic-Control-DSA/main.cpp
 C:/Users/HP/Documents/Traffic-Control-DSA/notification_manager.h
  mmc:Q_OBJECT
  mdp:C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/moc_predefs.h

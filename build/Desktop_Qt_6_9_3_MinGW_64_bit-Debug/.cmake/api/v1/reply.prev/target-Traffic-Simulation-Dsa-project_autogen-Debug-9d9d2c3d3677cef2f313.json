@@ -17,12 +17,12 @@
 	"dependencies" : 
 	[
 		{
-			"id" : "Traffic-DSA_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
+			"id" : "Traffic-Simulation-Dsa-project_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
 		}
 	],
-	"id" : "Traffic-DSA_autogen::@6890427a1f51a3e7e1df",
+	"id" : "Traffic-Simulation-Dsa-project_autogen::@6890427a1f51a3e7e1df",
 	"isGeneratorProvided" : true,
-	"name" : "Traffic-DSA_autogen",
+	"name" : "Traffic-Simulation-Dsa-project_autogen",
 	"paths" : 
 	{
 		"build" : ".",
@@ -51,19 +51,19 @@
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
-			"path" : "build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/CMakeFiles/Traffic-DSA_autogen",
+			"path" : "build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/CMakeFiles/Traffic-Simulation-Dsa-project_autogen",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
-			"path" : "build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/CMakeFiles/Traffic-DSA_autogen.rule",
+			"path" : "build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/CMakeFiles/Traffic-Simulation-Dsa-project_autogen.rule",
 			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
-			"path" : "build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-DSA_autogen/timestamp.rule",
+			"path" : "build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/timestamp.rule",
 			"sourceGroupIndex" : 1
 		}
 	],
