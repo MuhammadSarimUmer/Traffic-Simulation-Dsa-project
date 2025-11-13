@@ -394,6 +394,54 @@
 		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginTargets-relwithdebinfo.cmake",
 		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginAdditionalTargetInfo.cmake",
 		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkVersionlessAliasTargets.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfigVersion.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfigVersionImpl.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfig.cmake",
+		"E:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlDependencies.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlTargets.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlTargets-relwithdebinfo.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlAdditionalTargetInfo.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateConfigVersion.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateConfigVersionImpl.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateConfig.cmake",
+		"E:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateDependencies.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateTargets.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateAdditionalTargetInfo.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateVersionlessAliasTargets.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlPlugins.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QIBaseDriverPluginConfig.cmake",
+		"E:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QIBaseDriverPluginTargets.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QIBaseDriverPluginTargets-relwithdebinfo.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QIBaseDriverPluginAdditionalTargetInfo.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginConfig.cmake",
+		"E:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginTargets.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginTargets-relwithdebinfo.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginAdditionalTargetInfo.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QOCIDriverPluginConfig.cmake",
+		"E:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QOCIDriverPluginTargets.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QOCIDriverPluginTargets-relwithdebinfo.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QOCIDriverPluginAdditionalTargetInfo.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QODBCDriverPluginConfig.cmake",
+		"E:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QODBCDriverPluginTargets.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QODBCDriverPluginTargets-relwithdebinfo.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QODBCDriverPluginAdditionalTargetInfo.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QPSQLDriverPluginConfig.cmake",
+		"E:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QPSQLDriverPluginTargets.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QPSQLDriverPluginTargets-relwithdebinfo.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QPSQLDriverPluginAdditionalTargetInfo.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginConfig.cmake",
+		"E:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginTargets.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginTargets-relwithdebinfo.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginAdditionalTargetInfo.cmake",
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlVersionlessAliasTargets.cmake",
 		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6/Qt6ConfigVersion.cmake",
 		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6/Qt6ConfigVersionImpl.cmake",
 		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6/Qt6Config.cmake",
@@ -436,7 +484,8 @@
 		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6/QtPublicWalkLibsHelpers.cmake",
 		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6/QtPublicWindowsHelpers.cmake",
 		"E:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake",
-		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6/Qt6Dependencies.cmake"
+		"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6/Qt6Dependencies.cmake",
+		"C:/Users/HP/Documents/Traffic-Control-DSA/resources.qrc"
 	],
 	"CMAKE_SOURCE_DIR" : "C:/Users/HP/Documents/Traffic-Control-DSA",
 	"CROSS_CONFIG" : false,
@@ -445,9 +494,21 @@
 	"HEADERS" : 
 	[
 		[
+			"C:/Users/HP/Documents/Traffic-Control-DSA/database_manager.h",
+			"MU",
+			"EWIEGA46WW/moc_database_manager.cpp",
+			null
+		],
+		[
 			"C:/Users/HP/Documents/Traffic-Control-DSA/graph.h",
 			"MU",
 			"EWIEGA46WW/moc_graph.cpp",
+			null
+		],
+		[
+			"C:/Users/HP/Documents/Traffic-Control-DSA/login_dialog.h",
+			"MU",
+			"EWIEGA46WW/moc_login_dialog.cpp",
 			null
 		],
 		[
@@ -475,6 +536,12 @@
 			null
 		],
 		[
+			"C:/Users/HP/Documents/Traffic-Control-DSA/signup_dialog.h",
+			"MU",
+			"EWIEGA46WW/moc_signup_dialog.cpp",
+			null
+		],
+		[
 			"C:/Users/HP/Documents/Traffic-Control-DSA/traffic_simulator.h",
 			"MU",
 			"EWIEGA46WW/moc_traffic_simulator.cpp",
@@ -491,6 +558,7 @@
 		"QT_GUI_LIB",
 		"QT_NEEDS_QMAIN",
 		"QT_NETWORK_LIB",
+		"QT_SQL_LIB",
 		"QT_WIDGETS_LIB",
 		"UNICODE",
 		"WIN32",
@@ -514,6 +582,7 @@
 		"E:/Qt/6.9.3/mingw_64/mkspecs/win32-g++",
 		"E:/Qt/6.9.3/mingw_64/include/QtGui",
 		"E:/Qt/6.9.3/mingw_64/include/QtNetwork",
+		"E:/Qt/6.9.3/mingw_64/include/QtSql",
 		"E:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++",
 		"E:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32",
 		"E:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/backward",
@@ -553,7 +622,17 @@
 	"SETTINGS_FILE" : "C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/CMakeFiles/Traffic-Simulation-Dsa-project_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
+		[
+			"C:/Users/HP/Documents/Traffic-Control-DSA/database_manager.cpp",
+			"MU",
+			null
+		],
 		[ "C:/Users/HP/Documents/Traffic-Control-DSA/graph.cpp", "MU", null ],
+		[
+			"C:/Users/HP/Documents/Traffic-Control-DSA/login_dialog.cpp",
+			"MU",
+			null
+		],
 		[ "C:/Users/HP/Documents/Traffic-Control-DSA/main.cpp", "MU", null ],
 		[
 			"C:/Users/HP/Documents/Traffic-Control-DSA/mainwindow.cpp",
@@ -568,6 +647,11 @@
 		[ "C:/Users/HP/Documents/Traffic-Control-DSA/mapwidget.cpp", "MU", null ],
 		[
 			"C:/Users/HP/Documents/Traffic-Control-DSA/notification_manager.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/HP/Documents/Traffic-Control-DSA/signup_dialog.cpp",
 			"MU",
 			null
 		],

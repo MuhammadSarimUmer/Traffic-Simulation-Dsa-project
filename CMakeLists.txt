@@ -8,9 +8,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
-# Find Qt 6 and the necessary modules for a Widgets application
-# NOTE: Using 'Qt6' components now, which matches your installed version.
-find_package(Qt6 REQUIRED COMPONENTS Widgets Core Gui Network)
+# Find Qt 6 and the necessary modules
+find_package(Qt6 REQUIRED COMPONENTS Widgets Core Gui Network Sql)
 
 # Define source, header, and UI files based on your project structure
 set(PROJECT_SOURCES
@@ -20,6 +19,9 @@ set(PROJECT_SOURCES
     map_loader.cpp
     notification_manager.cpp
     traffic_simulator.cpp
+    database_manager.cpp
+    login_dialog.cpp
+    signup_dialog.cpp     # <-- ADD THIS
 )
 
 set(PROJECT_HEADERS
@@ -28,10 +30,15 @@ set(PROJECT_HEADERS
     map_loader.h
     notification_manager.h
     traffic_simulator.h
+    database_manager.h
+    login_dialog.h
+    signup_dialog.h       # <-- ADD THIS
 )
 
 set(PROJECT_FORMS
     mainwindow.ui
+    login_dialog.ui
+    signup_dialog.ui      # <-- ADD THIS
 )
 
 # Create the executable target
@@ -40,15 +47,16 @@ add_executable(${PROJECT_NAME} WIN32
     ${PROJECT_HEADERS}
     ${PROJECT_FORMS}
     mapwidget.h mapwidget.cpp
+    resources.qrc
 )
 
 # Link the executable to the required Qt 6 libraries
-# NOTE: Linking to the 'Qt6::' namespace now.
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Widgets
     Qt6::Gui
     Qt6::Core
     Qt6::Network
+    Qt6::Sql
 )
 
 # Install the executable (optional, but good practice)

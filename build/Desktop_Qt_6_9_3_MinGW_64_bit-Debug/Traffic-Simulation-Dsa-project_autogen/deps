@@ -6,8 +6,12 @@ Traffic-Simulation-Dsa-project_autogen/timestamp: \
 	C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeRCCompiler.cmake \
 	C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeSystem.cmake \
 	C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/moc_predefs.h \
+	C:/Users/HP/Documents/Traffic-Control-DSA/database_manager.cpp \
+	C:/Users/HP/Documents/Traffic-Control-DSA/database_manager.h \
 	C:/Users/HP/Documents/Traffic-Control-DSA/graph.cpp \
 	C:/Users/HP/Documents/Traffic-Control-DSA/graph.h \
+	C:/Users/HP/Documents/Traffic-Control-DSA/login_dialog.cpp \
+	C:/Users/HP/Documents/Traffic-Control-DSA/login_dialog.h \
 	C:/Users/HP/Documents/Traffic-Control-DSA/main.cpp \
 	C:/Users/HP/Documents/Traffic-Control-DSA/mainwindow.cpp \
 	C:/Users/HP/Documents/Traffic-Control-DSA/mainwindow.h \
@@ -17,6 +21,9 @@ Traffic-Simulation-Dsa-project_autogen/timestamp: \
 	C:/Users/HP/Documents/Traffic-Control-DSA/mapwidget.h \
 	C:/Users/HP/Documents/Traffic-Control-DSA/notification_manager.cpp \
 	C:/Users/HP/Documents/Traffic-Control-DSA/notification_manager.h \
+	C:/Users/HP/Documents/Traffic-Control-DSA/resources.qrc \
+	C:/Users/HP/Documents/Traffic-Control-DSA/signup_dialog.cpp \
+	C:/Users/HP/Documents/Traffic-Control-DSA/signup_dialog.h \
 	C:/Users/HP/Documents/Traffic-Control-DSA/traffic_simulator.cpp \
 	C:/Users/HP/Documents/Traffic-Control-DSA/traffic_simulator.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/QByteArray \
@@ -30,6 +37,7 @@ Traffic-Simulation-Dsa-project_autogen/timestamp: \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/QObject \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/QPair \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/QPointF \
+	E:/Qt/6.9.3/mingw_64/include/QtCore/QPropertyAnimation \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/QQueue \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/QRect \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/QSet \
@@ -50,6 +58,7 @@ Traffic-Simulation-Dsa-project_autogen/timestamp: \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/q20utility.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/q23utility.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/q26numeric.h \
+	E:/Qt/6.9.3/mingw_64/include/QtCore/qabstractanimation.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qabstracteventdispatcher.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qalgorithms.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qanystringview.h \
@@ -87,6 +96,7 @@ Traffic-Simulation-Dsa-project_autogen/timestamp: \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qdatetime.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qdeadlinetimer.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qdebug.h \
+	E:/Qt/6.9.3/mingw_64/include/QtCore/qeasingcurve.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qelapsedtimer.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qendian.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qeventloop.h \
@@ -115,6 +125,7 @@ Traffic-Simulation-Dsa-project_autogen/timestamp: \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qmargins.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qmath.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qmetacontainer.h \
+	E:/Qt/6.9.3/mingw_64/include/QtCore/qmetaobject.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qmetatype.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qminmax.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qnamespace.h \
@@ -128,6 +139,7 @@ Traffic-Simulation-Dsa-project_autogen/timestamp: \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qpair.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qpoint.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qprocessordetection.h \
+	E:/Qt/6.9.3/mingw_64/include/QtCore/qpropertyanimation.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qqueue.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qrect.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qrefcount.h \
@@ -181,6 +193,7 @@ Traffic-Simulation-Dsa-project_autogen/timestamp: \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qurl.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qutf8stringview.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qvariant.h \
+	E:/Qt/6.9.3/mingw_64/include/QtCore/qvariantanimation.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qvarlengtharray.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qvector.h \
 	E:/Qt/6.9.3/mingw_64/include/QtCore/qversiontagging.h \
@@ -190,6 +203,7 @@ Traffic-Simulation-Dsa-project_autogen/timestamp: \
 	E:/Qt/6.9.3/mingw_64/include/QtGui/QMouseEvent \
 	E:/Qt/6.9.3/mingw_64/include/QtGui/QPaintEvent \
 	E:/Qt/6.9.3/mingw_64/include/QtGui/QPixmap \
+	E:/Qt/6.9.3/mingw_64/include/QtGui/QShowEvent \
 	E:/Qt/6.9.3/mingw_64/include/QtGui/QTransform \
 	E:/Qt/6.9.3/mingw_64/include/QtGui/QWheelEvent \
 	E:/Qt/6.9.3/mingw_64/include/QtGui/qaction.h \
@@ -250,8 +264,15 @@ Traffic-Simulation-Dsa-project_autogen/timestamp: \
 	E:/Qt/6.9.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
 	E:/Qt/6.9.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
 	E:/Qt/6.9.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+	E:/Qt/6.9.3/mingw_64/include/QtSql/QSqlDatabase \
+	E:/Qt/6.9.3/mingw_64/include/QtSql/qsqldatabase.h \
+	E:/Qt/6.9.3/mingw_64/include/QtSql/qtsql-config.h \
+	E:/Qt/6.9.3/mingw_64/include/QtSql/qtsqlexports.h \
+	E:/Qt/6.9.3/mingw_64/include/QtSql/qtsqlglobal.h \
+	E:/Qt/6.9.3/mingw_64/include/QtWidgets/QDialog \
 	E:/Qt/6.9.3/mingw_64/include/QtWidgets/QMainWindow \
 	E:/Qt/6.9.3/mingw_64/include/QtWidgets/QWidget \
+	E:/Qt/6.9.3/mingw_64/include/QtWidgets/qdialog.h \
 	E:/Qt/6.9.3/mingw_64/include/QtWidgets/qmainwindow.h \
 	E:/Qt/6.9.3/mingw_64/include/QtWidgets/qsizepolicy.h \
 	E:/Qt/6.9.3/mingw_64/include/QtWidgets/qtabwidget.h \
@@ -429,6 +450,46 @@ Traffic-Simulation-Dsa-project_autogen/timestamp: \
 	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6NetworkPrivate/Qt6NetworkPrivateDependencies.cmake \
 	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6NetworkPrivate/Qt6NetworkPrivateTargets.cmake \
 	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6NetworkPrivate/Qt6NetworkPrivateVersionlessAliasTargets.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QIBaseDriverPluginAdditionalTargetInfo.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QIBaseDriverPluginConfig.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QIBaseDriverPluginTargets-relwithdebinfo.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QIBaseDriverPluginTargets.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginAdditionalTargetInfo.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginConfig.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginTargets-relwithdebinfo.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginTargets.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QOCIDriverPluginAdditionalTargetInfo.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QOCIDriverPluginConfig.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QOCIDriverPluginTargets-relwithdebinfo.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QOCIDriverPluginTargets.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QODBCDriverPluginAdditionalTargetInfo.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QODBCDriverPluginConfig.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QODBCDriverPluginTargets-relwithdebinfo.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QODBCDriverPluginTargets.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QPSQLDriverPluginAdditionalTargetInfo.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QPSQLDriverPluginConfig.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QPSQLDriverPluginTargets-relwithdebinfo.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QPSQLDriverPluginTargets.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginAdditionalTargetInfo.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginConfig.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginTargets-relwithdebinfo.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginTargets.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlAdditionalTargetInfo.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfig.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfigVersion.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfigVersionImpl.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlDependencies.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlPlugins.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlTargets-relwithdebinfo.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlTargets.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlVersionlessAliasTargets.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateAdditionalTargetInfo.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateConfig.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateConfigVersion.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateConfigVersionImpl.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateDependencies.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateTargets.cmake \
+	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6SqlPrivate/Qt6SqlPrivateVersionlessAliasTargets.cmake \
 	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginAdditionalTargetInfo.cmake \
 	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginConfig.cmake \
 	E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginTargets-relwithdebinfo.cmake \
@@ -709,5 +770,7 @@ Traffic-Simulation-Dsa-project_autogen/timestamp: \
 	E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h \
 	E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
 	E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
+	C:/Users/HP/Documents/Traffic-Control-DSA/login_dialog.ui \
 	C:/Users/HP/Documents/Traffic-Control-DSA/mainwindow.ui \
+	C:/Users/HP/Documents/Traffic-Control-DSA/signup_dialog.ui \
 	E:/Qt/Tools/CMake_64/bin/cmake.exe

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="images/login_background.png">login_background.png</file>
+    </qresource>
+</RCC>

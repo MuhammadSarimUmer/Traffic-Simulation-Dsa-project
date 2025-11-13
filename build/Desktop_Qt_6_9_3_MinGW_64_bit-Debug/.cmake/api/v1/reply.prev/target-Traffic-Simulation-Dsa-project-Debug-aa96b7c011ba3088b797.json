@@ -32,13 +32,13 @@
 			"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake",
 			"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsDependencies.cmake",
 			"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsConfig.cmake",
+			"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkTargets.cmake",
+			"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfig.cmake",
 			"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreTargets.cmake",
 			"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreConfig.cmake",
 			"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6EntryPointPrivate/Qt6EntryPointPrivateTargets.cmake",
 			"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6EntryPointPrivate/Qt6EntryPointPrivateConfig.cmake",
-			"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreDependencies.cmake",
-			"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkTargets.cmake",
-			"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfig.cmake"
+			"E:/Qt/6.9.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreDependencies.cmake"
 		],
 		"nodes" : 
 		[
@@ -48,19 +48,19 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 38,
+				"line" : 45,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 55,
+				"line" : 64,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 47,
+				"line" : 55,
 				"parent" : 0
 			},
 			{
@@ -134,6 +134,32 @@
 				"parent" : 15
 			},
 			{
+				"command" : 5,
+				"file" : 3,
+				"line" : 315,
+				"parent" : 4
+			},
+			{
+				"file" : 9,
+				"parent" : 17
+			},
+			{
+				"command" : 4,
+				"file" : 9,
+				"line" : 55,
+				"parent" : 18
+			},
+			{
+				"file" : 8,
+				"parent" : 19
+			},
+			{
+				"command" : 3,
+				"file" : 8,
+				"line" : 61,
+				"parent" : 20
+			},
+			{
 				"command" : 6,
 				"file" : 5,
 				"line" : 142,
@@ -143,119 +169,93 @@
 				"command" : 5,
 				"file" : 4,
 				"line" : 76,
-				"parent" : 17
+				"parent" : 22
 			},
 			{
 				"command" : 5,
 				"file" : 3,
 				"line" : 333,
-				"parent" : 18
+				"parent" : 23
 			},
 			{
-				"file" : 9,
-				"parent" : 19
-			},
-			{
-				"command" : 4,
-				"file" : 9,
-				"line" : 57,
-				"parent" : 20
-			},
-			{
-				"file" : 8,
-				"parent" : 21
-			},
-			{
-				"command" : 3,
-				"file" : 8,
-				"line" : 61,
-				"parent" : 22
-			},
-			{
-				"command" : 4,
-				"file" : 9,
-				"line" : 45,
-				"parent" : 20
-			},
-			{
-				"file" : 12,
+				"file" : 11,
 				"parent" : 24
 			},
 			{
-				"command" : 7,
-				"file" : 12,
-				"line" : 46,
+				"command" : 4,
+				"file" : 11,
+				"line" : 57,
 				"parent" : 25
+			},
+			{
+				"file" : 10,
+				"parent" : 26
+			},
+			{
+				"command" : 3,
+				"file" : 10,
+				"line" : 61,
+				"parent" : 27
+			},
+			{
+				"command" : 4,
+				"file" : 11,
+				"line" : 45,
+				"parent" : 25
+			},
+			{
+				"file" : 14,
+				"parent" : 29
+			},
+			{
+				"command" : 7,
+				"file" : 14,
+				"line" : 46,
+				"parent" : 30
 			},
 			{
 				"command" : 6,
 				"file" : 5,
 				"line" : 142,
-				"parent" : 26
+				"parent" : 31
 			},
 			{
 				"command" : 5,
 				"file" : 4,
 				"line" : 76,
-				"parent" : 27
+				"parent" : 32
 			},
 			{
 				"command" : 5,
 				"file" : 3,
 				"line" : 333,
-				"parent" : 28
-			},
-			{
-				"file" : 11,
-				"parent" : 29
-			},
-			{
-				"command" : 4,
-				"file" : 11,
-				"line" : 55,
-				"parent" : 30
-			},
-			{
-				"file" : 10,
-				"parent" : 31
-			},
-			{
-				"command" : 3,
-				"file" : 10,
-				"line" : 61,
-				"parent" : 32
-			},
-			{
-				"command" : 3,
-				"file" : 10,
-				"line" : 83,
-				"parent" : 32
-			},
-			{
-				"command" : 5,
-				"file" : 3,
-				"line" : 315,
-				"parent" : 4
-			},
-			{
-				"file" : 14,
-				"parent" : 35
-			},
-			{
-				"command" : 4,
-				"file" : 14,
-				"line" : 55,
-				"parent" : 36
+				"parent" : 33
 			},
 			{
 				"file" : 13,
+				"parent" : 34
+			},
+			{
+				"command" : 4,
+				"file" : 13,
+				"line" : 55,
+				"parent" : 35
+			},
+			{
+				"file" : 12,
+				"parent" : 36
+			},
+			{
+				"command" : 3,
+				"file" : 12,
+				"line" : 61,
 				"parent" : 37
 			},
 			{
 				"command" : 3,
-				"file" : 13,
-				"line" : 61,
-				"parent" : 38
+				"file" : 12,
+				"line" : 83,
+				"parent" : 37
 			}
 		]
 	},
@@ -289,6 +289,10 @@
 				{
 					"backtrace" : 3,
 					"define" : "QT_NETWORK_LIB"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "QT_SQL_LIB"
 				},
 				{
 					"backtrace" : 3,
@@ -354,6 +358,11 @@
 					"backtrace" : 3,
 					"isSystem" : true,
 					"path" : "E:/Qt/6.9.3/mingw_64/include/QtNetwork"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "E:/Qt/6.9.3/mingw_64/include/QtSql"
 				}
 			],
 			"language" : "CXX",
@@ -366,18 +375,22 @@
 				4,
 				5,
 				6,
-				14
+				7,
+				8,
+				19,
+				22,
+				26
 			]
 		}
 	],
 	"dependencies" : 
 	[
 		{
-			"id" : "Traffic-Simulation-Dsa-project_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
-		},
-		{
 			"backtrace" : 0,
 			"id" : "Traffic-Simulation-Dsa-project_autogen::@6890427a1f51a3e7e1df"
+		},
+		{
+			"id" : "Traffic-Simulation-Dsa-project_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
 		}
 	],
 	"id" : "Traffic-Simulation-Dsa-project::@6890427a1f51a3e7e1df",
@@ -423,6 +436,11 @@
 				"role" : "libraries"
 			},
 			{
+				"backtrace" : 3,
+				"fragment" : "E:\\Qt\\6.9.3\\mingw_64\\lib\\libQt6Sql.a",
+				"role" : "libraries"
+			},
+			{
 				"backtrace" : 16,
 				"fragment" : "-ld3d11",
 				"role" : "libraries"
@@ -443,38 +461,38 @@
 				"role" : "libraries"
 			},
 			{
+				"backtrace" : 21,
+				"fragment" : "-lws2_32",
+				"role" : "libraries"
+			},
+			{
 				"backtrace" : 3,
 				"fragment" : "E:\\Qt\\6.9.3\\mingw_64\\lib\\libQt6Core.a",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 23,
+				"backtrace" : 28,
 				"fragment" : "-lmpr",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 23,
+				"backtrace" : 28,
 				"fragment" : "-luserenv",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 33,
+				"backtrace" : 38,
 				"fragment" : "-lmingw32",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 33,
+				"backtrace" : 38,
 				"fragment" : "E:\\Qt\\6.9.3\\mingw_64\\lib\\libQt6EntryPoint.a",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 34,
-				"fragment" : "-lshell32",
-				"role" : "libraries"
-			},
-			{
 				"backtrace" : 39,
-				"fragment" : "-lws2_32",
+				"fragment" : "-lshell32",
 				"role" : "libraries"
 			},
 			{
@@ -504,41 +522,58 @@
 				4,
 				5,
 				6,
-				14
+				7,
+				8,
+				19,
+				22,
+				26
 			]
 		},
 		{
 			"name" : "Header Files",
 			"sourceIndexes" : 
 			[
-				7,
-				8,
 				9,
 				10,
 				11,
+				12,
 				13,
-				15
+				14,
+				15,
+				18,
+				21,
+				23,
+				24
 			]
 		},
 		{
 			"name" : "Forms",
 			"sourceIndexes" : 
 			[
-				12
+				16,
+				17
+			]
+		},
+		{
+			"name" : "Resources",
+			"sourceIndexes" : 
+			[
+				20
 			]
 		},
 		{
 			"name" : "",
 			"sourceIndexes" : 
 			[
-				16
+				25
 			]
 		},
 		{
 			"name" : "CMake Rules",
 			"sourceIndexes" : 
 			[
-				17
+				27,
+				28
 			]
 		}
 	],
@@ -589,6 +624,18 @@
 		},
 		{
 			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "database_manager.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "login_dialog.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
 			"path" : "mainwindow.h",
 			"sourceGroupIndex" : 1
 		},
@@ -614,7 +661,22 @@
 		},
 		{
 			"backtrace" : 1,
+			"path" : "database_manager.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "login_dialog.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
 			"path" : "mainwindow.ui",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 1,
+			"path" : "login_dialog.ui",
 			"sourceGroupIndex" : 2
 		},
 		{
@@ -629,6 +691,22 @@
 			"sourceGroupIndex" : 0
 		},
 		{
+			"backtrace" : 1,
+			"path" : "resources.qrc",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 1,
+			"path" : "signup_dialog.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "signup_dialog.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
 			"backtrace" : 0,
 			"isGenerated" : true,
 			"path" : "build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/include/ui_mainwindow.h",
@@ -637,14 +715,33 @@
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/include/ui_login_dialog.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
 			"path" : "build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/timestamp",
-			"sourceGroupIndex" : 3
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/EWIEGA46WW/qrc_resources.cpp",
+			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 0,
 			"isGenerated" : true,
 			"path" : "build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/timestamp.rule",
-			"sourceGroupIndex" : 4
+			"sourceGroupIndex" : 5
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/EWIEGA46WW/qrc_resources.cpp.rule",
+			"sourceGroupIndex" : 5
 		}
 	],
 	"type" : "EXECUTABLE"
