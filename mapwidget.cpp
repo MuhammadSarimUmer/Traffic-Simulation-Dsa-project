@@ -479,6 +479,7 @@ void MapWidget::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
+    painter.fillRect(rect(), QColor("#2b2b2b"));
 
     // Draw map tiles
     drawTiles(painter);
@@ -494,6 +495,7 @@ void MapWidget::paintEvent(QPaintEvent *event)
 
     // Draw traffic lights
     drawTrafficLights(painter);
+    drawReroutedPaths(painter);
 
     // Draw vehicles (on top of everything)
     drawVehicles(painter);
@@ -694,3 +696,89 @@ void MapWidget::setLoadedAreaBounds(const BoundingBox& bounds)
     qDebug() << "Loaded area bounds set:" << bounds.minLat << bounds.minLon
              << "to" << bounds.maxLat << bounds.maxLon;
 }
+/**
+ * @brief Draws the paths of vehicles that have been rerouted.
+ *
+ * This function iterates through all current vehicles and compares their
+ * path segments against the original 'shortestPath'. Any segment
+ * found in a vehicle's path that is NOT in the original path is
+ * drawn in orange to highlight the diversion.
+ */
+/**
+ * @brief Draws the paths of vehicles that have been rerouted.
+ *
+ * This function iterates through all current vehicles and compares their
+ * path segments against the original 'm_shortestPath'. Any segment
+ * found in a vehicle's path that is NOT in the original path is
+ * drawn in orange to highlight the diversion.
+ */
+/**
+ * @brief Draws the paths of vehicles that have been rerouted.
+ *
+ * This function iterates through all current vehicles and compares their
+ * path segments against the original 'currentPath'. Any segment
+ * found in a vehicle's path that is NOT in the original path is
+ * drawn in orange to highlight the diversion.
+ */
+/**
+ * @brief Draws the paths of vehicles that have been rerouted.
+ *
+ * This function iterates through all current vehicles and compares their
+ * path segments against the original 'currentPath'. Any segment
+ * found in a vehicle's path that is NOT in the original path is
+ * drawn in orange to highlight the diversion.
+ */
+void MapWidget::drawReroutedPaths(QPainter &painter)
+{
+    // --- CORRECTED ---
+    // Use 'getNodeCount() == 0' instead of 'isEmpty()'
+    if ((currentGraph.getNodeCount() == 0) || currentVehicles.isEmpty() || currentPath.isEmpty()) {
+        return; // Nothing to draw
+    }
+
+    // --- Create a set of the original path's edges for fast lookup ---
+    // We store an edge as a single quint64 for efficiency.
+    QSet<quint64> originalEdges;
+    for (int i = 0; i < currentPath.size() - 1; ++i) {
+        quint64 from = currentPath[i];
+        quint64 to = currentPath[i+1];
+        originalEdges.insert((from << 32) | to);
+        originalEdges.insert((to << 32) | from); // For two-way matching
+    }
+    // ---
+
+    // Define the pen for rerouted (diverted) paths
+    // A solid, thick, bright orange line
+    QPen reroutePen(QColor(0, 0, 0), 3.5, Qt::SolidLine, Qt::RoundCap);
+    painter.setPen(reroutePen);
+
+    // Check each vehicle's path
+    for (const auto& vehicle : currentVehicles) {
+        if (vehicle.path.size() < 2) {
+            continue; // Not a valid path
+        }
+
+        // Check each segment (edge) of this vehicle's current path
+        for (int i = 0; i < vehicle.path.size() - 1; ++i) {
+            qint64 fromNodeId = vehicle.path[i];
+            qint64 toNodeId = vehicle.path[i+1];
+
+            // Create the edge representations to check against the set
+            quint64 edgeForward = (quint64(fromNodeId) << 32) | quint64(toNodeId);
+            quint64 edgeReverse = (quint64(toNodeId) << 32) | quint64(fromNodeId);
+
+            // If this edge is NOT in the original path, draw it in orange
+            if (!originalEdges.contains(edgeForward) && !originalEdges.contains(edgeReverse)) {
+
+                Graph::Node fromNode = currentGraph.getNode(fromNodeId);
+                Graph::Node toNode = currentGraph.getNode(toNodeId);
+
+                // Use 'geoToPixel' and pass lat/lon as separate doubles
+                QPointF p1 = this->geoToPixel(fromNode.lat, fromNode.lon);
+                QPointF p2 = this->geoToPixel(toNode.lat, toNode.lon);
+
+                painter.drawLine(p1, p2);
+            }
+        }
+    }
+} // <-- CORRECTED: Make sure there is no 's' after this closing brace

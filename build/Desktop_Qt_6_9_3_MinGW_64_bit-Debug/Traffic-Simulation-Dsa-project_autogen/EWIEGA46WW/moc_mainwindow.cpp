@@ -70,7 +70,10 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "onEdgeCongestionUpdated",
         "from",
         "to",
-        "status"
+        "status",
+        "onPathSourceChanged",
+        "index",
+        "onPathDestChanged"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -122,6 +125,14 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void(qint64, qint64, const QString &)>(27, 2, QMC::AccessPrivate, QMetaType::Void, {{
             { QMetaType::LongLong, 28 }, { QMetaType::LongLong, 29 }, { QMetaType::QString, 30 },
         }}),
+        // Slot 'onPathSourceChanged'
+        QtMocHelpers::SlotData<void(int)>(31, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Int, 32 },
+        }}),
+        // Slot 'onPathDestChanged'
+        QtMocHelpers::SlotData<void(int)>(33, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Int, 32 },
+        }}),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -161,6 +172,8 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 13: _t->onVehiclesUpdated((*reinterpret_cast< std::add_pointer_t<QList<TrafficSimulator::Vehicle>>>(_a[1]))); break;
         case 14: _t->onTrafficLightsUpdated((*reinterpret_cast< std::add_pointer_t<QList<TrafficSimulator::TrafficLight>>>(_a[1]))); break;
         case 15: _t->onEdgeCongestionUpdated((*reinterpret_cast< std::add_pointer_t<qint64>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<qint64>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[3]))); break;
+        case 16: _t->onPathSourceChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 17: _t->onPathDestChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
         default: ;
         }
     }
@@ -185,14 +198,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 16)
+        if (_id < 18)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 16;
+        _id -= 18;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 16)
+        if (_id < 18)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 16;
+        _id -= 18;
     }
     return _id;
 }

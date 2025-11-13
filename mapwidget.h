@@ -64,6 +64,7 @@ private:
     void drawLoadedAreaOverlay(QPainter &painter);
     void drawTrafficLights(QPainter &painter);  // ADD THIS LINE
     void drawVehicles(QPainter &painter);       // ADD THIS LINE
+    void drawReroutedPaths(QPainter &painter);
 
     // Coordinate conversion
     QPointF geoToPixel(double lat, double lon);

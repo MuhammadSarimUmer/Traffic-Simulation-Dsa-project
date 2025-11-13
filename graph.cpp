@@ -550,7 +550,7 @@ Graph::PathResult Graph::dijkstra(qint64 source, qint64 destination)
 
 
 // --- Fixed A* Implementation ---
-Graph::PathResult Graph::aStar(qint64 source, qint64 destination)
+Graph::PathResult Graph::aStar(qint64 source, qint64 destination, const QSet<QPair<qint64, qint64>>& blockedEdges)
 {
     PathResult result;
     result.found = false;
@@ -620,6 +620,10 @@ Graph::PathResult Graph::aStar(qint64 source, qint64 destination)
 
         // Explore neighbors
         for (const Edge& edge : adj[current]) {
+            if (blockedEdges.contains({current, edge.to}) ||
+                blockedEdges.contains({edge.to, current})) {
+                continue; // Skip this neighbor, the road is jammed
+            }
             if (visited.contains(edge.to)) {
                 continue; // Already processed
             }

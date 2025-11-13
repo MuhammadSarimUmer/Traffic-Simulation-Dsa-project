@@ -32,6 +32,8 @@ private slots:
     void showDetailedRoute(const Graph::PathResult& result);
     void onAreaSelected(const QString& areaName);
 
+
+
     // Traffic simulator slots
     void onStartSimulationClicked();
     void onStopSimulationClicked();
@@ -44,6 +46,9 @@ private slots:
     void onVehiclesUpdated(const QVector<TrafficSimulator::Vehicle>& vehicles);
     void onTrafficLightsUpdated(const QVector<TrafficSimulator::TrafficLight>& lights);
     void onEdgeCongestionUpdated(qint64 from, qint64 to, const QString& status);
+
+    void onPathSourceChanged(int index);
+    void onPathDestChanged(int index);
 
 private:
     void setupAreaSelection();

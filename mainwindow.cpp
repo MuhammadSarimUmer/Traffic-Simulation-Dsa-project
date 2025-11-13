@@ -10,6 +10,7 @@
 #include <QPushButton>
 #include <QScrollArea>
 #include <QDebug> // <-- Added for logging
+#include <QCompleter>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -26,6 +27,27 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Setup the route details text area
     setupRouteDetailsPanel();
+
+    auto makeSearchable = [](QComboBox* combo) {
+        combo->setEditable(true);
+        combo->setInsertPolicy(QComboBox::NoInsert); // Don't add user text as new item
+        combo->completer()->setFilterMode(Qt::MatchContains);
+        combo->completer()->setCaseSensitivity(Qt::CaseInsensitive);
+    };
+
+    makeSearchable(ui->sourceCombo);
+    makeSearchable(ui->destCombo);
+    makeSearchable(ui->simSourceCombo);
+    makeSearchable(ui->simDestCombo);
+    // --- END OF ADDED CODE BLOCK 1 ---
+    // --- CODE BLOCK 2 (Sync Selections) ---
+    // Connect pathfinding combos to simulation combos
+    // Use the 'activated' signal, which fires on user selection
+    connect(ui->sourceCombo, QOverload<int>::of(&QComboBox::activated),
+            this, &MainWindow::onPathSourceChanged);
+    connect(ui->destCombo, QOverload<int>::of(&QComboBox::activated),
+            this, &MainWindow::onPathDestChanged);
+    // --- END OF CODE BLOCK 2 ---
 
     // Connect "Load Map" button
     connect(ui->loadMapButton, &QPushButton::clicked, this, &MainWindow::onLoadMapAreaClicked);
@@ -657,6 +679,8 @@ void MainWindow::showDetailedRoute(const Graph::PathResult& result)
         }
     }
 
+
+
     directions += "</ol>";
     textEdit->setHtml(directions);
     layout->addWidget(textEdit);
@@ -667,4 +691,23 @@ void MainWindow::showDetailedRoute(const Graph::PathResult& result)
 
     dialog->exec();
     delete dialog;
+}
+void MainWindow::onPathSourceChanged(int index)
+{
+    // Check if the index is valid and set the simulation combo
+    if (index >= 0 && index < ui->simSourceCombo->count()) {
+        ui->simSourceCombo->setCurrentIndex(index);
+    }
+}
+
+/**
+ * @brief Slot to sync the simulation destination with the pathfinding destination.
+ * This is triggered when ui->destCombo (pathfinding) changes.
+ */
+void MainWindow::onPathDestChanged(int index)
+{
+    // Check if the index is valid and set the simulation combo
+    if (index >= 0 && index < ui->simDestCombo->count()) {
+        ui->simDestCombo->setCurrentIndex(index);
+    }
 }

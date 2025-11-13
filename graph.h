@@ -9,6 +9,7 @@
 #include <QPointF>
 #include <QVector>
 #include <QByteArray> // Needed for JSON data
+#include <QSet>
 
 class Graph
 {
@@ -67,7 +68,7 @@ public:
 
     // Pathfinding
     PathResult dijkstra(qint64 source, qint64 destination); // Original
-    PathResult aStar(qint64 source, qint64 destination);    // New
+    PathResult aStar(qint64 source, qint64 destination, const QSet<QPair<qint64, qint64>>& blockedEdges = {});    // New
 
     // Clear graph
     void clear();

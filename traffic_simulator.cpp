@@ -62,13 +62,13 @@ void TrafficSimulator::addVehicle(qint64 source, qint64 destination, bool priori
         return;
 
     // --- Use aStar for adding new vehicles ---
-    Graph::PathResult path = graph->aStar(source, destination);
-    if (!path.found || path.path.size() < 2)
+    Graph::PathResult result = graph->aStar(source, destination, manualJams);
+    if (!result.found || result.path.size() < 2)
         return;
 
     Vehicle v;
     v.id = nextVehicleId++;
-    v.path = path.path;
+    v.path = result.path;
     v.currentIndex = 0;
     v.progress = 0.0;
     v.baseSpeed = 10.0 + QRandomGenerator::global()->bounded(5.0);
@@ -324,25 +324,28 @@ void TrafficSimulator::updateCongestion() {
     }
 }
 
-void TrafficSimulator::handleRerouting(Vehicle& v, const QPair<qint64,qint64>& congestedEdge) {
-    qint64 currentNode = v.path[v.currentIndex];
-    qint64 finalNode = v.path.last();
+void TrafficSimulator::handleRerouting(Vehicle& v, const QPair<qint64,qint64>& congestedEdge)
+{
+    // 1. Get the vehicle's final destination (from its original path)
+    qint64 destination = v.path.last();
 
-    // --- Use aStar for rerouting ---
-    Graph::PathResult newPath = graph->aStar(currentNode, finalNode);
-    if (newPath.found && newPath.path.size() > 1) {
-        QVector<qint64> reroutePath = newPath.path;
-        v.path.clear();
-        v.path.append(currentNode);
-        for (qint64 nodeId : reroutePath)
-            if (nodeId != currentNode)
-                v.path.append(nodeId);
+    // 2. Find a new path from its *current node*
+    //    This passes the 'manualJams' list to the A* function
+    Graph::PathResult newPathResult = graph->aStar(v.path[v.currentIndex],
+                                                   destination,
+                                                   manualJams);
 
-        v.currentIndex = 0;
+    // 3. If a new path is found, update the vehicle
+    if (newPathResult.found) {
+        v.path = newPathResult.path;
+        v.currentIndex = 0; // Reset path index
         v.progress = 0.0;
-        qDebug() << "Vehicle" << v.id
-                 << "rerouted (A*) due to congestion on edge"
-                 << congestedEdge.first << "->" << congestedEdge.second;
+
+        // 4. THIS IS THE KEY: Set the rerouted flag to TRUE!
+        v.rerouted = true;
+
+        // 5. Update last reroute time (this field is in your .h)
+        v.lastRerouteTime = QDateTime::currentMSecsSinceEpoch();
     }
 }
 
