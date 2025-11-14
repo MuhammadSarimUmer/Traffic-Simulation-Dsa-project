@@ -1,4 +1,5 @@
 #include "traffic_simulator.h"
+#include "graph.h"
 #include <QtMath>
 #include <QDebug>
 #include <QQueue>
@@ -17,7 +18,7 @@ TrafficSimulator::TrafficSimulator(Graph* g, QObject* parent)
     timer.setInterval(50); // 20 updates/sec
 
     connect(&congestionTimer, &QTimer::timeout, this, &TrafficSimulator::updateCongestion);
-    congestionTimer.setInterval(2000); // every 2 seconds
+    congestionTimer.setInterval(500);
 
     totalReroutes = 0;
     lastLogTime = QDateTime::currentSecsSinceEpoch();
@@ -40,11 +41,12 @@ void TrafficSimulator::reset() {
     lightQueues.clear();
     lightReleaseTimers.clear();
     edgeVehicleCount.clear();
-    manualJams.clear(); // <-- Clears the manual jams
+    manualJams.clear(); // <-- NEW
     nextVehicleId = 1;
     totalReroutes = 0;
 }
 
+// --- NEW ---
 void TrafficSimulator::addManualJam(qint64 from, qint64 to)
 {
     if (graph->hasNode(from) && graph->hasNode(to)) {
@@ -54,19 +56,26 @@ void TrafficSimulator::addManualJam(qint64 from, qint64 to)
         qDebug() << "Manual jam added for edge" << from << "<->" << to;
     }
 }
+// --- END NEW ---
+void TrafficSimulator::removeManualJam(qint64 from, qint64 to)
+{
+    manualJams.remove(qMakePair(from, to));
+    manualJams.remove(qMakePair(to, from));
+    qDebug() << "Manual jam removed for edge" << from << "<->" << to;
+}
 
 void TrafficSimulator::addVehicle(qint64 source, qint64 destination, bool priority) {
     if (!graph || !graph->hasNode(source) || !graph->hasNode(destination))
         return;
 
-    // --- Use aStar, passing in the manualJams ---
-    Graph::PathResult result = graph->aStar(source, destination, manualJams);
-    if (!result.found || result.path.size() < 2)
+    // --- Use aStar for adding new vehicles ---
+    Graph::PathResult path = graph->aStar(source, destination);
+    if (!path.found || path.path.size() < 2)
         return;
 
     Vehicle v;
     v.id = nextVehicleId++;
-    v.path = result.path;
+    v.path = path.path;
     v.currentIndex = 0;
     v.progress = 0.0;
     v.baseSpeed = 10.0 + QRandomGenerator::global()->bounded(5.0);
@@ -92,6 +101,7 @@ void TrafficSimulator::updateSimulation() {
     updateQueues(deltaTime);
     updateVehicles(deltaTime);
 
+    // --- MODIFIED ---
     // Emit traffic light data including queue size
     QVector<TrafficLight> lightsVector;
     lightsVector.reserve(trafficLights.size());
@@ -100,30 +110,68 @@ void TrafficSimulator::updateSimulation() {
         lightsVector.append(it.value());
     }
     emit trafficLightsUpdated(lightsVector);
+    // --- END MODIFIED ---
 
     emit vehiclesUpdated(vehicles);
 }
 
 void TrafficSimulator::updateTrafficLights(double deltaTime) {
-    // Smarter light placement: lights only on intersections (>=3 connected edges)
+    // Only initialize traffic lights if none exist
     if (trafficLights.isEmpty() && graph && !graph->getNodes().isEmpty()) {
+
+        const double MIN_DISTANCE_METERS = 0.2; // ~200 meters
         for (auto it = graph->getNodes().cbegin(); it != graph->getNodes().cend(); ++it) {
             const auto& node = it.value();
-            if (graph->getEdges(node.id).size() >= 3) {
-                TrafficLight t;
-                t.nodeId = it.key();
-                t.isGreen = (QRandomGenerator::global()->bounded(2) == 0);
-                t.timer = 0.0;
-                t.cycleDuration = 15.0 + QRandomGenerator::global()->bounded(6.0); // 15–20 s
-                t.queueSize = 0;
-                trafficLights[t.nodeId] = t;
-                lightQueues[t.nodeId] = QQueue<qint64>();
-                lightReleaseTimers[t.nodeId] = 0.0;
+            auto edges = graph->getEdges(node.id);
+
+            // True intersection: at least 3 edges
+            if (edges.size() < 3) continue;
+
+            // Compute angles to detect fake or tight intersections
+            QVector<double> angles;
+            for (const auto& e : edges) {
+                Graph::Node nbr = graph->getNode(e.to);
+                double angleRad = qAtan2(nbr.lat - node.lat, nbr.lon - node.lon);
+                angles.append(qRadiansToDegrees(angleRad));
             }
+            std::sort(angles.begin(), angles.end());
+
+            double minDiff = 360.0;
+            for (int i = 1; i < angles.size(); i++)
+                minDiff = qMin(minDiff, angles[i] - angles[i - 1]);
+            minDiff = qMin(minDiff, 360.0 - (angles.last() - angles.first()));
+            if (minDiff < 40.0) continue;
+
+            // Prevent lights too close to each other
+            bool tooClose = false;
+            for (qint64 existing : trafficLights.keys()) {
+                Graph::Node other = graph->getNode(existing);
+                double dist = graph->haversineDistance(node.lat, node.lon,
+                                                       other.lat, other.lon);
+                if (dist < MIN_DISTANCE_METERS) {
+                    tooClose = true;
+                    break;
+                }
+            }
+            if (tooClose) continue;
+
+            // Create the traffic light
+            TrafficLight t;
+            t.nodeId = node.id;
+            t.isGreen = QRandomGenerator::global()->bounded(2) == 0;
+            t.timer = 0.0;
+            t.cycleDuration = 6.0;
+            t.queueSize = 0;
+
+            trafficLights[node.id] = t;
+            lightQueues[node.id] = QQueue<qint64>();
+            lightReleaseTimers[node.id] = 0.0;
         }
+
+        qDebug() << "Traffic lights initialized:" << trafficLights.size();
     }
 
-    // Adaptive green duration
+    // --- Adaptive light cycles ---
     for (auto it = trafficLights.begin(); it != trafficLights.end(); ++it) {
         int queueSize = lightQueues.value(it.key()).size();
         double adaptiveFactor = qBound(0.8, 1.0 + queueSize * 0.1, 1.5);
@@ -138,7 +186,7 @@ void TrafficSimulator::updateTrafficLights(double deltaTime) {
 }
 
 void TrafficSimulator::updateQueues(double deltaTime) {
-    const double RELEASE_INTERVAL = 1.0;
+    const double RELEASE_INTERVAL = 0.3;
     for (auto it = trafficLights.begin(); it != trafficLights.end(); ++it) {
         qint64 nodeId = it.key();
         if (!it->isGreen || !lightQueues.contains(nodeId)) continue;
@@ -170,7 +218,7 @@ void TrafficSimulator::updateQueues(double deltaTime) {
 }
 
 void TrafficSimulator::updateVehicles(double deltaTime) {
-    const double MIN_GAP = 0.0002;
+    const double MIN_GAP = 0.00002;
     edgeVehicleCount.clear();
     QHash<QPair<qint64,qint64>, QList<qint64>> edgeVehicles; // faster QHash
 
@@ -207,7 +255,7 @@ void TrafficSimulator::updateVehicles(double deltaTime) {
             TrafficLight& light = trafficLights[to];
             if (!light.isGreen) {
                 double remaining = edgeLength * (1.0 - v.progress);
-                if (remaining < 5.0) { // smoother stop
+                if (remaining < 1.5) { // smoother stop
                     if (v.isPriority) {
                         int vehiclesOnEdge = edgeVehicleCount.value(qMakePair(from,to),0);
                         stopForLight = vehiclesOnEdge > 2;
@@ -249,11 +297,6 @@ void TrafficSimulator::updateVehicles(double deltaTime) {
         QPointF pb = b.pos.isNull() ? QPointF(b.lon, b.lat) : b.pos;
         v.position = interpolatePosition(pa, pb, v.progress);
 
-        double offsetX = (QRandomGenerator::global()->bounded(10) - 5) * 0.0001;
-        double offsetY = (QRandomGenerator::global()->bounded(10) - 5) * 0.0001;
-        v.position.rx() += offsetX;
-        v.position.ry() += offsetY;
-
         vehicleIndex[v.id] = i;
     }
 }
@@ -262,13 +305,15 @@ void TrafficSimulator::updateCongestion() {
     for (auto it = edgeVehicleCount.begin(); it != edgeVehicleCount.end(); ++it) {
         QPair<qint64,qint64> edge = it.key();
         int count = it.value();
-        QString status = (count <= 2) ? "Green" : (count <= 5 ? "Yellow" : "Red");
+        QString status = "Green";
 
+        // --- NEW ---
         // Manually jammed edges are always Red
         if (manualJams.contains(edge)) {
             status = "Red";
             count = 100; // ensure red status
         }
+        // --- END NEW ---
 
         emit edgeCongestionUpdated(edge.first, edge.second, status);
 
