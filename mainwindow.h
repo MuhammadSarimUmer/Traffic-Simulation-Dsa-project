@@ -6,6 +6,7 @@
 #include "graph.h"
 #include "mapwidget.h"
 #include "traffic_simulator.h"
+#include "database_manager.h"
 #include <QMap>
 
 namespace Ui {
@@ -17,7 +18,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(DatabaseManager *dbManager, QWidget *parent = nullptr);
     ~MainWindow();
 
 private slots:
@@ -31,8 +32,6 @@ private slots:
     void onClearPathClicked();
     void showDetailedRoute(const Graph::PathResult& result);
     void onAreaSelected(const QString& areaName);
-
-
 
     // Traffic simulator slots
     void onStartSimulationClicked();
@@ -50,6 +49,10 @@ private slots:
     void onPathSourceChanged(int index);
     void onPathDestChanged(int index);
 
+    // --- SLOTS FOR TOOLBAR BUTTONS ---
+    void on_actionBackToLogin_triggered();
+    void on_actionChat_triggered();
+
 private:
     void setupAreaSelection();
     void populateComboBoxes();
@@ -66,6 +69,7 @@ private:
     bool mapLoaded;
     MapWidget *mapVisualization;
     Graph graph;
+    DatabaseManager *dbManager;
 
     // Traffic simulator
     TrafficSimulator *trafficSimulator;

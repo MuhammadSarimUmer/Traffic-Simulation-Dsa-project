@@ -10,6 +10,7 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDockWidget>
@@ -19,6 +20,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QScrollArea>
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
@@ -32,7 +34,13 @@ QT_BEGIN_NAMESPACE
 class Ui_MainWindow
 {
 public:
+    QAction *actionBackToLogin;
+    QAction *actionChat;
     QWidget *centralWidget;
+    QVBoxLayout *verticalLayout_Central;
+    QScrollArea *mapScrollArea;
+    QWidget *scrollAreaWidgetContents;
+    QVBoxLayout *mapLayout;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -94,8 +102,96 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
         MainWindow->resize(1200, 800);
+        actionBackToLogin = new QAction(MainWindow);
+        actionBackToLogin->setObjectName("actionBackToLogin");
+        QIcon icon;
+        QString iconThemeName = QString::fromUtf8("go-previous");
+        if (QIcon::hasThemeIcon(iconThemeName)) {
+            icon = QIcon::fromTheme(iconThemeName);
+        } else {
+            icon.addFile(QString::fromUtf8("."), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        }
+        actionBackToLogin->setIcon(icon);
+        actionChat = new QAction(MainWindow);
+        actionChat->setObjectName("actionChat");
+        QIcon icon1;
+        iconThemeName = QString::fromUtf8("dialog-information");
+        if (QIcon::hasThemeIcon(iconThemeName)) {
+            icon1 = QIcon::fromTheme(iconThemeName);
+        } else {
+            icon1.addFile(QString::fromUtf8("."), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        }
+        actionChat->setIcon(icon1);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName("centralWidget");
+        verticalLayout_Central = new QVBoxLayout(centralWidget);
+        verticalLayout_Central->setSpacing(6);
+        verticalLayout_Central->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_Central->setObjectName("verticalLayout_Central");
+        verticalLayout_Central->setContentsMargins(0, 0, 0, 0);
+        mapScrollArea = new QScrollArea(centralWidget);
+        mapScrollArea->setObjectName("mapScrollArea");
+        mapScrollArea->setStyleSheet(QString::fromUtf8("QScrollArea {\n"
+"    border: none;\n"
+"    background-color: #1e1e1e;\n"
+"}\n"
+"\n"
+"QScrollBar:vertical {\n"
+"    border: none;\n"
+"    background: #2b2b2b;\n"
+"    width: 12px;\n"
+"    margin: 0px;\n"
+"}\n"
+"\n"
+"QScrollBar::handle:vertical {\n"
+"    background: #555555;\n"
+"    min-height: 20px;\n"
+"    border-radius: 6px;\n"
+"}\n"
+"\n"
+"QScrollBar::handle:vertical:hover {\n"
+"    background: #777777;\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+"    height: 0px;\n"
+"}\n"
+"\n"
+"QScrollBar:horizontal {\n"
+"    border: none;\n"
+"    background: #2b2b2b;\n"
+"    height: 12px;\n"
+"    margin: 0px;\n"
+"}\n"
+"\n"
+"QScrollBar::handle:horizontal {\n"
+"    background: #555555;\n"
+"    min-width: 20px;\n"
+"    border-radius: 6px;\n"
+"}\n"
+"\n"
+"QScrollBar::handle:horizontal:hover {\n"
+"    background: #777777;\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {\n"
+"    width: 0px;\n"
+"}"));
+        mapScrollArea->setWidgetResizable(true);
+        mapScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        mapScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        scrollAreaWidgetContents = new QWidget();
+        scrollAreaWidgetContents->setObjectName("scrollAreaWidgetContents");
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 1198, 735));
+        mapLayout = new QVBoxLayout(scrollAreaWidgetContents);
+        mapLayout->setSpacing(0);
+        mapLayout->setContentsMargins(11, 11, 11, 11);
+        mapLayout->setObjectName("mapLayout");
+        mapLayout->setContentsMargins(0, 0, 0, 0);
+        mapScrollArea->setWidget(scrollAreaWidgetContents);
+
+        verticalLayout_Central->addWidget(mapScrollArea);
+
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName("menuBar");
@@ -458,6 +554,10 @@ public:
         simulatorDockWidget->setWidget(simulatorDockContents);
         MainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, simulatorDockWidget);
 
+        mainToolBar->addAction(actionBackToLogin);
+        mainToolBar->addSeparator();
+        mainToolBar->addAction(actionChat);
+
         retranslateUi(MainWindow);
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -466,6 +566,14 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Traffic Control Simulator - Karachi", nullptr));
+        actionBackToLogin->setText(QCoreApplication::translate("MainWindow", "Back to Login", nullptr));
+#if QT_CONFIG(tooltip)
+        actionBackToLogin->setToolTip(QCoreApplication::translate("MainWindow", "Log out and return to the login screen", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionChat->setText(QCoreApplication::translate("MainWindow", "Chat", nullptr));
+#if QT_CONFIG(tooltip)
+        actionChat->setToolTip(QCoreApplication::translate("MainWindow", "Open Chat", nullptr));
+#endif // QT_CONFIG(tooltip)
         controlDockWidget->setWindowTitle(QCoreApplication::translate("MainWindow", "Map & Pathfinding", nullptr));
         areaLabel->setText(QCoreApplication::translate("MainWindow", "1. Select Area:", nullptr));
         loadMapButton->setText(QCoreApplication::translate("MainWindow", "Load Map Area", nullptr));

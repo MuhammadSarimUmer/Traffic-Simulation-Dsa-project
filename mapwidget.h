@@ -11,7 +11,7 @@
 #include <QMap>
 #include <QSet>
 #include "graph.h"
-#include "traffic_simulator.h"  // REQUIRED - Add this line
+#include "traffic_simulator.h"
 
 class MapWidget : public QWidget
 {
@@ -28,10 +28,15 @@ public:
     void setShortestPath(const QList<qint64>& path);
     void clearPath();
 
-    // Traffic visualization methods - ADD THESE THREE LINES
+    // Traffic visualization methods
     void setVehicles(const QVector<TrafficSimulator::Vehicle>& vehicles);
     void setTrafficLights(const QVector<TrafficSimulator::TrafficLight>& lights);
     void clearTrafficVisualization();
+
+    // --- NEW ---
+    void setManualJams(const QSet<QPair<qint64, qint64>>& jams);
+    void clearManualJams();
+    // --- END NEW ---
 
 public slots:
     void zoomIn();
@@ -62,9 +67,13 @@ private:
     void drawPath(QPainter &painter);
     void drawHighlight(QPainter &painter);
     void drawLoadedAreaOverlay(QPainter &painter);
-    void drawTrafficLights(QPainter &painter);  // ADD THIS LINE
-    void drawVehicles(QPainter &painter);       // ADD THIS LINE
+    void drawTrafficLights(QPainter &painter);
+    void drawVehicles(QPainter &painter);
     void drawReroutedPaths(QPainter &painter);
+
+    // --- NEW ---
+    void drawManualJams(QPainter &painter);
+    // --- END NEW ---
 
     // Coordinate conversion
     QPointF geoToPixel(double lat, double lon);
@@ -86,9 +95,13 @@ private:
     Graph currentGraph;
     QList<qint64> currentPath;
 
-    // Traffic simulation data - ADD THESE TWO LINES
+    // Traffic simulation data
     QVector<TrafficSimulator::Vehicle> currentVehicles;
     QVector<TrafficSimulator::TrafficLight> currentTrafficLights;
+
+    // --- NEW ---
+    QSet<QPair<qint64, qint64>> m_manualJams;
+    // --- END NEW ---
 
     // Map bounds
     double minLat, minLon, maxLat, maxLon;

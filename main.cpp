@@ -19,8 +19,6 @@ int main(int argc, char *argv[])
     LoginDialog loginDialog(&dbManager);
     SignUpDialog signupDialog(&dbManager);
 
-    MainWindow w;
-
     bool loggedIn = false;
     bool showLogin = true; // Start with login dialog
 
@@ -31,7 +29,6 @@ int main(int argc, char *argv[])
         if (showLogin) {
             // --- Show Login Dialog ---
             dialogResult = loginDialog.exec();
-
             if (dialogResult == QDialog::Accepted) {
                 // Login was successful!
                 loggedIn = true;
@@ -50,7 +47,6 @@ int main(int argc, char *argv[])
         else {
             // --- Show Sign Up Dialog ---
             dialogResult = signupDialog.exec();
-
             if (dialogResult == QDialog::Accepted) {
                 // Signup successful (shouldn't happen now, but handle it)
                 showLogin = true;
@@ -70,6 +66,7 @@ int main(int argc, char *argv[])
     if (loggedIn)
     {
         // User is logged in, show the main app
+        MainWindow w(&dbManager); // Pass dbManager pointer
         w.showMaximized();
         return a.exec();
     }

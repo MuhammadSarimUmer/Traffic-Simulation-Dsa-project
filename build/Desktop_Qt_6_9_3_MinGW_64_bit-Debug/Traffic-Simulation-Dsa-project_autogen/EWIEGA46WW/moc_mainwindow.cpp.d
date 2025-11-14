@@ -1,5 +1,6 @@
 C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/EWIEGA46WW/moc_mainwindow.cpp: C:/Users/HP/Documents/Traffic-Control-DSA/mainwindow.h \
   C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/moc_predefs.h \
+  C:/Users/HP/Documents/Traffic-Control-DSA/database_manager.h \
   C:/Users/HP/Documents/Traffic-Control-DSA/graph.h \
   C:/Users/HP/Documents/Traffic-Control-DSA/map_loader.h \
   C:/Users/HP/Documents/Traffic-Control-DSA/mapwidget.h \
@@ -101,6 +102,7 @@ C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-De
   E:/Qt/6.9.3/mingw_64/include/QtCore/qmargins.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qmath.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qmetacontainer.h \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/qmetaobject.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qmetatype.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qminmax.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qnamespace.h \
@@ -236,6 +238,11 @@ C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-De
   E:/Qt/6.9.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
   E:/Qt/6.9.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
   E:/Qt/6.9.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+  E:/Qt/6.9.3/mingw_64/include/QtSql/QSqlDatabase \
+  E:/Qt/6.9.3/mingw_64/include/QtSql/qsqldatabase.h \
+  E:/Qt/6.9.3/mingw_64/include/QtSql/qtsql-config.h \
+  E:/Qt/6.9.3/mingw_64/include/QtSql/qtsqlexports.h \
+  E:/Qt/6.9.3/mingw_64/include/QtSql/qtsqlglobal.h \
   E:/Qt/6.9.3/mingw_64/include/QtWidgets/QMainWindow \
   E:/Qt/6.9.3/mingw_64/include/QtWidgets/QWidget \
   E:/Qt/6.9.3/mingw_64/include/QtWidgets/qmainwindow.h \

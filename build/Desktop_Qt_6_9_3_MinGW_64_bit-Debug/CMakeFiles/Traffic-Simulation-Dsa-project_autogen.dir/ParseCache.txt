@@ -340,6 +340,9 @@ C:/Users/HP/Documents/Traffic-Control-DSA/database_manager.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
+C:/Users/HP/Documents/Traffic-Control-DSA/signup_dialog.cpp
+ uic:ui_signup_dialog.h
+C:/Users/HP/Documents/Traffic-Control-DSA/graph.h
 C:/Users/HP/Documents/Traffic-Control-DSA/login_dialog.h
  mmc:Q_OBJECT
  mdp:C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/moc_predefs.h
@@ -758,12 +761,10 @@ C:/Users/HP/Documents/Traffic-Control-DSA/login_dialog.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
-C:/Users/HP/Documents/Traffic-Control-DSA/signup_dialog.cpp
- uic:ui_signup_dialog.h
-C:/Users/HP/Documents/Traffic-Control-DSA/graph.h
 C:/Users/HP/Documents/Traffic-Control-DSA/mainwindow.h
  mmc:Q_OBJECT
  mdp:C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/moc_predefs.h
+ mdp:C:/Users/HP/Documents/Traffic-Control-DSA/database_manager.h
  mdp:C:/Users/HP/Documents/Traffic-Control-DSA/graph.h
  mdp:C:/Users/HP/Documents/Traffic-Control-DSA/mainwindow.h
  mdp:C:/Users/HP/Documents/Traffic-Control-DSA/map_loader.h
@@ -866,6 +867,7 @@ C:/Users/HP/Documents/Traffic-Control-DSA/mainwindow.h
  mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/qmargins.h
  mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/qmath.h
  mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/qmetacontainer.h
+ mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/qmetaobject.h
  mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/qmetatype.h
  mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/qminmax.h
  mdp:E:/Qt/6.9.3/mingw_64/include/QtCore/qnamespace.h
@@ -1001,6 +1003,11 @@ C:/Users/HP/Documents/Traffic-Control-DSA/mainwindow.h
  mdp:E:/Qt/6.9.3/mingw_64/include/QtNetwork/qtnetwork-config.h
  mdp:E:/Qt/6.9.3/mingw_64/include/QtNetwork/qtnetworkexports.h
  mdp:E:/Qt/6.9.3/mingw_64/include/QtNetwork/qtnetworkglobal.h
+ mdp:E:/Qt/6.9.3/mingw_64/include/QtSql/QSqlDatabase
+ mdp:E:/Qt/6.9.3/mingw_64/include/QtSql/qsqldatabase.h
+ mdp:E:/Qt/6.9.3/mingw_64/include/QtSql/qtsql-config.h
+ mdp:E:/Qt/6.9.3/mingw_64/include/QtSql/qtsqlexports.h
+ mdp:E:/Qt/6.9.3/mingw_64/include/QtSql/qtsqlglobal.h
  mdp:E:/Qt/6.9.3/mingw_64/include/QtWidgets/QMainWindow
  mdp:E:/Qt/6.9.3/mingw_64/include/QtWidgets/QWidget
  mdp:E:/Qt/6.9.3/mingw_64/include/QtWidgets/qmainwindow.h

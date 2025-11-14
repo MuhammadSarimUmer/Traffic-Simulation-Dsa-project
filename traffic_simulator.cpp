@@ -40,12 +40,11 @@ void TrafficSimulator::reset() {
     lightQueues.clear();
     lightReleaseTimers.clear();
     edgeVehicleCount.clear();
-    manualJams.clear(); // <-- NEW
+    manualJams.clear(); // <-- Clears the manual jams
     nextVehicleId = 1;
     totalReroutes = 0;
 }
 
-// --- NEW ---
 void TrafficSimulator::addManualJam(qint64 from, qint64 to)
 {
     if (graph->hasNode(from) && graph->hasNode(to)) {
@@ -55,13 +54,12 @@ void TrafficSimulator::addManualJam(qint64 from, qint64 to)
         qDebug() << "Manual jam added for edge" << from << "<->" << to;
     }
 }
-// --- END NEW ---
 
 void TrafficSimulator::addVehicle(qint64 source, qint64 destination, bool priority) {
     if (!graph || !graph->hasNode(source) || !graph->hasNode(destination))
         return;
 
-    // --- Use aStar for adding new vehicles ---
+    // --- Use aStar, passing in the manualJams ---
     Graph::PathResult result = graph->aStar(source, destination, manualJams);
     if (!result.found || result.path.size() < 2)
         return;
@@ -94,7 +92,6 @@ void TrafficSimulator::updateSimulation() {
     updateQueues(deltaTime);
     updateVehicles(deltaTime);
 
-    // --- MODIFIED ---
     // Emit traffic light data including queue size
     QVector<TrafficLight> lightsVector;
     lightsVector.reserve(trafficLights.size());
@@ -103,7 +100,6 @@ void TrafficSimulator::updateSimulation() {
         lightsVector.append(it.value());
     }
     emit trafficLightsUpdated(lightsVector);
-    // --- END MODIFIED ---
 
     emit vehiclesUpdated(vehicles);
 }
@@ -137,7 +133,6 @@ void TrafficSimulator::updateTrafficLights(double deltaTime) {
         if (it->timer >= effectiveCycle) {
             it->isGreen = !it->isGreen;
             it->timer = 0.0;
-            // qDebug() << "Light toggled at node" << it.key() << (it.isGreen ? "(GREEN)" : "(RED)");
         }
     }
 }
@@ -186,13 +181,10 @@ void TrafficSimulator::updateVehicles(double deltaTime) {
         edgeVehicles[edge].append(v.id);
     }
 
-    // --- NEW ---
     // Inject manual jams into the vehicle count
     for (const auto& edge : manualJams) {
         edgeVehicleCount[edge] = 100; // Force a "Red" status
     }
-    // --- END NEW ---
-
 
     for (int i = 0; i < vehicles.size(); ++i) {
         Vehicle& v = vehicles[i];
@@ -272,13 +264,11 @@ void TrafficSimulator::updateCongestion() {
         int count = it.value();
         QString status = (count <= 2) ? "Green" : (count <= 5 ? "Yellow" : "Red");
 
-        // --- NEW ---
         // Manually jammed edges are always Red
         if (manualJams.contains(edge)) {
             status = "Red";
             count = 100; // ensure red status
         }
-        // --- END NEW ---
 
         emit edgeCongestionUpdated(edge.first, edge.second, status);
 
@@ -324,30 +314,37 @@ void TrafficSimulator::updateCongestion() {
     }
 }
 
+// --- CORRECTED FUNCTION ---
 void TrafficSimulator::handleRerouting(Vehicle& v, const QPair<qint64,qint64>& congestedEdge)
 {
-    // 1. Get the vehicle's final destination (from its original path)
     qint64 destination = v.path.last();
 
-    // 2. Find a new path from its *current node*
-    //    This passes the 'manualJams' list to the A* function
+    // --- FIX: Create a set of ALL blocked edges ---
+    // Start with the manually created jams
+    QSet<QPair<qint64, qint64>> allBlockedEdges = manualJams;
+
+    // Add the current dynamic congestion
+    allBlockedEdges.insert(congestedEdge);
+    allBlockedEdges.insert(qMakePair(congestedEdge.second, congestedEdge.first)); // Add reverse direction
+
+    // Find new path, avoiding ALL blocked edges
     Graph::PathResult newPathResult = graph->aStar(v.path[v.currentIndex],
                                                    destination,
-                                                   manualJams);
+                                                   allBlockedEdges); // <-- Pass the correct set
 
-    // 3. If a new path is found, update the vehicle
-    if (newPathResult.found) {
+    if (newPathResult.found && newPathResult.path.size() >= 2) {
         v.path = newPathResult.path;
         v.currentIndex = 0; // Reset path index
         v.progress = 0.0;
+        v.rerouted = true; // Flag the vehicle as rerouted
+        v.lastRerouteTime = QDateTime::currentSecsSinceEpoch(); // Use seconds for cooldown
 
-        // 4. THIS IS THE KEY: Set the rerouted flag to TRUE!
-        v.rerouted = true;
-
-        // 5. Update last reroute time (this field is in your .h)
-        v.lastRerouteTime = QDateTime::currentMSecsSinceEpoch();
+        qDebug() << "Vehicle" << v.id << "rerouted successfully.";
+    } else {
+        qDebug() << "Vehicle" << v.id << "could not find a reroute path.";
     }
 }
+// --- END CORRECTED FUNCTION ---
 
 QPointF TrafficSimulator::interpolatePosition(const QPointF& a, const QPointF& b, double t) {
     return QPointF(a.x() + (b.x() - a.x()) * t, a.y() + (b.y() - a.y()) * t);

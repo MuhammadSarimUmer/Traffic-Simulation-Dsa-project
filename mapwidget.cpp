@@ -69,6 +69,19 @@ void MapWidget::clearTrafficVisualization()
 {
     currentVehicles.clear();
     currentTrafficLights.clear();
+    m_manualJams.clear();
+    update();
+}
+
+void MapWidget::setManualJams(const QSet<QPair<qint64, qint64>>& jams)
+{
+    m_manualJams = jams;
+    update();
+}
+
+void MapWidget::clearManualJams()
+{
+    m_manualJams.clear();
     update();
 }
 
@@ -380,7 +393,6 @@ void MapWidget::drawPath(QPainter &painter)
     painter.drawText(QRectF(endPos.x() - 14, endPos.y() - 14, 28, 28), Qt::AlignCenter, "B");
 }
 
-// --- MODIFIED FUNCTION ---
 void MapWidget::drawTrafficLights(QPainter &painter)
 {
     if (currentTrafficLights.isEmpty()) return;
@@ -392,12 +404,10 @@ void MapWidget::drawTrafficLights(QPainter &painter)
     painter.setFont(font);
 
     for (const auto& light : currentTrafficLights) {
-        // --- NEW LOGIC ---
         // Only draw the light if it's RED and has vehicles QUEUED
         if (light.isGreen || light.queueSize == 0) {
             continue;
         }
-        // --- END NEW LOGIC ---
 
         if (!currentGraph.hasNode(light.nodeId)) continue;
 
@@ -409,9 +419,9 @@ void MapWidget::drawTrafficLights(QPainter &painter)
 
         painter.setPen(QPen(Qt::white, 2)); // Thinner pen
         painter.setBrush(lightColor);
-        painter.drawEllipse(pos, 7, 7); // <-- Reduced size from 10 to 7
+        painter.drawEllipse(pos, 7, 7); // Reduced size from 10 to 7
 
-        // --- NEW: Draw Countdown Timer ---
+        // Draw Countdown Timer
         int countdown = qFloor(light.cycleDuration - light.timer);
         if (countdown < 0) countdown = 0;
 
@@ -422,10 +432,8 @@ void MapWidget::drawTrafficLights(QPainter &painter)
 
         painter.setPen(Qt::white);
         painter.drawText(textRect, Qt::AlignCenter, QString::number(countdown));
-        // --- END NEW ---
     }
 }
-// --- END MODIFIED FUNCTION ---
 
 void MapWidget::drawVehicles(QPainter &painter)
 {
@@ -472,6 +480,87 @@ void MapWidget::drawVehicles(QPainter &painter)
     }
 }
 
+void MapWidget::drawManualJams(QPainter &painter)
+{
+    if (m_manualJams.isEmpty() || currentGraph.getNodeCount() == 0) {
+        return;
+    }
+
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    // Light red, thick, semi-transparent pen
+    QPen jamPen(QColor(255, 100, 100, 150), 10, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painter.setPen(jamPen);
+
+    for (const auto& edge : m_manualJams) {
+        qint64 fromId = edge.first;
+        qint64 toId = edge.second;
+
+        // Only draw one direction of the jam (e.g., from < to) to avoid double drawing
+        if (fromId > toId) continue;
+
+        if (!currentGraph.hasNode(fromId) || !currentGraph.hasNode(toId)) {
+            continue;
+        }
+
+        Graph::Node fromNode = currentGraph.getNode(fromId);
+        Graph::Node toNode = currentGraph.getNode(toId);
+
+        QPointF p1 = geoToPixel(fromNode.lat, fromNode.lon);
+        QPointF p2 = geoToPixel(toNode.lat, toNode.lon);
+
+        painter.drawLine(p1, p2);
+    }
+}
+
+void MapWidget::drawReroutedPaths(QPainter &painter)
+{
+    if (currentGraph.getNodeCount() == 0 || currentVehicles.isEmpty() || currentPath.isEmpty()) {
+        return;
+    }
+
+    // Create a set of the original path's edges for fast lookup
+    QSet<quint64> originalEdges;
+    for (int i = 0; i < currentPath.size() - 1; ++i) {
+        quint64 from = currentPath[i];
+        quint64 to = currentPath[i+1];
+        originalEdges.insert((from << 32) | to);
+        originalEdges.insert((to << 32) | from); // For two-way matching
+    }
+
+    // Using bright orange for rerouted paths
+    QPen reroutePen(QColor(255, 165, 0, 200), 4, Qt::SolidLine, Qt::RoundCap);
+    painter.setPen(reroutePen);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+
+    // Check each vehicle's path
+    for (const auto& vehicle : currentVehicles) {
+        if (vehicle.path.size() < 2) {
+            continue;
+        }
+
+        // Check each segment (edge) of this vehicle's current path
+        for (int i = 0; i < vehicle.path.size() - 1; ++i) {
+            qint64 fromNodeId = vehicle.path[i];
+            qint64 toNodeId = vehicle.path[i+1];
+
+            // Create the edge representations to check against the set
+            quint64 edgeForward = (quint64(fromNodeId) << 32) | quint64(toNodeId);
+            quint64 edgeReverse = (quint64(toNodeId) << 32) | quint64(fromNodeId);
+
+            // If this edge is NOT in the original path, draw it
+            if (!originalEdges.contains(edgeForward) && !originalEdges.contains(edgeReverse)) {
+                Graph::Node fromNode = currentGraph.getNode(fromNodeId);
+                Graph::Node toNode = currentGraph.getNode(toNodeId);
+
+                QPointF p1 = geoToPixel(fromNode.lat, fromNode.lon);
+                QPointF p2 = geoToPixel(toNode.lat, toNode.lon);
+
+                painter.drawLine(p1, p2);
+            }
+        }
+    }
+}
+
 void MapWidget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
@@ -493,8 +582,13 @@ void MapWidget::paintEvent(QPaintEvent *event)
     // Draw shortest path (if any)
     drawPath(painter);
 
+    // Draw jams on top of path
+    drawManualJams(painter);
+
     // Draw traffic lights
     drawTrafficLights(painter);
+
+    // Draw rerouted paths
     drawReroutedPaths(painter);
 
     // Draw vehicles (on top of everything)
@@ -696,89 +790,3 @@ void MapWidget::setLoadedAreaBounds(const BoundingBox& bounds)
     qDebug() << "Loaded area bounds set:" << bounds.minLat << bounds.minLon
              << "to" << bounds.maxLat << bounds.maxLon;
 }
-/**
- * @brief Draws the paths of vehicles that have been rerouted.
- *
- * This function iterates through all current vehicles and compares their
- * path segments against the original 'shortestPath'. Any segment
- * found in a vehicle's path that is NOT in the original path is
- * drawn in orange to highlight the diversion.
- */
-/**
- * @brief Draws the paths of vehicles that have been rerouted.
- *
- * This function iterates through all current vehicles and compares their
- * path segments against the original 'm_shortestPath'. Any segment
- * found in a vehicle's path that is NOT in the original path is
- * drawn in orange to highlight the diversion.
- */
-/**
- * @brief Draws the paths of vehicles that have been rerouted.
- *
- * This function iterates through all current vehicles and compares their
- * path segments against the original 'currentPath'. Any segment
- * found in a vehicle's path that is NOT in the original path is
- * drawn in orange to highlight the diversion.
- */
-/**
- * @brief Draws the paths of vehicles that have been rerouted.
- *
- * This function iterates through all current vehicles and compares their
- * path segments against the original 'currentPath'. Any segment
- * found in a vehicle's path that is NOT in the original path is
- * drawn in orange to highlight the diversion.
- */
-void MapWidget::drawReroutedPaths(QPainter &painter)
-{
-    // --- CORRECTED ---
-    // Use 'getNodeCount() == 0' instead of 'isEmpty()'
-    if ((currentGraph.getNodeCount() == 0) || currentVehicles.isEmpty() || currentPath.isEmpty()) {
-        return; // Nothing to draw
-    }
-
-    // --- Create a set of the original path's edges for fast lookup ---
-    // We store an edge as a single quint64 for efficiency.
-    QSet<quint64> originalEdges;
-    for (int i = 0; i < currentPath.size() - 1; ++i) {
-        quint64 from = currentPath[i];
-        quint64 to = currentPath[i+1];
-        originalEdges.insert((from << 32) | to);
-        originalEdges.insert((to << 32) | from); // For two-way matching
-    }
-    // ---
-
-    // Define the pen for rerouted (diverted) paths
-    // A solid, thick, bright orange line
-    QPen reroutePen(QColor(0, 0, 0), 3.5, Qt::SolidLine, Qt::RoundCap);
-    painter.setPen(reroutePen);
-
-    // Check each vehicle's path
-    for (const auto& vehicle : currentVehicles) {
-        if (vehicle.path.size() < 2) {
-            continue; // Not a valid path
-        }
-
-        // Check each segment (edge) of this vehicle's current path
-        for (int i = 0; i < vehicle.path.size() - 1; ++i) {
-            qint64 fromNodeId = vehicle.path[i];
-            qint64 toNodeId = vehicle.path[i+1];
-
-            // Create the edge representations to check against the set
-            quint64 edgeForward = (quint64(fromNodeId) << 32) | quint64(toNodeId);
-            quint64 edgeReverse = (quint64(toNodeId) << 32) | quint64(fromNodeId);
-
-            // If this edge is NOT in the original path, draw it in orange
-            if (!originalEdges.contains(edgeForward) && !originalEdges.contains(edgeReverse)) {
-
-                Graph::Node fromNode = currentGraph.getNode(fromNodeId);
-                Graph::Node toNode = currentGraph.getNode(toNodeId);
-
-                // Use 'geoToPixel' and pass lat/lon as separate doubles
-                QPointF p1 = this->geoToPixel(fromNode.lat, fromNode.lon);
-                QPointF p2 = this->geoToPixel(toNode.lat, toNode.lon);
-
-                painter.drawLine(p1, p2);
-            }
-        }
-    }
-} // <-- CORRECTED: Make sure there is no 's' after this closing brace
