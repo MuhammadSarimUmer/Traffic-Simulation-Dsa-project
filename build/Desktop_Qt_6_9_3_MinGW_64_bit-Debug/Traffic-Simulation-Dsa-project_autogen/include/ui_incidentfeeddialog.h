@@ -16,7 +16,6 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QScrollArea>
-#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -26,13 +25,14 @@ class Ui_IncidentFeedDialog
 {
 public:
     QVBoxLayout *verticalLayout;
+    QVBoxLayout *headerLayout;
     QLabel *label;
+    QLabel *subtitleLabel;
     QScrollArea *scrollArea;
     QWidget *scrollAreaWidgetContents;
     QVBoxLayout *feedLayout;
     QHBoxLayout *horizontalLayout;
     QPushButton *refreshButton;
-    QSpacerItem *horizontalSpacer;
     QPushButton *reportIncidentButton;
 
     void setupUi(QDialog *IncidentFeedDialog)
@@ -41,70 +41,125 @@ public:
             IncidentFeedDialog->setObjectName("IncidentFeedDialog");
         IncidentFeedDialog->resize(500, 600);
         IncidentFeedDialog->setStyleSheet(QString::fromUtf8("QDialog {\n"
-"    background-color: #1e1e1e;\n"
+"    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
+"                                stop:0 #1e1e1e, stop:1 #2b2b2b);\n"
 "}\n"
 "QPushButton {\n"
-"    background-color: #2196F3;\n"
+"    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,\n"
+"                                stop:0 #2196F3, stop:1 #0b7dda);\n"
 "    color: white;\n"
-"    padding: 8px;\n"
-"    border-radius: 4px;\n"
-"    font-weight: bold;\n"
+"    padding: 10px 16px;\n"
+"    border: none;\n"
+"    border-radius: 6px;\n"
+"    font-weight: 600;\n"
+"    font-size: 12px;\n"
+"    font-family: 'Segoe UI', Arial, sans-serif;\n"
 "}\n"
 "QPushButton:hover {\n"
-"    background-color: #0b7dda;\n"
+"    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,\n"
+"                                stop:0 #0b7dda, stop:1 #0961a5);\n"
+"}\n"
+"QPushButton:pressed {\n"
+"    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,\n"
+"                                stop:0 #0961a5, stop:1 #074d87);\n"
 "}\n"
 "QPushButton#refreshButton {\n"
-"    background-color: #4CAF50;\n"
+"    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,\n"
+"                                stop:0 #4CAF50, stop:1 #45a049);\n"
 "}\n"
-"QPushButton#refreshButton:hover {\n"
-"    background-color: #45a049;\n"
+"QPushButton#refreshButton:hover {"
+                        "\n"
+"    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,\n"
+"                                stop:0 #45a049, stop:1 #3d8b40);\n"
 "}\n"
 "QScrollArea {\n"
 "    border: none;\n"
+"    background-color: transparent;\n"
+"}\n"
+"QScrollBar:vertical {\n"
+"    background: rgba(255, 255, 255, 0.05);\n"
+"    width: 10px;\n"
+"    border-radius: 5px;\n"
+"}\n"
+"QScrollBar::handle:vertical {\n"
+"    background: rgba(255, 255, 255, 0.2);\n"
+"    border-radius: 5px;\n"
+"    min-height: 30px;\n"
+"}\n"
+"QScrollBar::handle:vertical:hover {\n"
+"    background: rgba(255, 255, 255, 0.3);\n"
+"}\n"
+"QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {\n"
+"    height: 0px;\n"
 "}\n"
 "QLabel {\n"
-"        color: #ffffff;\n"
+"    color: #ffffff;\n"
+"    font-family: 'Segoe UI', Arial, sans-serif;\n"
 "}"));
         verticalLayout = new QVBoxLayout(IncidentFeedDialog);
+        verticalLayout->setSpacing(15);
         verticalLayout->setObjectName("verticalLayout");
+        verticalLayout->setContentsMargins(20, 20, 20, 20);
+        headerLayout = new QVBoxLayout();
+        headerLayout->setSpacing(6);
+        headerLayout->setObjectName("headerLayout");
         label = new QLabel(IncidentFeedDialog);
         label->setObjectName("label");
         QFont font;
-        font.setPointSize(14);
+        font.setPointSize(16);
         font.setBold(true);
         label->setFont(font);
-        label->setStyleSheet(QString::fromUtf8("color: #ffffff;"));
+        label->setStyleSheet(QString::fromUtf8("color: #2196F3;"));
 
-        verticalLayout->addWidget(label);
+        headerLayout->addWidget(label);
+
+        subtitleLabel = new QLabel(IncidentFeedDialog);
+        subtitleLabel->setObjectName("subtitleLabel");
+        QFont font1;
+        font1.setPointSize(8);
+        subtitleLabel->setFont(font1);
+        subtitleLabel->setStyleSheet(QString::fromUtf8("color: rgba(255, 255, 255, 0.6);"));
+
+        headerLayout->addWidget(subtitleLabel);
+
+
+        verticalLayout->addLayout(headerLayout);
 
         scrollArea = new QScrollArea(IncidentFeedDialog);
         scrollArea->setObjectName("scrollArea");
+        scrollArea->setStyleSheet(QString::fromUtf8("QScrollArea {\n"
+"    background-color: transparent;\n"
+"}\n"
+"QWidget#scrollAreaWidgetContents {\n"
+"    background-color: transparent;\n"
+"}"));
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName("scrollAreaWidgetContents");
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 482, 497));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 450, 450));
         scrollAreaWidgetContents->setStyleSheet(QString::fromUtf8("#scrollAreaWidgetContents {\n"
-"    background-color: #1e1e1e;\n"
+"    background-color: transparent;\n"
 "}"));
         feedLayout = new QVBoxLayout(scrollAreaWidgetContents);
+        feedLayout->setSpacing(12);
         feedLayout->setObjectName("feedLayout");
+        feedLayout->setContentsMargins(0, 0, 5, 0);
         scrollArea->setWidget(scrollAreaWidgetContents);
 
         verticalLayout->addWidget(scrollArea);
 
         horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(10);
         horizontalLayout->setObjectName("horizontalLayout");
         refreshButton = new QPushButton(IncidentFeedDialog);
         refreshButton->setObjectName("refreshButton");
+        refreshButton->setMinimumSize(QSize(0, 40));
 
         horizontalLayout->addWidget(refreshButton);
 
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
-
-        horizontalLayout->addItem(horizontalSpacer);
-
         reportIncidentButton = new QPushButton(IncidentFeedDialog);
         reportIncidentButton->setObjectName("reportIncidentButton");
+        reportIncidentButton->setMinimumSize(QSize(0, 40));
 
         horizontalLayout->addWidget(reportIncidentButton);
 
@@ -120,9 +175,10 @@ public:
     void retranslateUi(QDialog *IncidentFeedDialog)
     {
         IncidentFeedDialog->setWindowTitle(QCoreApplication::translate("IncidentFeedDialog", "Live Incident Feed", nullptr));
-        label->setText(QCoreApplication::translate("IncidentFeedDialog", "Live Community Incident Feed", nullptr));
-        refreshButton->setText(QCoreApplication::translate("IncidentFeedDialog", "Refresh Feed", nullptr));
-        reportIncidentButton->setText(QCoreApplication::translate("IncidentFeedDialog", "Report New Incident", nullptr));
+        label->setText(QCoreApplication::translate("IncidentFeedDialog", "Live Community Feed", nullptr));
+        subtitleLabel->setText(QCoreApplication::translate("IncidentFeedDialog", "Stay updated with real-time incident reports", nullptr));
+        refreshButton->setText(QCoreApplication::translate("IncidentFeedDialog", "\360\237\224\204  Refresh", nullptr));
+        reportIncidentButton->setText(QCoreApplication::translate("IncidentFeedDialog", "\360\237\223\235  Report Incident", nullptr));
     } // retranslateUi
 
 };

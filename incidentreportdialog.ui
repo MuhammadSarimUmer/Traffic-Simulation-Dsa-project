@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>450</width>
-    <height>350</height>
+    <height>520</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,61 +15,161 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QDialog {
-    background-color: #2b2b2b;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                                stop:0 #1e1e1e, stop:1 #2b2b2b);
 }
 QLabel {
-    color: #ffffff;
+    color: #e8e8e8;
+    font-family: 'Segoe UI', Arial, sans-serif;
 }
 QLineEdit, QTextEdit {
-    background-color: #3c3c3c;
+    background-color: rgba(255, 255, 255, 0.08);
     color: #ffffff;
-    border: 1px solid #555;
-    border-radius: 4px;
-    padding: 5px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 12px;
+    selection-background-color: #2196F3;
+}
+QLineEdit:focus, QTextEdit:focus {
+    border: 2px solid #2196F3;
+    background-color: rgba(255, 255, 255, 0.12);
+}
+QLineEdit:hover, QTextEdit:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 QPushButton {
-    background-color: #2196F3;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                stop:0 #2196F3, stop:1 #0b7dda);
     color: white;
-    padding: 8px;
-    border-radius: 4px;
-    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 12px;
+    font-family: 'Segoe UI', Arial, sans-serif;
 }
 QPushButton:hover {
-    background-color: #0b7dda;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                stop:0 #0b7dda, stop:1 #0961a5);
+}
+QPushButton:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                stop:0 #0961a5, stop:1 #074d87);
 }
 QPushButton#cancelButton {
-    background-color: #f44336;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                stop:0 #f44336, stop:1 #da190b);
 }
 QPushButton#cancelButton:hover {
-    background-color: #da190b;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                stop:0 #da190b, stop:1 #c41606);
+}
+QPushButton#browseButton {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+QPushButton#browseButton:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+QTextEdit {
+    padding: 10px;
+}
+Line {
+    background-color: rgba(255, 255, 255, 0.1);
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>12</number>
+   </property>
+   <property name="leftMargin">
+    <number>25</number>
+   </property>
+   <property name="topMargin">
+    <number>25</number>
+   </property>
+   <property name="rightMargin">
+    <number>25</number>
+   </property>
+   <property name="bottomMargin">
+    <number>25</number>
+   </property>
    <item>
     <widget class="QLabel" name="label">
      <property name="font">
       <font>
-       <pointsize>12</pointsize>
+       <pointsize>16</pointsize>
        <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">color: #2196F3;
+padding-bottom: 4px;</string>
+     </property>
      <property name="text">
-      <string>Create New Incident Report</string>
+      <string>Create Incident Report</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="subtitleLabel">
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgba(255, 255, 255, 0.6);
+margin-bottom: 6px;</string>
+     </property>
+     <property name="text">
+      <string>Help your community stay informed</string>
      </property>
     </widget>
    </item>
    <item>
     <widget class="Line" name="line">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgba(255, 255, 255, 0.15);
+height: 1px;</string>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
    <item>
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>8</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
     <widget class="QLabel" name="label_2">
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgba(255, 255, 255, 0.8);
+font-weight: 500;
+margin-bottom: 3px;</string>
+     </property>
      <property name="text">
-      <string>Title:</string>
+      <string>Title</string>
      </property>
     </widget>
    </item>
@@ -82,27 +182,58 @@ QPushButton#cancelButton:hover {
    </item>
    <item>
     <widget class="QLabel" name="label_3">
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgba(255, 255, 255, 0.8);
+font-weight: 500;
+margin-top: 6px;
+margin-bottom: 3px;</string>
+     </property>
      <property name="text">
-      <string>Description:</string>
+      <string>Description</string>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QTextEdit" name="descriptionTextEdit">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>80</height>
+      </size>
+     </property>
      <property name="placeholderText">
-      <string>e.g., Heavy traffic, road is blocked. Please take an alternate route.</string>
+      <string>Provide details about the incident, location, and important information...</string>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QLabel" name="label_4">
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgba(255, 255, 255, 0.8);
+font-weight: 500;
+margin-top: 6px;
+margin-bottom: 3px;</string>
+     </property>
      <property name="text">
-      <string>Image (Optional):</string>
+      <string>Image (Optional)</string>
      </property>
     </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>10</number>
+     </property>
      <item>
       <widget class="QLineEdit" name="imagePathLineEdit">
        <property name="readOnly">
@@ -115,6 +246,12 @@ QPushButton#cancelButton:hover {
      </item>
      <item>
       <widget class="QPushButton" name="browseButton">
+       <property name="minimumSize">
+        <size>
+         <width>90</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="text">
         <string>Browse...</string>
        </property>
@@ -130,15 +267,24 @@ QPushButton#cancelButton:hover {
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>40</height>
+       <height>15</height>
       </size>
      </property>
     </spacer>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="spacing">
+      <number>10</number>
+     </property>
      <item>
       <widget class="QPushButton" name="cancelButton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>40</height>
+        </size>
+       </property>
        <property name="text">
         <string>Cancel</string>
        </property>
@@ -146,6 +292,12 @@ QPushButton#cancelButton:hover {
      </item>
      <item>
       <widget class="QPushButton" name="submitButton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>40</height>
+        </size>
+       </property>
        <property name="text">
         <string>Submit Report</string>
        </property>

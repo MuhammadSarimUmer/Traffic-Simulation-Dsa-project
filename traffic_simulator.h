@@ -32,6 +32,7 @@ public:
     int getVehicleCount() const { return vehicles.size(); }
     int getTrafficLightCount() const { return trafficLights.size(); }
     void addManualJam(qint64 from, qint64 to);
+    void removeManualJam(qint64 from,qint64 to);
 
     // --- NEW ---
     // Getter for visualizing jams

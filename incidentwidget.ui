@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>250</height>
+    <width>420</width>
+    <height>240</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,79 +15,157 @@
   </property>
   <property name="styleSheet">
    <string notr="true">#IncidentWidget {
-    background-color: #2b2b2b;
-    border: 1px solid #444;
-    border-radius: 8px;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                                stop:0 rgba(255, 255, 255, 0.08),
+                                stop:1 rgba(255, 255, 255, 0.04));
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    margin: 4px;
+}
+#IncidentWidget:hover {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                                stop:0 rgba(255, 255, 255, 0.12),
+                                stop:1 rgba(255, 255, 255, 0.06));
+    border: 1px solid rgba(33, 150, 243, 0.4);
 }
 QLabel {
     color: #ffffff;
     background-color: transparent;
+    font-family: 'Segoe UI', Arial, sans-serif;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>8</number>
+   </property>
    <property name="leftMargin">
-    <number>12</number>
+    <number>16</number>
    </property>
    <property name="topMargin">
-    <number>12</number>
+    <number>16</number>
    </property>
    <property name="rightMargin">
-    <number>12</number>
+    <number>16</number>
    </property>
    <property name="bottomMargin">
-    <number>12</number>
+    <number>16</number>
    </property>
    <item>
-    <widget class="QLabel" name="titleLabel">
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
+    <layout class="QHBoxLayout" name="headerLayout">
+     <property name="spacing">
+      <number>10</number>
      </property>
-     <property name="text">
-      <string>Incident Title</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
+     <item>
+      <widget class="QLabel" name="iconLabel">
+       <property name="minimumSize">
+        <size>
+         <width>36</width>
+         <height>36</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>36</width>
+         <height>36</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                                    stop:0 #2196F3, stop:1 #0b7dda);
+border-radius: 18px;
+font-size: 18px;
+padding: 6px;</string>
+       </property>
+       <property name="text">
+        <string>⚠️</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="titleInfoLayout">
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="titleLabel">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: #ffffff;</string>
+         </property>
+         <property name="text">
+          <string>Incident Title</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="timestampLabel">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>🕐 2 hours ago</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgba(255, 255, 255, 0.5);</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QLabel" name="userInfoLabel">
      <property name="font">
       <font>
-       <italic>true</italic>
+       <pointsize>8</pointsize>
+       <italic>false</italic>
       </font>
      </property>
      <property name="text">
-      <string>by username (user@email.com)</string>
+      <string>👤 by username • user@email.com</string>
      </property>
      <property name="styleSheet">
-      <string notr="true">color: #aaa;</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="timestampLabel">
-     <property name="font">
-      <font>
-       <italic>true</italic>
-      </font>
-     </property>
-     <property name="text">
-      <string>timestamp</string>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">color: #aaa; margin-bottom: 5px;</string>
+      <string notr="true">color: rgba(255, 255, 255, 0.6);
+background: rgba(255, 255, 255, 0.05);
+padding: 5px 10px;
+border-radius: 6px;</string>
      </property>
     </widget>
    </item>
    <item>
     <widget class="Line" name="line">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgba(255, 255, 255, 0.1);
+height: 1px;</string>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -95,11 +173,18 @@ QLabel {
    </item>
    <item>
     <widget class="QLabel" name="descriptionLabel">
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
      <property name="text">
-      <string>Description of the incident goes here...</string>
+      <string>Description of the incident goes here. This provides detailed information about what happened.</string>
      </property>
      <property name="styleSheet">
-      <string notr="true">margin-top: 5px;</string>
+      <string notr="true">color: rgba(255, 255, 255, 0.85);
+line-height: 1.5;
+padding: 6px 0;</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -114,6 +199,12 @@ QLabel {
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
+     <property name="styleSheet">
+      <string notr="true">border: 2px solid rgba(255, 255, 255, 0.1);
+border-radius: 10px;
+background-color: rgba(0, 0, 0, 0.2);
+padding: 3px;</string>
+     </property>
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -123,7 +214,7 @@ QLabel {
      <property name="maximumSize">
       <size>
        <width>16777215</width>
-       <height>200</height>
+       <height>160</height>
       </size>
      </property>
     </widget>
@@ -143,6 +234,44 @@ QLabel {
       </size>
      </property>
     </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="footerLayout">
+     <property name="spacing">
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="locationLabel">
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgba(33, 150, 243, 0.9);
+background: rgba(33, 150, 243, 0.15);
+padding: 4px 8px;
+border-radius: 5px;</string>
+       </property>
+       <property name="text">
+        <string>📍 Karachi, Pakistan</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

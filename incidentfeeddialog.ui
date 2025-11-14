@@ -15,51 +15,126 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QDialog {
-    background-color: #1e1e1e;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                                stop:0 #1e1e1e, stop:1 #2b2b2b);
 }
 QPushButton {
-    background-color: #2196F3;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                stop:0 #2196F3, stop:1 #0b7dda);
     color: white;
-    padding: 8px;
-    border-radius: 4px;
-    font-weight: bold;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 12px;
+    font-family: 'Segoe UI', Arial, sans-serif;
 }
 QPushButton:hover {
-    background-color: #0b7dda;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                stop:0 #0b7dda, stop:1 #0961a5);
+}
+QPushButton:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                stop:0 #0961a5, stop:1 #074d87);
 }
 QPushButton#refreshButton {
-    background-color: #4CAF50;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                stop:0 #4CAF50, stop:1 #45a049);
 }
 QPushButton#refreshButton:hover {
-    background-color: #45a049;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                stop:0 #45a049, stop:1 #3d8b40);
 }
 QScrollArea {
     border: none;
+    background-color: transparent;
+}
+QScrollBar:vertical {
+    background: rgba(255, 255, 255, 0.05);
+    width: 10px;
+    border-radius: 5px;
+}
+QScrollBar::handle:vertical {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    min-height: 30px;
+}
+QScrollBar::handle:vertical:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    height: 0px;
 }
 QLabel {
-        color: #ffffff;
+    color: #ffffff;
+    font-family: 'Segoe UI', Arial, sans-serif;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>15</number>
+   </property>
+   <property name="leftMargin">
+    <number>20</number>
+   </property>
+   <property name="topMargin">
+    <number>20</number>
+   </property>
+   <property name="rightMargin">
+    <number>20</number>
+   </property>
+   <property name="bottomMargin">
+    <number>20</number>
+   </property>
    <item>
-    <widget class="QLabel" name="label">
-     <property name="font">
-      <font>
-       <pointsize>14</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
+    <layout class="QVBoxLayout" name="headerLayout">
+     <property name="spacing">
+      <number>6</number>
      </property>
-     <property name="styleSheet">
-      <string notr="true">color: #ffffff;</string>
-     </property>
-     <property name="text">
-      <string>Live Community Incident Feed</string>
-     </property>
-    </widget>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #2196F3;</string>
+       </property>
+       <property name="text">
+        <string>Live Community Feed</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="subtitleLabel">
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgba(255, 255, 255, 0.6);</string>
+       </property>
+       <property name="text">
+        <string>Stay updated with real-time incident reports</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QScrollArea" name="scrollArea">
+     <property name="styleSheet">
+      <string notr="true">QScrollArea {
+    background-color: transparent;
+}
+QWidget#scrollAreaWidgetContents {
+    background-color: transparent;
+}</string>
+     </property>
      <property name="widgetResizable">
       <bool>true</bool>
      </property>
@@ -68,46 +143,63 @@ QLabel {
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>482</width>
-        <height>497</height>
+        <width>450</width>
+        <height>450</height>
        </rect>
       </property>
       <property name="styleSheet">
        <string notr="true">#scrollAreaWidgetContents {
-    background-color: #1e1e1e;
+    background-color: transparent;
 }</string>
       </property>
       <layout class="QVBoxLayout" name="feedLayout">
-       </layout>
+       <property name="spacing">
+        <number>12</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>5</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+      </layout>
      </widget>
     </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>10</number>
+     </property>
      <item>
       <widget class="QPushButton" name="refreshButton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>40</height>
+        </size>
+       </property>
        <property name="text">
-        <string>Refresh Feed</string>
+        <string>🔄  Refresh</string>
        </property>
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
+      <widget class="QPushButton" name="reportIncidentButton">
+       <property name="minimumSize">
         <size>
-         <width>40</width>
-         <height>20</height>
+         <width>0</width>
+         <height>40</height>
         </size>
        </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="reportIncidentButton">
        <property name="text">
-        <string>Report New Incident</string>
+        <string>📝  Report Incident</string>
        </property>
       </widget>
      </item>
