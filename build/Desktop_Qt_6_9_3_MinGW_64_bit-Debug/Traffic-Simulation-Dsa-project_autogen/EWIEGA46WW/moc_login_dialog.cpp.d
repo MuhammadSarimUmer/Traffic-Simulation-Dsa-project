@@ -1,6 +1,7 @@
 C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/EWIEGA46WW/moc_login_dialog.cpp: C:/Users/HP/Documents/Traffic-Control-DSA/login_dialog.h \
   C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/moc_predefs.h \
   C:/Users/HP/Documents/Traffic-Control-DSA/database_manager.h \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/QDateTime \
   E:/Qt/6.9.3/mingw_64/include/QtCore/QList \
   E:/Qt/6.9.3/mingw_64/include/QtCore/QObject \
   E:/Qt/6.9.3/mingw_64/include/QtCore/QPropertyAnimation \
@@ -32,6 +33,7 @@ C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-De
   E:/Qt/6.9.3/mingw_64/include/QtCore/qbytearrayalgorithms.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qbytearraylist.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qbytearrayview.h \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/qcalendar.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qchar.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qcompare.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qcompare_impl.h \
@@ -48,6 +50,7 @@ C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-De
   E:/Qt/6.9.3/mingw_64/include/QtCore/qcoreevent.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qdarwinhelpers.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qdatastream.h \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/qdatetime.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qdeadlinetimer.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qdebug.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qeasingcurve.h \

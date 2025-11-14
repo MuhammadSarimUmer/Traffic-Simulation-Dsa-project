@@ -506,6 +506,24 @@
 			null
 		],
 		[
+			"C:/Users/HP/Documents/Traffic-Control-DSA/incidentfeeddialog.h",
+			"MU",
+			"EWIEGA46WW/moc_incidentfeeddialog.cpp",
+			null
+		],
+		[
+			"C:/Users/HP/Documents/Traffic-Control-DSA/incidentreportdialog.h",
+			"MU",
+			"EWIEGA46WW/moc_incidentreportdialog.cpp",
+			null
+		],
+		[
+			"C:/Users/HP/Documents/Traffic-Control-DSA/incidentwidget.h",
+			"MU",
+			"EWIEGA46WW/moc_incidentwidget.cpp",
+			null
+		],
+		[
 			"C:/Users/HP/Documents/Traffic-Control-DSA/login_dialog.h",
 			"MU",
 			"EWIEGA46WW/moc_login_dialog.cpp",
@@ -628,6 +646,21 @@
 			null
 		],
 		[ "C:/Users/HP/Documents/Traffic-Control-DSA/graph.cpp", "MU", null ],
+		[
+			"C:/Users/HP/Documents/Traffic-Control-DSA/incidentfeeddialog.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/HP/Documents/Traffic-Control-DSA/incidentreportdialog.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/HP/Documents/Traffic-Control-DSA/incidentwidget.cpp",
+			"MU",
+			null
+		],
 		[
 			"C:/Users/HP/Documents/Traffic-Control-DSA/login_dialog.cpp",
 			"MU",

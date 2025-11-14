@@ -21,7 +21,12 @@ set(PROJECT_SOURCES
     traffic_simulator.cpp
     database_manager.cpp
     login_dialog.cpp
-    signup_dialog.cpp     # <-- ADD THIS
+    signup_dialog.cpp
+    mapwidget.cpp               # <-- MOVED HERE
+    # --- ADD NEW CPP FILES ---
+    incidentfeeddialog.cpp
+    incidentreportdialog.cpp
+    incidentwidget.cpp
 )
 
 set(PROJECT_HEADERS
@@ -32,13 +37,22 @@ set(PROJECT_HEADERS
     traffic_simulator.h
     database_manager.h
     login_dialog.h
-    signup_dialog.h       # <-- ADD THIS
+    signup_dialog.h
+    mapwidget.h                 # <-- MOVED HERE
+    # --- ADD NEW H FILES ---
+    incidentfeeddialog.h
+    incidentreportdialog.h
+    incidentwidget.h
 )
 
 set(PROJECT_FORMS
     mainwindow.ui
     login_dialog.ui
-    signup_dialog.ui      # <-- ADD THIS
+    signup_dialog.ui
+    # --- ADD NEW UI FILES ---
+    incidentfeeddialog.ui
+    incidentreportdialog.ui
+    incidentwidget.ui
 )
 
 # Create the executable target
@@ -46,7 +60,6 @@ add_executable(${PROJECT_NAME} WIN32
     ${PROJECT_SOURCES}
     ${PROJECT_HEADERS}
     ${PROJECT_FORMS}
-    mapwidget.h mapwidget.cpp
     resources.qrc
 )
 

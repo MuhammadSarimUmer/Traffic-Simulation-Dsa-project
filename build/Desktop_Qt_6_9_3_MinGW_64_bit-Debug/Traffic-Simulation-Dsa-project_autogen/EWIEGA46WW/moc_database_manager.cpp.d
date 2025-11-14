@@ -1,5 +1,7 @@
 C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/EWIEGA46WW/moc_database_manager.cpp: C:/Users/HP/Documents/Traffic-Control-DSA/database_manager.h \
   C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/moc_predefs.h \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/QDateTime \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/QList \
   E:/Qt/6.9.3/mingw_64/include/QtCore/QObject \
   E:/Qt/6.9.3/mingw_64/include/QtCore/QString \
   E:/Qt/6.9.3/mingw_64/include/QtCore/q17memory.h \
@@ -22,6 +24,7 @@ C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-De
   E:/Qt/6.9.3/mingw_64/include/QtCore/qbytearrayalgorithms.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qbytearraylist.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qbytearrayview.h \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/qcalendar.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qchar.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qcompare.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qcompare_impl.h \
@@ -35,6 +38,7 @@ C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-De
   E:/Qt/6.9.3/mingw_64/include/QtCore/qcontiguouscache.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qdarwinhelpers.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qdatastream.h \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/qdatetime.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qdebug.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qexceptionhandling.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qflags.h \
@@ -52,6 +56,7 @@ C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-De
   E:/Qt/6.9.3/mingw_64/include/QtCore/qiterator.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qlatin1stringview.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qlist.h \
+  E:/Qt/6.9.3/mingw_64/include/QtCore/qlocale.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qlogging.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qmalloc.h \
   E:/Qt/6.9.3/mingw_64/include/QtCore/qmap.h \

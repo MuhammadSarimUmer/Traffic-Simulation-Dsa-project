@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "login_dialog.h" // <-- ASSUMED LOGIN FILE NAME
+#include "login_dialog.h"
+#include "incidentfeeddialog.h" // <-- ADDED
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QDir>
@@ -12,7 +13,9 @@
 #include <QScrollArea>
 #include <QDebug>
 #include <QCompleter>
-MainWindow::MainWindow(DatabaseManager *dbManager, QWidget *parent)
+
+// --- MODIFIED CONSTRUCTOR ---
+MainWindow::MainWindow(DatabaseManager *dbManager, const QString& username, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , mapLoader(new MapLoader(this))
@@ -20,8 +23,15 @@ MainWindow::MainWindow(DatabaseManager *dbManager, QWidget *parent)
     , mapVisualization(new MapWidget(this))
     , trafficSimulator(nullptr)
     , dbManager(dbManager)  // Store the database manager pointer
+    , m_currentUsername(username) // <-- ADDED: Store the username
 {
     ui->setupUi(this);
+
+    // --- ADDED: Get and store the user's email ---
+    if (dbManager) {
+        m_currentUserEmail = dbManager->getEmailForUsername(m_currentUsername);
+    }
+    // --- END ADDED ---
 
     // --- MODIFICATION FOR SCROLL AREA ---
     // Add the map widget to the layout INSIDE the scroll area
@@ -706,10 +716,19 @@ void MainWindow::on_actionBackToLogin_triggered()
  */
 void MainWindow::on_actionChat_triggered()
 {
-    // Placeholder for your chat functionality
-    QMessageBox::information(this, "Chat", "Chat feature is not yet implemented.");
+    // --- THIS FUNCTION IS MODIFIED ---
 
-    // When ready, you would do something like:
-    // ChatDialog *chat = new ChatDialog(this);
-    // chat->show();
+    // Old code:
+    // QMessageBox::information(this, "Chat", "Chat feature is not yet implemented.");
+
+    // New code:
+    // Create the dialog, passing the db manager and the user's info
+    IncidentFeedDialog *feedDialog = new IncidentFeedDialog(
+        dbManager,
+        m_currentUsername,
+        m_currentUserEmail,
+        this
+        );
+    feedDialog->setAttribute(Qt::WA_DeleteOnClose); // Auto-delete when closed
+    feedDialog->show(); // Show as a non-modal window (so user can still use map)
 }

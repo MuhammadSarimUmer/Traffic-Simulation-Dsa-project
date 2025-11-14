@@ -10,6 +10,12 @@ Traffic-Simulation-Dsa-project_autogen/timestamp: \
 	C:/Users/HP/Documents/Traffic-Control-DSA/database_manager.h \
 	C:/Users/HP/Documents/Traffic-Control-DSA/graph.cpp \
 	C:/Users/HP/Documents/Traffic-Control-DSA/graph.h \
+	C:/Users/HP/Documents/Traffic-Control-DSA/incidentfeeddialog.cpp \
+	C:/Users/HP/Documents/Traffic-Control-DSA/incidentfeeddialog.h \
+	C:/Users/HP/Documents/Traffic-Control-DSA/incidentreportdialog.cpp \
+	C:/Users/HP/Documents/Traffic-Control-DSA/incidentreportdialog.h \
+	C:/Users/HP/Documents/Traffic-Control-DSA/incidentwidget.cpp \
+	C:/Users/HP/Documents/Traffic-Control-DSA/incidentwidget.h \
 	C:/Users/HP/Documents/Traffic-Control-DSA/login_dialog.cpp \
 	C:/Users/HP/Documents/Traffic-Control-DSA/login_dialog.h \
 	C:/Users/HP/Documents/Traffic-Control-DSA/main.cpp \
@@ -770,6 +776,9 @@ Traffic-Simulation-Dsa-project_autogen/timestamp: \
 	E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h \
 	E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h \
 	E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h \
+	C:/Users/HP/Documents/Traffic-Control-DSA/incidentfeeddialog.ui \
+	C:/Users/HP/Documents/Traffic-Control-DSA/incidentreportdialog.ui \
+	C:/Users/HP/Documents/Traffic-Control-DSA/incidentwidget.ui \
 	C:/Users/HP/Documents/Traffic-Control-DSA/login_dialog.ui \
 	C:/Users/HP/Documents/Traffic-Control-DSA/mainwindow.ui \
 	C:/Users/HP/Documents/Traffic-Control-DSA/signup_dialog.ui \

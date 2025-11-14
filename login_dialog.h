@@ -20,6 +20,10 @@ public:
     explicit LoginDialog(DatabaseManager *dbManager, QWidget *parent = nullptr);
     ~LoginDialog();
 
+    // --- NEW PUBLIC FUNCTION ---
+    QString getUsername() const;
+    // --- END NEW ---
+
     // Re-implemented to control animation
     virtual void accept() override;
     virtual void reject() override;

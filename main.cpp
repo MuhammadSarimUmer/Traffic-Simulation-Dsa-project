@@ -4,6 +4,7 @@
 #include "login_dialog.h"
 #include "signup_dialog.h"
 #include "database_manager.h"
+#include <QDebug> // <-- ADDED for qCritical
 
 int main(int argc, char *argv[])
 {
@@ -21,6 +22,7 @@ int main(int argc, char *argv[])
 
     bool loggedIn = false;
     bool showLogin = true; // Start with login dialog
+    QString loggedInUsername; // <-- ADDED to store username
 
     while(true)
     {
@@ -31,6 +33,7 @@ int main(int argc, char *argv[])
             dialogResult = loginDialog.exec();
             if (dialogResult == QDialog::Accepted) {
                 // Login was successful!
+                loggedInUsername = loginDialog.getUsername(); // <-- ADDED
                 loggedIn = true;
                 break; // Exit main loop
             }
@@ -66,7 +69,8 @@ int main(int argc, char *argv[])
     if (loggedIn)
     {
         // User is logged in, show the main app
-        MainWindow w(&dbManager); // Pass dbManager pointer
+        // --- MODIFIED to pass username ---
+        MainWindow w(&dbManager, loggedInUsername); // Pass dbManager and username
         w.showMaximized();
         return a.exec();
     }

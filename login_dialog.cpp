@@ -27,6 +27,14 @@ LoginDialog::~LoginDialog()
     delete ui;
 }
 
+// --- NEW FUNCTION IMPLEMENTATION ---
+QString LoginDialog::getUsername() const
+{
+    return ui->usernameLineEdit->text();
+}
+// --- END NEW ---
+
+
 // --- Animation Functions ---
 
 void LoginDialog::showEvent(QShowEvent *event)

@@ -18,7 +18,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(DatabaseManager *dbManager, QWidget *parent = nullptr);
+    // --- MODIFIED CONSTRUCTOR ---
+    explicit MainWindow(DatabaseManager *dbManager, const QString& username, QWidget *parent = nullptr);
     ~MainWindow();
 
 private slots:
@@ -75,6 +76,10 @@ private:
     TrafficSimulator *trafficSimulator;
 
     QMap<QString, MapWidget::BoundingBox> areaBounds;
+
+    // --- NEW MEMBER VARIABLES ---
+    QString m_currentUsername;
+    QString m_currentUserEmail;
 };
 
 #endif // MAINWINDOW_H
