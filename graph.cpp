@@ -116,8 +116,8 @@ bool Graph::loadFromOverpassJSON(const QByteArray &jsonData)
                     double dist = haversineDistance(n1.lat, n1.lon, n2.lat, n2.lon);
 
                     // Add bidirectional edges
-                    addEdge(from, to, dist);
-                    addEdge(to, from, dist);
+                    addEdge(from, to, dist, wayName, obj["id"].toVariant().toLongLong());
+                    addEdge(to, from, dist, wayName, obj["id"].toVariant().toLongLong());
                 }
             }
         }
@@ -263,8 +263,8 @@ bool Graph::loadFromOSM(const QString& filePath)
                         double dist = haversineDistance(n1.lat, n1.lon, n2.lat, n2.lon);
 
                         // Add bidirectional edges
-                        addEdge(from, to, dist);
-                        addEdge(to, from, dist);
+                        addEdge(from, to, dist, wayName, wayId);
+                        addEdge(to, from, dist, wayName, wayId);
                     }
                 }
             }
@@ -442,12 +442,14 @@ double Graph::haversineDistance(double lat1, double lon1, double lat2, double lo
     return distance;
 }
 
-void Graph::addEdge(qint64 from, qint64 to, double distance)
+void Graph::addEdge(qint64 from, qint64 to, double distance,
+                    const QString& roadName, qint64 wayId)
 {
     Edge edge;
     edge.to = to;
     edge.distance = distance;
-
+    edge.roadName = roadName;
+    edge.wayId = wayId;
     adj[from].append(edge);
 }
 
@@ -547,7 +549,6 @@ Graph::PathResult Graph::dijkstra(qint64 source, qint64 destination)
 
     return result;
 }
-
 
 // --- Fixed A* Implementation ---
 Graph::PathResult Graph::aStar(qint64 source, qint64 destination, const QSet<QPair<qint64, qint64>>& blockedEdges)

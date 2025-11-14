@@ -5,11 +5,11 @@
 #include <QMap>
 #include <QList>
 #include <QPair>
+#include <QSet>
 #include <QString>
 #include <QPointF>
 #include <QVector>
 #include <QByteArray> // Needed for JSON data
-#include <QSet>
 
 class Graph
 {
@@ -29,6 +29,9 @@ public:
     struct Edge {
         qint64 to;
         double distance;
+        QString roadName;
+        qint64 wayId;
+        QString roadType;
     };
 
     struct PathResult {
@@ -68,7 +71,8 @@ public:
 
     // Pathfinding
     PathResult dijkstra(qint64 source, qint64 destination); // Original
-    PathResult aStar(qint64 source, qint64 destination, const QSet<QPair<qint64, qint64>>& blockedEdges = {});    // New
+    PathResult aStar(qint64 source, qint64 destination,
+                     const QSet<QPair<qint64, qint64>>& blockedEdges = {});   // New
 
     // Clear graph
     void clear();
@@ -80,9 +84,11 @@ public:
 
     // Helper functions
     double haversineDistance(double lat1, double lon1, double lat2, double lon2);
-    void addEdge(qint64 from, qint64 to, double distance);
+    void addEdge(qint64 from, qint64 to, double distance,
+                 const QString& roadName, qint64 wayId);
     QString generateNodeName(const Node& node, int index) const;
     void generateDisplayNames();
 };
 
 #endif // GRAPH_H
+
