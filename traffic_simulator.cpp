@@ -5,6 +5,8 @@
 #include <QQueue>
 #include <QRandomGenerator>
 #include <QDateTime>
+#include <QtGlobal>
+#include <QPair>
 
 // Constructor
 TrafficSimulator::TrafficSimulator(Graph* g, QObject* parent)
@@ -22,6 +24,11 @@ TrafficSimulator::TrafficSimulator(Graph* g, QObject* parent)
 
     totalReroutes = 0;
     lastLogTime = QDateTime::currentSecsSinceEpoch();
+}
+
+inline uint qHash(const QPair<qint64,qint64> &key, uint seed = 0) noexcept {
+    // combine two qHashes — simple but effective
+    return qHash(key.first, seed) ^ (qHash(key.second, seed) << 1);
 }
 
 void TrafficSimulator::start() {
@@ -219,43 +226,92 @@ void TrafficSimulator::updateQueues(double deltaTime) {
 
 void TrafficSimulator::updateVehicles(double deltaTime) {
     const double MIN_GAP = 0.00002;
-    edgeVehicleCount.clear();
-    QHash<QPair<qint64,qint64>, QList<qint64>> edgeVehicles; // faster QHash
 
-    for (const Vehicle& v : vehicles) {
+    edgeVehicleCount.clear();
+    QHash<QPair<qint64,qint64>, QList<qint64>> edgeVehicles;
+
+    // Build edge vehicle counts
+    for (int i = 0; i < vehicles.size(); ++i) {
+        Vehicle& v = vehicles[i];
         if (v.currentIndex >= v.path.size() - 1) continue;
+
         auto edge = qMakePair(v.path[v.currentIndex], v.path[v.currentIndex + 1]);
         edgeVehicleCount[edge] = edgeVehicleCount.value(edge, 0) + 1;
         edgeVehicles[edge].append(v.id);
     }
 
-    // Inject manual jams into the vehicle count
+    // Force "red" for manual jams
     for (const auto& edge : manualJams) {
-        edgeVehicleCount[edge] = 100; // Force a "Red" status
+        edgeVehicleCount[edge] = 100;
     }
 
+    // Update vehicles
     for (int i = 0; i < vehicles.size(); ++i) {
         Vehicle& v = vehicles[i];
         if (v.currentIndex >= v.path.size() - 1) continue;
 
         qint64 from = v.path[v.currentIndex];
         qint64 to = v.path[v.currentIndex + 1];
+        QPair<qint64,qint64> currentEdge = qMakePair(from, to);
+        QPair<qint64,qint64> reverseEdge = qMakePair(to, from);
 
+        // --- Manual jam reroute ---
+        if (manualJams.contains(currentEdge) || manualJams.contains(reverseEdge)) {
+            qint64 destination = v.path.last();
+            qint64 rerouteStart = (v.progress > 0.15) ? to : from;
+
+            // Block all manual jam edges
+            QSet<QPair<qint64,qint64>> blockedEdges = manualJams;
+
+            // Attempt reroute
+            Graph::PathResult newPath = graph->aStar(rerouteStart, destination, blockedEdges);
+
+            if (newPath.found && newPath.path.size() >= 2) {
+                // Prepend rerouteStart if missing
+                if (newPath.path.first() != rerouteStart) {
+                    QVector<qint64> adjusted;
+                    adjusted.append(rerouteStart);
+                    adjusted += newPath.path;
+                    v.path = adjusted;
+                } else {
+                    v.path = newPath.path;
+                }
+
+                // Reset index & progress
+                v.currentIndex = 0;
+                v.progress = 0.0;
+                v.rerouted = true;
+                v.lastRerouteTime = QDateTime::currentSecsSinceEpoch();
+
+                qDebug() << "Vehicle" << v.id << "rerouted due to manual jam from"
+                         << from << "->" << to;
+
+                continue; // skip movement this frame
+            } else {
+                qDebug() << "Vehicle" << v.id << "could NOT find a reroute from"
+                         << rerouteStart << "to" << destination;
+            }
+        }
+
+        // --- Normal movement ---
         Graph::Node n1 = graph->getNode(from);
         Graph::Node n2 = graph->getNode(to);
-
         double edgeLength = graph->haversineDistance(n1.lat, n1.lon, n2.lat, n2.lon);
 
+        if (edgeLength <= 0.0) continue;
+
+        // Speed & randomness
         v.speed = v.baseSpeed * (0.95 + 0.1 * QRandomGenerator::global()->generateDouble());
         if (v.isPriority) v.speed *= 1.2;
         v.speed = qBound(5.0, v.speed, 25.0);
 
+        // Traffic light stop
         bool stopForLight = false;
         if (trafficLights.contains(to)) {
             TrafficLight& light = trafficLights[to];
             if (!light.isGreen) {
                 double remaining = edgeLength * (1.0 - v.progress);
-                if (remaining < 1.5) { // smoother stop
+                if (remaining < 1.5) {
                     if (v.isPriority) {
                         int vehiclesOnEdge = edgeVehicleCount.value(qMakePair(from,to),0);
                         stopForLight = vehiclesOnEdge > 2;
@@ -268,9 +324,9 @@ void TrafficSimulator::updateVehicles(double deltaTime) {
             }
         }
 
-        // too close to next vehicle
+        // Too close to other vehicles
         bool tooClose = false;
-        const QList<qint64>& listOnEdge = edgeVehicles.value(qMakePair(from,to));
+        const QList<qint64>& listOnEdge = edgeVehicles.value(currentEdge);
         for (qint64 otherId : listOnEdge) {
             if (otherId == v.id) continue;
             int otherIdx = vehicleIndex.value(otherId, -1);
@@ -282,7 +338,7 @@ void TrafficSimulator::updateVehicles(double deltaTime) {
         }
         if (stopForLight || tooClose || v.waitingAtLight) continue;
 
-        if (edgeLength <= 0.0) continue;
+        // Move vehicle along edge
         v.progress += (v.speed * deltaTime) / edgeLength;
         if (v.progress > 1.0) {
             v.progress = 0.0;
@@ -290,9 +346,9 @@ void TrafficSimulator::updateVehicles(double deltaTime) {
             if (v.currentIndex >= v.path.size()-1) continue;
         }
 
+        // Update position for rendering
         Graph::Node a = graph->getNode(v.path[v.currentIndex]);
         Graph::Node b = graph->getNode(v.path[v.currentIndex+1]);
-
         QPointF pa = a.pos.isNull() ? QPointF(a.lon, a.lat) : a.pos;
         QPointF pb = b.pos.isNull() ? QPointF(b.lon, b.lat) : b.pos;
         v.position = interpolatePosition(pa, pb, v.progress);
@@ -364,25 +420,33 @@ void TrafficSimulator::handleRerouting(Vehicle& v, const QPair<qint64,qint64>& c
 {
     qint64 destination = v.path.last();
 
-    // --- FIX: Create a set of ALL blocked edges ---
-    // Start with the manually created jams
+    // Start from appropriate node depending on progress
+    qint64 from = v.path[v.currentIndex];
+    qint64 to = v.path[v.currentIndex + 1];
+    qint64 rerouteStart = (v.progress > 0.15) ? to : from;
+
     QSet<QPair<qint64, qint64>> allBlockedEdges = manualJams;
-
-    // Add the current dynamic congestion
     allBlockedEdges.insert(congestedEdge);
-    allBlockedEdges.insert(qMakePair(congestedEdge.second, congestedEdge.first)); // Add reverse direction
+    allBlockedEdges.insert(qMakePair(congestedEdge.second, congestedEdge.first));
+    allBlockedEdges.insert(qMakePair(from, to));
+    allBlockedEdges.insert(qMakePair(to, from));
 
-    // Find new path, avoiding ALL blocked edges
-    Graph::PathResult newPathResult = graph->aStar(v.path[v.currentIndex],
-                                                   destination,
-                                                   allBlockedEdges); // <-- Pass the correct set
+    Graph::PathResult newPathResult = graph->aStar(rerouteStart, destination, allBlockedEdges);
 
     if (newPathResult.found && newPathResult.path.size() >= 2) {
-        v.path = newPathResult.path;
-        v.currentIndex = 0; // Reset path index
+        if (newPathResult.path.first() != rerouteStart) {
+            QVector<qint64> adjusted;
+            adjusted.append(rerouteStart);
+            for (auto id : newPathResult.path) adjusted.append(id);
+            v.path = adjusted;
+        } else {
+            v.path = newPathResult.path;
+        }
+
+        v.currentIndex = 0;
         v.progress = 0.0;
-        v.rerouted = true; // Flag the vehicle as rerouted
-        v.lastRerouteTime = QDateTime::currentSecsSinceEpoch(); // Use seconds for cooldown
+        v.rerouted = true;
+        v.lastRerouteTime = QDateTime::currentSecsSinceEpoch();
 
         qDebug() << "Vehicle" << v.id << "rerouted successfully.";
     } else {
