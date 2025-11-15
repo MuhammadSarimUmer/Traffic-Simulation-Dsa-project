@@ -33,6 +33,7 @@ private slots:
     void onClearPathClicked();
     void showDetailedRoute(const Graph::PathResult& result);
     void onAreaSelected(const QString& areaName);
+    void onRerouteClicked(); // <-- Reroute slot
 
     // Traffic simulator slots
     void onStartSimulationClicked();
@@ -41,10 +42,7 @@ private slots:
     void onAddVehicleClicked();
     void onAddPriorityVehicleClicked();
     void onSimulationSpeedChanged(int value);
-
-    // --- NEW SLOT FOR MANUAL JAMS ---
     void onAddJamClicked();
-    // --- END NEW SLOT ---
 
     // Simulator update slots
     void onVehiclesUpdated(const QVector<TrafficSimulator::Vehicle>& vehicles);
@@ -84,6 +82,7 @@ private:
     // --- NEW MEMBER VARIABLES ---
     QString m_currentUsername;
     QString m_currentUserEmail;
+    Graph::PathResult m_currentPath; // <-- To store the current path
 };
 
 #endif // MAINWINDOW_H

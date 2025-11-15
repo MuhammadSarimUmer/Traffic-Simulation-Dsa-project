@@ -60,6 +60,7 @@ public:
     QComboBox *destCombo;
     QPushButton *findPathButton;
     QPushButton *clearPathButton;
+    QPushButton *rerouteButton;
     QFrame *separator2;
     QLabel *routeDetailsLabel;
     QTextEdit *routeDetailsText;
@@ -301,6 +302,14 @@ public:
 "QPushButton:hover { background-color: #da190b; }"));
 
         verticalLayout->addWidget(clearPathButton);
+
+        rerouteButton = new QPushButton(dockWidgetContents);
+        rerouteButton->setObjectName("rerouteButton");
+        rerouteButton->setStyleSheet(QString::fromUtf8("QPushButton { background-color: #ff9800; color: white; padding: 8px; border-radius: 4px; font-weight: bold; }\n"
+"QPushButton:hover { background-color: #e68900; }\n"
+"QPushButton:disabled { background-color: #cccccc; }"));
+
+        verticalLayout->addWidget(rerouteButton);
 
         separator2 = new QFrame(dockWidgetContents);
         separator2->setObjectName("separator2");
@@ -665,6 +674,7 @@ public:
         destLabel->setText(QCoreApplication::translate("MainWindow", "3. Select Destination:", nullptr));
         findPathButton->setText(QCoreApplication::translate("MainWindow", "Find Shortest Path", nullptr));
         clearPathButton->setText(QCoreApplication::translate("MainWindow", "Clear Path", nullptr));
+        rerouteButton->setText(QCoreApplication::translate("MainWindow", "Find Alternative Route (Reroute)", nullptr));
         routeDetailsLabel->setText(QCoreApplication::translate("MainWindow", "Route Details:", nullptr));
         zoomLabel->setText(QCoreApplication::translate("MainWindow", "Map Zoom:", nullptr));
         zoomInButton->setText(QCoreApplication::translate("MainWindow", "Zoom In (+)", nullptr));

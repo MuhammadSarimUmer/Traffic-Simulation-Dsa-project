@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "login_dialog.h"
-#include "incidentfeeddialog.h" // <-- ADDED
+#include "incidentfeeddialog.h"
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QDir>
@@ -22,23 +22,20 @@ MainWindow::MainWindow(DatabaseManager *dbManager, const QString& username, QWid
     , mapLoaded(false)
     , mapVisualization(new MapWidget(this))
     , trafficSimulator(nullptr)
-    , dbManager(dbManager)  // Store the database manager pointer
-    , m_currentUsername(username) // <-- ADDE: Store the username
+    , dbManager(dbManager)
+    , m_currentUsername(username)
 {
     ui->setupUi(this);
 
-    // --- ADDED: Get and store the user's email ---
     if (dbManager) {
         m_currentUserEmail = dbManager->getEmailForUsername(m_currentUsername);
     }
-    // --- END ADDED ---
 
     // --- MODIFICATION FOR SCROLL AREA ---
     // Add the map widget to the layout INSIDE the scroll area
     ui->mapLayout->addWidget(mapVisualization);
     // --- END MODIFICATION ---
 
-    // Setup the route details text area
     setupRouteDetailsPanel();
 
     auto makeSearchable = [](QComboBox* combo) {
@@ -52,7 +49,6 @@ MainWindow::MainWindow(DatabaseManager *dbManager, const QString& username, QWid
     makeSearchable(ui->destCombo);
     makeSearchable(ui->simSourceCombo);
     makeSearchable(ui->simDestCombo);
-    // --- NEW: Make jam combo boxes searchable ---
     makeSearchable(ui->jamSourceCombo);
     makeSearchable(ui->jamDestCombo);
 
@@ -61,48 +57,37 @@ MainWindow::MainWindow(DatabaseManager *dbManager, const QString& username, QWid
     connect(ui->destCombo, QOverload<int>::of(&QComboBox::activated),
             this, &MainWindow::onPathDestChanged);
 
-    // Connect "Load Map" button
     connect(ui->loadMapButton, &QPushButton::clicked, this, &MainWindow::onLoadMapAreaClicked);
-
-    // Setup area dropdown
     setupAreaSelection();
-
-    // Connect "Find Path" button
     connect(ui->findPathButton, &QPushButton::clicked, this, &MainWindow::onFindPathClicked);
-
-    // Connect "Clear Path" button
     connect(ui->clearPathButton, &QPushButton::clicked, this, &MainWindow::onClearPathClicked);
 
-    // Connect zoom control buttons
+    // --- Connect Reroute Button ---
+    connect(ui->rerouteButton, &QPushButton::clicked, this, &MainWindow::onRerouteClicked);
+
     connect(ui->zoomInButton, &QPushButton::clicked, mapVisualization, &MapWidget::zoomIn);
     connect(ui->zoomOutButton, &QPushButton::clicked, mapVisualization, &MapWidget::zoomOut);
     connect(ui->resetViewButton, &QPushButton::clicked, mapVisualization, &MapWidget::resetView);
 
-    // Connect map loader signals
     connect(mapLoader, &MapLoader::mapDataReady, this, &MainWindow::onMapDataLoaded);
     connect(mapLoader, &MapLoader::mapLoadFailed, this, &MainWindow::onMapLoadFailed);
-
-    // Connect area selection for highlighting
     connect(ui->areaSelectionCombo, &QComboBox::currentTextChanged,
             this, &MainWindow::onAreaSelected);
 
-    // Connect traffic simulator buttons
     connect(ui->startSimButton, &QPushButton::clicked, this, &MainWindow::onStartSimulationClicked);
     connect(ui->stopSimButton, &QPushButton::clicked, this, &MainWindow::onStopSimulationClicked);
     connect(ui->resetSimButton, &QPushButton::clicked, this, &MainWindow::onResetSimulationClicked);
     connect(ui->addVehicleButton, &QPushButton::clicked, this, &MainWindow::onAddVehicleClicked);
     connect(ui->addPriorityButton, &QPushButton::clicked, this, &MainWindow::onAddPriorityVehicleClicked);
     connect(ui->speedSlider, &QSlider::valueChanged, this, &MainWindow::onSimulationSpeedChanged);
-
-    // --- NEW: Connect jam buttons ---
     connect(ui->addJamButton, &QPushButton::clicked, this, &MainWindow::onAddJamClicked);
-    // --- END NEW ---
 
     // Disable pathfinding UI until map loads
     ui->sourceCombo->setEnabled(false);
     ui->destCombo->setEnabled(false);
     ui->findPathButton->setEnabled(false);
     ui->clearPathButton->setEnabled(false);
+    ui->rerouteButton->setEnabled(false); // <-- Disable reroute button
 
     // Disable traffic simulator UI until map loads
     ui->startSimButton->setEnabled(false);
@@ -113,12 +98,9 @@ MainWindow::MainWindow(DatabaseManager *dbManager, const QString& username, QWid
     ui->simSourceCombo->setEnabled(false);
     ui->simDestCombo->setEnabled(false);
     ui->speedSlider->setEnabled(false);
-
-    // --- NEW: Disable jam controls until map loads ---
     ui->jamSourceCombo->setEnabled(false);
     ui->jamDestCombo->setEnabled(false);
     ui->addJamButton->setEnabled(false);
-    // --- END NEW ---
 
     setWindowTitle("Traffic Control Simulator - Karachi");
     statusBar()->showMessage("Ready. Select an area and click 'Load Map Area' to begin.");
@@ -245,37 +227,24 @@ void MainWindow::setupAreaSelection()
 {
     ui->areaSelectionCombo->clear();
     areaBounds.clear();
-
-    // Karachi South
     areaBounds.insert("Karachi South (Saddar)", {24.8450, 67.0100, 24.8750, 67.0450});
     areaBounds.insert("Karachi South (Clifton)", {24.8000, 67.0200, 24.8400, 67.0700});
     areaBounds.insert("Karachi South (DHA)", {24.7900, 67.0400, 24.8500, 67.1200});
-
-    // Karachi Central
     areaBounds.insert("Karachi Central (N. Nazimabad)", {24.9100, 67.0200, 24.9550, 67.0600});
     areaBounds.insert("Karachi Central (Gulberg)", {24.9000, 67.0500, 24.9500, 67.0800});
     areaBounds.insert("Karachi Central (Liaquatabad)", {24.8800, 67.0300, 24.9100, 67.0600});
     areaBounds.insert("Karachi Central (North Karachi)", {24.9500, 67.0600, 25.0100, 67.1100});
     areaBounds.insert("Karachi Central (New Karachi)", {24.9600, 67.0100, 25.0200, 67.0600});
-
-    // Karachi East
     areaBounds.insert("Karachi East (Gulshan-e-Iqbal)", {24.8950, 67.0650, 24.9450, 67.1200});
     areaBounds.insert("Karachi East (Gulistan-e-Jauhar)", {24.8800, 67.1000, 24.9400, 67.1600});
     areaBounds.insert("Karachi East (Scheme 33 / Safoora)", {24.9400, 67.1200, 25.0200, 67.2000});
-
-    // Malir
     areaBounds.insert("Malir (Airport / Malir Town)", {24.8700, 67.1700, 24.9500, 67.2500});
-
-    // Korangi
     areaBounds.insert("Korangi (Korangi Town)", {24.8000, 67.1000, 24.8700, 67.1700});
     areaBounds.insert("Korangi (Landhi / Bin Qasim Port)", {24.8000, 67.1600, 24.8800, 67.2800});
-
-    // Karachi West
     areaBounds.insert("Karachi West (Kemari / Mauripur)", {24.8200, 66.9500, 24.8700, 67.0100});
     areaBounds.insert("Karachi West (Baldia Town)", {24.8900, 66.9200, 24.9400, 66.9800});
     areaBounds.insert("Karachi West (SITE Area)", {24.8800, 66.9800, 24.9300, 67.0300});
     areaBounds.insert("Karachi West (Orangi Town)", {24.8900, 66.9500, 24.9600, 67.0200});
-
     ui->areaSelectionCombo->addItems(areaBounds.keys());
 }
 
@@ -286,6 +255,11 @@ void MainWindow::onLoadMapAreaClicked()
     mapVisualization->clearHighlight();
     mapVisualization->clearTrafficVisualization();
     clearRouteDetails();
+
+    // --- Disable reroute button and clear path ---
+    ui->rerouteButton->setEnabled(false);
+    m_currentPath = Graph::PathResult();
+    // ---
 
     QString selectedArea = ui->areaSelectionCombo->currentText();
     if (!areaBounds.contains(selectedArea)) {
@@ -304,12 +278,10 @@ void MainWindow::onLoadMapAreaClicked()
     ui->destCombo->setEnabled(false);
 
     statusBar()->showMessage(QString("Fetching map data for %1...").arg(selectedArea));
-
     QMessageBox::information(this, "Loading Map",
                              QString("Fetching map for %1.\n\nThis may take a moment. "
                                      "The map will load with interactive zoom and pan features!")
                                  .arg(selectedArea));
-
     mapLoader->fetchMapData(bounds.minLat, bounds.minLon, bounds.maxLat, bounds.maxLon);
 }
 
@@ -330,14 +302,11 @@ void MainWindow::onMapDataLoaded(const QByteArray& data)
         ui->loadMapButton->setText("Load Map Area");
         ui->loadMapButton->setEnabled(true);
 
-        // Initialize traffic simulator
         setupTrafficSimulator();
 
-        // --- NEW: Enable jam controls ---
         ui->jamSourceCombo->setEnabled(true);
         ui->jamDestCombo->setEnabled(true);
         ui->addJamButton->setEnabled(true);
-        // --- END NEW ---
 
         QString message = QString(
                               "✅ Map loaded successfully!\n\n"
@@ -352,7 +321,6 @@ void MainWindow::onMapDataLoaded(const QByteArray& data)
 
         statusBar()->showMessage(QString("Map loaded: %1 nodes, %2 edges")
                                      .arg(graph.getNodeCount()).arg(graph.getEdgeCount()));
-
         QMessageBox::information(this, "Success", message);
     } else {
         onMapLoadFailed("Failed to parse map data or map is empty.");
@@ -376,7 +344,6 @@ void MainWindow::populateComboBoxes()
     ui->destCombo->clear();
     ui->simSourceCombo->clear();
     ui->simDestCombo->clear();
-    // --- NEW: Clear jam combo boxes ---
     ui->jamSourceCombo->clear();
     ui->jamDestCombo->clear();
 
@@ -388,7 +355,6 @@ void MainWindow::populateComboBoxes()
         ui->destCombo->addItem("No locations found", QVariant::fromValue(qint64(-1)));
         ui->simSourceCombo->addItem("No locations found", QVariant::fromValue(qint64(-1)));
         ui->simDestCombo->addItem("No locations found", QVariant::fromValue(qint64(-1)));
-        // --- NEW ---
         ui->jamSourceCombo->addItem("No locations found", QVariant::fromValue(qint64(-1)));
         ui->jamDestCombo->addItem("No locations found", QVariant::fromValue(qint64(-1)));
         return;
@@ -399,7 +365,6 @@ void MainWindow::populateComboBoxes()
         ui->destCombo->addItem(loc.displayName, QVariant::fromValue(loc.nodeId));
         ui->simSourceCombo->addItem(loc.displayName, QVariant::fromValue(loc.nodeId));
         ui->simDestCombo->addItem(loc.displayName, QVariant::fromValue(loc.nodeId));
-        // --- NEW ---
         ui->jamSourceCombo->addItem(loc.displayName, QVariant::fromValue(loc.nodeId));
         ui->jamDestCombo->addItem(loc.displayName, QVariant::fromValue(loc.nodeId));
     }
@@ -434,18 +399,18 @@ void MainWindow::onFindPathClicked()
 
     statusBar()->showMessage("Calculating shortest path...");
 
-    // --- MODIFIED: Pass manual jams to pathfinder ---
     QSet<QPair<qint64, qint64>> jams;
     if (trafficSimulator) {
         jams = trafficSimulator->getManualJams();
     }
     Graph::PathResult result = graph.aStar(sourceId, destId, jams);
-    // --- END MODIFIED ---
 
     if (!result.found) {
         statusBar()->showMessage("No path found");
         QMessageBox::warning(this, "Path Not Found", result.errorMessage);
         clearRouteDetails();
+        ui->rerouteButton->setEnabled(false); // <-- Disable reroute
+        m_currentPath = Graph::PathResult(); // <-- Clear path
         return;
     }
 
@@ -467,6 +432,11 @@ void MainWindow::onFindPathClicked()
                           .arg(result.path.size());
 
     QMessageBox::information(this, "Route Found", summary);
+
+    // --- Enable reroute button and save the path ---
+    m_currentPath = result;
+    ui->rerouteButton->setEnabled(true);
+    // ---
 }
 
 void MainWindow::onClearPathClicked()
@@ -474,6 +444,11 @@ void MainWindow::onClearPathClicked()
     mapVisualization->clearPath();
     clearRouteDetails();
     statusBar()->showMessage("Path cleared");
+
+    // --- Disable reroute button and clear path ---
+    ui->rerouteButton->setEnabled(false);
+    m_currentPath = Graph::PathResult();
+    // ---
 }
 
 void MainWindow::onAreaSelected(const QString& areaName)
@@ -492,7 +467,6 @@ void MainWindow::setupTrafficSimulator()
 
     trafficSimulator = new TrafficSimulator(&graph, this);
 
-    // Connect simulator signals
     connect(trafficSimulator, &TrafficSimulator::vehiclesUpdated,
             this, &MainWindow::onVehiclesUpdated);
     connect(trafficSimulator, &TrafficSimulator::trafficLightsUpdated,
@@ -500,7 +474,6 @@ void MainWindow::setupTrafficSimulator()
     connect(trafficSimulator, &TrafficSimulator::edgeCongestionUpdated,
             this, &MainWindow::onEdgeCongestionUpdated);
 
-    // Enable simulator controls
     ui->startSimButton->setEnabled(true);
     ui->stopSimButton->setEnabled(false);
     ui->resetSimButton->setEnabled(true);
@@ -509,12 +482,11 @@ void MainWindow::setupTrafficSimulator()
     ui->simSourceCombo->setEnabled(true);
     ui->simDestCombo->setEnabled(true);
     ui->speedSlider->setEnabled(true);
-    ui->speedSlider->setValue(10); // Default speed 1.0x
+    ui->speedSlider->setValue(10);
 
     ui->simStatsLabel->setText("Vehicles: 0 | Lights: 0 | Speed: 1.0x");
 }
 
-// --- MODIFIED FUNCTION ---
 void MainWindow::onStartSimulationClicked()
 {
     if (!trafficSimulator) return;
@@ -523,10 +495,7 @@ void MainWindow::onStartSimulationClicked()
     ui->startSimButton->setEnabled(false);
     ui->stopSimButton->setEnabled(true);
     statusBar()->showMessage("Traffic simulation started");
-
-    // --- OLD HARDCODED JAM LOGIC REMOVED ---
 }
-// --- END MODIFIED FUNCTION ---
 
 void MainWindow::onStopSimulationClicked()
 {
@@ -538,19 +507,14 @@ void MainWindow::onStopSimulationClicked()
     statusBar()->showMessage("Traffic simulation stopped");
 }
 
-// --- MODIFIED FUNCTION ---
 void MainWindow::onResetSimulationClicked()
 {
     if (!trafficSimulator) return;
 
     trafficSimulator->stop();
-    trafficSimulator->reset(); // This clears manualJams in the simulator
+    trafficSimulator->reset();
     mapVisualization->clearTrafficVisualization();
-
-    // --- NEW: Clear jam visualization from map ---
-    // Pass an empty set to clear the highlights
     mapVisualization->setManualJams(QSet<QPair<qint64, qint64>>());
-    // --- END NEW ---
 
     ui->startSimButton->setEnabled(true);
     ui->stopSimButton->setEnabled(false);
@@ -558,7 +522,6 @@ void MainWindow::onResetSimulationClicked()
 
     statusBar()->showMessage("Traffic simulation reset");
 }
-// --- END MODIFIED FUNCTION ---
 
 void MainWindow::onAddVehicleClicked()
 {
@@ -605,8 +568,6 @@ void MainWindow::onAddPriorityVehicleClicked()
 void MainWindow::onSimulationSpeedChanged(int value)
 {
     if (!trafficSimulator) return;
-
-    // Slider value 0-20 maps to speed 0.5x - 2.5x
     double speed = 0.5 + (value / 10.0);
     trafficSimulator->setSimulationSpeed(speed);
     updateSimulationStats();
@@ -626,7 +587,6 @@ void MainWindow::onTrafficLightsUpdated(const QVector<TrafficSimulator::TrafficL
 
 void MainWindow::onEdgeCongestionUpdated(qint64 from, qint64 to, const QString& status)
 {
-    // (Future enhancement: visualize this on the map)
 }
 
 void MainWindow::updateSimulationStats()
@@ -662,15 +622,7 @@ void MainWindow::showDetailedRoute(const Graph::PathResult& result)
     textEdit->setReadOnly(true);
 
     QString directions = "<h3>Turn-by-Turn Directions:</h3><ol>";
-
-    for (int i = 0; i < result.path.size(); ++i) {
-        qint64 nodeId = result.path[i];
-        const Graph::Node node = graph.getNode(nodeId);
-        QString name = graph.getNodeDisplayName(nodeId);
-
-        // ... (rest of the dialog logic is fine) ...
-    }
-
+    // (Rest of dialog logic)
     directions += "</ol>";
     textEdit->setHtml(directions);
     layout->addWidget(textEdit);
@@ -697,58 +649,26 @@ void MainWindow::onPathDestChanged(int index)
     }
 }
 
-
-// --- NEW SLOTS IMPLEMENTATION FOR TOOLBAR ---
-
-/**
- * @brief Slot for the 'Back to Login' toolbar action.
- * Closes the main window and shows a new login dialog.
- */
-/**
- * @brief Slot for the 'Back to Login' toolbar action.
- * Closes the main window and shows a new login dialog.
- */
 void MainWindow::on_actionBackToLogin_triggered()
 {
-    // Close the main window and return to login
     this->close();
-
-    // Create and show new login dialog
     LoginDialog *login = new LoginDialog(dbManager, nullptr);
-    login->setAttribute(Qt::WA_DeleteOnClose); // Auto-delete when closed
+    login->setAttribute(Qt::WA_DeleteOnClose);
     login->show();
 }
 
-/**
- * @brief Slot for the 'Chat' toolbar action.
- * Shows a placeholder message.
- */
 void MainWindow::on_actionChat_triggered()
 {
-    // --- THIS FUNCTION IS MODIFIED ---
-
-    // Old code:
-    // QMessageBox::information(this, "Chat", "Chat feature is not yet implemented.");
-
-    // New code:
-    // Create the dialog, passing the db manager and the user's info
     IncidentFeedDialog *feedDialog = new IncidentFeedDialog(
         dbManager,
         m_currentUsername,
         m_currentUserEmail,
         this
         );
-    feedDialog->setAttribute(Qt::WA_DeleteOnClose); // Auto-delete when closed
-    feedDialog->show(); // Show as a non-modal window (so user can still use map)
+    feedDialog->setAttribute(Qt::WA_DeleteOnClose);
+    feedDialog->show();
 }
 
-
-// --- NEW SLOTS IMPLEMENTATION FOR MANUAL JAMS ---
-
-/**
- * @brief Slot for the "Add Jam" button.
- * Reads the selected nodes and tells the simulator to create a manual jam.
- */
 void MainWindow::onAddJamClicked()
 {
     if (!trafficSimulator) return;
@@ -760,20 +680,75 @@ void MainWindow::onAddJamClicked()
         QMessageBox::warning(this, "Invalid Selection", "Please select valid source and destination nodes for the jam.");
         return;
     }
-
     if (from == to) {
         QMessageBox::warning(this, "Same Location", "Source and destination nodes for the jam cannot be the same.");
         return;
     }
 
-    // Tell the simulator to add the jam (this function already existed)
     trafficSimulator->addManualJam(from, to);
-
-    // Tell the map visualization to re-draw the jams
     mapVisualization->setManualJams(trafficSimulator->getManualJams());
 
     QMessageBox::information(this, "Jam Added",
                              QString("Manual traffic jam added between:\n%1\nand\n%2")
                                  .arg(ui->jamSourceCombo->currentText())
                                  .arg(ui->jamDestCombo->currentText()));
+}
+
+// --- NEWLY IMPLEMENTED SLOT ---
+/**
+ * @brief Slot for the "Reroute" button.
+ * Finds an alternative path that avoids the currently displayed route.
+ */
+void MainWindow::onRerouteClicked()
+{
+    if (!m_currentPath.found || m_currentPath.path.size() < 2) {
+        QMessageBox::warning(this, "No Path", "Please find a shortest path first before asking for a reroute.");
+        return;
+    }
+
+    qint64 sourceId = ui->sourceCombo->currentData().toLongLong();
+    qint64 destId = ui->destCombo->currentData().toLongLong();
+
+    // If source/dest changed, just find a new shortest path
+    if (sourceId != m_currentPath.path.first() || destId != m_currentPath.path.last()) {
+        onFindPathClicked();
+        return;
+    }
+
+    statusBar()->showMessage("Calculating alternative route...");
+
+    // Create a set of blocked edges from the *current* path
+    QSet<QPair<qint64, qint64>> blockedEdges;
+    for (int i = 0; i < m_currentPath.path.size() - 1; ++i) {
+        qint64 from = m_currentPath.path[i];
+        qint64 to = m_currentPath.path[i+1];
+        blockedEdges.insert(qMakePair(from, to));
+        blockedEdges.insert(qMakePair(to, from)); // Block reverse direction too
+    }
+
+    // Also add any manual jams from the simulator
+    if (trafficSimulator) {
+        blockedEdges.unite(trafficSimulator->getManualJams());
+    }
+
+    // Find a new path avoiding the blocked edges
+    Graph::PathResult newResult = graph.aStar(sourceId, destId, blockedEdges);
+
+    if (!newResult.found) {
+        statusBar()->showMessage("No alternative route found");
+        QMessageBox::warning(this, "No Alternative Path", "Could not find an alternative route. The original path may be the only one available, or all alternatives are also blocked.");
+        return;
+    }
+
+    // Display the new (alternative) path
+    mapVisualization->setShortestPath(newResult.path);
+    displayRouteDetails(newResult);
+    mapVisualization->focusOnPath(newResult.path);
+
+    statusBar()->showMessage(QString("Alternative route found: %1 km, %2 stops")
+                                 .arg(newResult.totalDistance, 0, 'f', 2)
+                                 .arg(newResult.path.size()));
+
+    // Store this new path as the "current" one, so user can reroute again
+    m_currentPath = newResult;
 }

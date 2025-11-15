@@ -274,6 +274,19 @@ QPushButton:hover { background-color: #da190b; }</string>
            </property>
           </widget>
          </item>
+
+         <item>
+          <widget class="QPushButton" name="rerouteButton">
+           <property name="styleSheet">
+            <string notr="true">QPushButton { background-color: #ff9800; color: white; padding: 8px; border-radius: 4px; font-weight: bold; }
+QPushButton:hover { background-color: #e68900; }
+QPushButton:disabled { background-color: #cccccc; }</string>
+           </property>
+           <property name="text">
+            <string>Find Alternative Route (Reroute)</string>
+           </property>
+          </widget>
+         </item>
          <item>
           <widget class="Line" name="separator2">
            <property name="orientation">
