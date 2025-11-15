@@ -61,6 +61,7 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "onAddPriorityVehicleClicked",
         "onSimulationSpeedChanged",
         "value",
+        "onAddJamClicked",
         "onVehiclesUpdated",
         "QList<TrafficSimulator::Vehicle>",
         "vehicles",
@@ -115,30 +116,32 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void(int)>(19, 2, QMC::AccessPrivate, QMetaType::Void, {{
             { QMetaType::Int, 20 },
         }}),
+        // Slot 'onAddJamClicked'
+        QtMocHelpers::SlotData<void()>(21, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onVehiclesUpdated'
-        QtMocHelpers::SlotData<void(const QVector<TrafficSimulator::Vehicle> &)>(21, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 22, 23 },
+        QtMocHelpers::SlotData<void(const QVector<TrafficSimulator::Vehicle> &)>(22, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 23, 24 },
         }}),
         // Slot 'onTrafficLightsUpdated'
-        QtMocHelpers::SlotData<void(const QVector<TrafficSimulator::TrafficLight> &)>(24, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 25, 26 },
+        QtMocHelpers::SlotData<void(const QVector<TrafficSimulator::TrafficLight> &)>(25, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 26, 27 },
         }}),
         // Slot 'onEdgeCongestionUpdated'
-        QtMocHelpers::SlotData<void(qint64, qint64, const QString &)>(27, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::LongLong, 28 }, { QMetaType::LongLong, 29 }, { QMetaType::QString, 30 },
+        QtMocHelpers::SlotData<void(qint64, qint64, const QString &)>(28, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::LongLong, 29 }, { QMetaType::LongLong, 30 }, { QMetaType::QString, 31 },
         }}),
         // Slot 'onPathSourceChanged'
-        QtMocHelpers::SlotData<void(int)>(31, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Int, 32 },
+        QtMocHelpers::SlotData<void(int)>(32, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Int, 33 },
         }}),
         // Slot 'onPathDestChanged'
-        QtMocHelpers::SlotData<void(int)>(33, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Int, 32 },
+        QtMocHelpers::SlotData<void(int)>(34, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Int, 33 },
         }}),
         // Slot 'on_actionBackToLogin_triggered'
-        QtMocHelpers::SlotData<void()>(34, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_actionChat_triggered'
         QtMocHelpers::SlotData<void()>(35, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_actionChat_triggered'
+        QtMocHelpers::SlotData<void()>(36, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -175,13 +178,14 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 10: _t->onAddVehicleClicked(); break;
         case 11: _t->onAddPriorityVehicleClicked(); break;
         case 12: _t->onSimulationSpeedChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 13: _t->onVehiclesUpdated((*reinterpret_cast< std::add_pointer_t<QList<TrafficSimulator::Vehicle>>>(_a[1]))); break;
-        case 14: _t->onTrafficLightsUpdated((*reinterpret_cast< std::add_pointer_t<QList<TrafficSimulator::TrafficLight>>>(_a[1]))); break;
-        case 15: _t->onEdgeCongestionUpdated((*reinterpret_cast< std::add_pointer_t<qint64>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<qint64>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[3]))); break;
-        case 16: _t->onPathSourceChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 17: _t->onPathDestChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 18: _t->on_actionBackToLogin_triggered(); break;
-        case 19: _t->on_actionChat_triggered(); break;
+        case 13: _t->onAddJamClicked(); break;
+        case 14: _t->onVehiclesUpdated((*reinterpret_cast< std::add_pointer_t<QList<TrafficSimulator::Vehicle>>>(_a[1]))); break;
+        case 15: _t->onTrafficLightsUpdated((*reinterpret_cast< std::add_pointer_t<QList<TrafficSimulator::TrafficLight>>>(_a[1]))); break;
+        case 16: _t->onEdgeCongestionUpdated((*reinterpret_cast< std::add_pointer_t<qint64>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<qint64>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[3]))); break;
+        case 17: _t->onPathSourceChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 18: _t->onPathDestChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 19: _t->on_actionBackToLogin_triggered(); break;
+        case 20: _t->on_actionChat_triggered(); break;
         default: ;
         }
     }
@@ -206,14 +210,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 20)
+        if (_id < 21)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 20;
+        _id -= 21;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 20)
+        if (_id < 21)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 20;
+        _id -= 21;
     }
     return _id;
 }

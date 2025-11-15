@@ -45,6 +45,9 @@ public:
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
     QDockWidget *controlDockWidget;
+    QWidget *dockWidgetContents_LEFT;
+    QVBoxLayout *verticalLayout_DOCK_LEFT;
+    QScrollArea *controlScrollArea;
     QWidget *dockWidgetContents;
     QVBoxLayout *verticalLayout;
     QLabel *areaLabel;
@@ -68,6 +71,9 @@ public:
     QPushButton *resetViewButton;
     QSpacerItem *verticalSpacer;
     QDockWidget *simulatorDockWidget;
+    QWidget *dockWidgetContents_RIGHT;
+    QVBoxLayout *verticalLayout_DOCK_RIGHT;
+    QScrollArea *simulatorScrollArea;
     QWidget *simulatorDockContents;
     QVBoxLayout *verticalLayout_2;
     QLabel *simulatorTitleLabel;
@@ -85,6 +91,13 @@ public:
     QComboBox *simDestCombo;
     QPushButton *addVehicleButton;
     QPushButton *addPriorityButton;
+    QFrame *separator_jam;
+    QLabel *jamLabel;
+    QLabel *jamSourceLabel;
+    QComboBox *jamSourceCombo;
+    QLabel *jamDestLabel;
+    QComboBox *jamDestCombo;
+    QPushButton *addJamButton;
     QFrame *separator6;
     QLabel *speedLabel;
     QHBoxLayout *speedLayout;
@@ -206,8 +219,19 @@ public:
         controlDockWidget = new QDockWidget(MainWindow);
         controlDockWidget->setObjectName("controlDockWidget");
         controlDockWidget->setMinimumSize(QSize(320, 608));
+        dockWidgetContents_LEFT = new QWidget();
+        dockWidgetContents_LEFT->setObjectName("dockWidgetContents_LEFT");
+        verticalLayout_DOCK_LEFT = new QVBoxLayout(dockWidgetContents_LEFT);
+        verticalLayout_DOCK_LEFT->setSpacing(6);
+        verticalLayout_DOCK_LEFT->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_DOCK_LEFT->setObjectName("verticalLayout_DOCK_LEFT");
+        verticalLayout_DOCK_LEFT->setContentsMargins(0, 0, 0, 0);
+        controlScrollArea = new QScrollArea(dockWidgetContents_LEFT);
+        controlScrollArea->setObjectName("controlScrollArea");
+        controlScrollArea->setWidgetResizable(true);
         dockWidgetContents = new QWidget();
         dockWidgetContents->setObjectName("dockWidgetContents");
+        dockWidgetContents->setGeometry(QRect(0, 0, 318, 697));
         verticalLayout = new QVBoxLayout(dockWidgetContents);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
@@ -351,13 +375,28 @@ public:
 
         verticalLayout->addItem(verticalSpacer);
 
-        controlDockWidget->setWidget(dockWidgetContents);
+        controlScrollArea->setWidget(dockWidgetContents);
+
+        verticalLayout_DOCK_LEFT->addWidget(controlScrollArea);
+
+        controlDockWidget->setWidget(dockWidgetContents_LEFT);
         MainWindow->addDockWidget(Qt::DockWidgetArea::LeftDockWidgetArea, controlDockWidget);
         simulatorDockWidget = new QDockWidget(MainWindow);
         simulatorDockWidget->setObjectName("simulatorDockWidget");
         simulatorDockWidget->setMinimumSize(QSize(320, 608));
+        dockWidgetContents_RIGHT = new QWidget();
+        dockWidgetContents_RIGHT->setObjectName("dockWidgetContents_RIGHT");
+        verticalLayout_DOCK_RIGHT = new QVBoxLayout(dockWidgetContents_RIGHT);
+        verticalLayout_DOCK_RIGHT->setSpacing(6);
+        verticalLayout_DOCK_RIGHT->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_DOCK_RIGHT->setObjectName("verticalLayout_DOCK_RIGHT");
+        verticalLayout_DOCK_RIGHT->setContentsMargins(0, 0, 0, 0);
+        simulatorScrollArea = new QScrollArea(dockWidgetContents_RIGHT);
+        simulatorScrollArea->setObjectName("simulatorScrollArea");
+        simulatorScrollArea->setWidgetResizable(true);
         simulatorDockContents = new QWidget();
         simulatorDockContents->setObjectName("simulatorDockContents");
+        simulatorDockContents->setGeometry(QRect(0, 0, 318, 950));
         verticalLayout_2 = new QVBoxLayout(simulatorDockContents);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -464,6 +503,47 @@ public:
 
         verticalLayout_2->addWidget(addPriorityButton);
 
+        separator_jam = new QFrame(simulatorDockContents);
+        separator_jam->setObjectName("separator_jam");
+        separator_jam->setFrameShape(QFrame::Shape::HLine);
+        separator_jam->setFrameShadow(QFrame::Shadow::Sunken);
+
+        verticalLayout_2->addWidget(separator_jam);
+
+        jamLabel = new QLabel(simulatorDockContents);
+        jamLabel->setObjectName("jamLabel");
+        jamLabel->setFont(font);
+
+        verticalLayout_2->addWidget(jamLabel);
+
+        jamSourceLabel = new QLabel(simulatorDockContents);
+        jamSourceLabel->setObjectName("jamSourceLabel");
+
+        verticalLayout_2->addWidget(jamSourceLabel);
+
+        jamSourceCombo = new QComboBox(simulatorDockContents);
+        jamSourceCombo->setObjectName("jamSourceCombo");
+
+        verticalLayout_2->addWidget(jamSourceCombo);
+
+        jamDestLabel = new QLabel(simulatorDockContents);
+        jamDestLabel->setObjectName("jamDestLabel");
+
+        verticalLayout_2->addWidget(jamDestLabel);
+
+        jamDestCombo = new QComboBox(simulatorDockContents);
+        jamDestCombo->setObjectName("jamDestCombo");
+
+        verticalLayout_2->addWidget(jamDestCombo);
+
+        addJamButton = new QPushButton(simulatorDockContents);
+        addJamButton->setObjectName("addJamButton");
+        addJamButton->setStyleSheet(QString::fromUtf8("QPushButton { background-color: #f44336; color: white; padding: 10px; border-radius: 4px; font-weight: bold; }\n"
+"QPushButton:hover { background-color: #da190b; }\n"
+"QPushButton:disabled { background-color: #cccccc; }"));
+
+        verticalLayout_2->addWidget(addJamButton);
+
         separator6 = new QFrame(simulatorDockContents);
         separator6->setObjectName("separator6");
         separator6->setFrameShape(QFrame::Shape::HLine);
@@ -551,7 +631,11 @@ public:
 
         verticalLayout_2->addItem(verticalSpacer_2);
 
-        simulatorDockWidget->setWidget(simulatorDockContents);
+        simulatorScrollArea->setWidget(simulatorDockContents);
+
+        verticalLayout_DOCK_RIGHT->addWidget(simulatorScrollArea);
+
+        simulatorDockWidget->setWidget(dockWidgetContents_RIGHT);
         MainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, simulatorDockWidget);
 
         mainToolBar->addAction(actionBackToLogin);
@@ -597,6 +681,10 @@ public:
         simDestLabel->setText(QCoreApplication::translate("MainWindow", "To:", nullptr));
         addVehicleButton->setText(QCoreApplication::translate("MainWindow", "Add Regular Vehicle", nullptr));
         addPriorityButton->setText(QCoreApplication::translate("MainWindow", "Add Priority Vehicle (Ambulance)", nullptr));
+        jamLabel->setText(QCoreApplication::translate("MainWindow", "Add Manual Jam:", nullptr));
+        jamSourceLabel->setText(QCoreApplication::translate("MainWindow", "From:", nullptr));
+        jamDestLabel->setText(QCoreApplication::translate("MainWindow", "To:", nullptr));
+        addJamButton->setText(QCoreApplication::translate("MainWindow", "Add Jam", nullptr));
         speedLabel->setText(QCoreApplication::translate("MainWindow", "Simulation Speed:", nullptr));
         speedMinLabel->setText(QCoreApplication::translate("MainWindow", "0.5x", nullptr));
         speedMaxLabel->setText(QCoreApplication::translate("MainWindow", "2.5x", nullptr));

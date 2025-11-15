@@ -42,6 +42,10 @@ private slots:
     void onAddPriorityVehicleClicked();
     void onSimulationSpeedChanged(int value);
 
+    // --- NEW SLOT FOR MANUAL JAMS ---
+    void onAddJamClicked();
+    // --- END NEW SLOT ---
+
     // Simulator update slots
     void onVehiclesUpdated(const QVector<TrafficSimulator::Vehicle>& vehicles);
     void onTrafficLightsUpdated(const QVector<TrafficSimulator::TrafficLight>& lights);

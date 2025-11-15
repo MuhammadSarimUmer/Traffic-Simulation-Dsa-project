@@ -23,7 +23,7 @@ MainWindow::MainWindow(DatabaseManager *dbManager, const QString& username, QWid
     , mapVisualization(new MapWidget(this))
     , trafficSimulator(nullptr)
     , dbManager(dbManager)  // Store the database manager pointer
-    , m_currentUsername(username) // <-- ADDED: Store the username
+    , m_currentUsername(username) // <-- ADDE: Store the username
 {
     ui->setupUi(this);
 
@@ -52,6 +52,9 @@ MainWindow::MainWindow(DatabaseManager *dbManager, const QString& username, QWid
     makeSearchable(ui->destCombo);
     makeSearchable(ui->simSourceCombo);
     makeSearchable(ui->simDestCombo);
+    // --- NEW: Make jam combo boxes searchable ---
+    makeSearchable(ui->jamSourceCombo);
+    makeSearchable(ui->jamDestCombo);
 
     connect(ui->sourceCombo, QOverload<int>::of(&QComboBox::activated),
             this, &MainWindow::onPathSourceChanged);
@@ -91,6 +94,10 @@ MainWindow::MainWindow(DatabaseManager *dbManager, const QString& username, QWid
     connect(ui->addPriorityButton, &QPushButton::clicked, this, &MainWindow::onAddPriorityVehicleClicked);
     connect(ui->speedSlider, &QSlider::valueChanged, this, &MainWindow::onSimulationSpeedChanged);
 
+    // --- NEW: Connect jam buttons ---
+    connect(ui->addJamButton, &QPushButton::clicked, this, &MainWindow::onAddJamClicked);
+    // --- END NEW ---
+
     // Disable pathfinding UI until map loads
     ui->sourceCombo->setEnabled(false);
     ui->destCombo->setEnabled(false);
@@ -106,6 +113,12 @@ MainWindow::MainWindow(DatabaseManager *dbManager, const QString& username, QWid
     ui->simSourceCombo->setEnabled(false);
     ui->simDestCombo->setEnabled(false);
     ui->speedSlider->setEnabled(false);
+
+    // --- NEW: Disable jam controls until map loads ---
+    ui->jamSourceCombo->setEnabled(false);
+    ui->jamDestCombo->setEnabled(false);
+    ui->addJamButton->setEnabled(false);
+    // --- END NEW ---
 
     setWindowTitle("Traffic Control Simulator - Karachi");
     statusBar()->showMessage("Ready. Select an area and click 'Load Map Area' to begin.");
@@ -320,6 +333,12 @@ void MainWindow::onMapDataLoaded(const QByteArray& data)
         // Initialize traffic simulator
         setupTrafficSimulator();
 
+        // --- NEW: Enable jam controls ---
+        ui->jamSourceCombo->setEnabled(true);
+        ui->jamDestCombo->setEnabled(true);
+        ui->addJamButton->setEnabled(true);
+        // --- END NEW ---
+
         QString message = QString(
                               "✅ Map loaded successfully!\n\n"
                               "📍 Nodes: %1\n"
@@ -357,6 +376,9 @@ void MainWindow::populateComboBoxes()
     ui->destCombo->clear();
     ui->simSourceCombo->clear();
     ui->simDestCombo->clear();
+    // --- NEW: Clear jam combo boxes ---
+    ui->jamSourceCombo->clear();
+    ui->jamDestCombo->clear();
 
     QList<Graph::NamedLocation> locations = graph.getNamedLocations();
 
@@ -366,6 +388,9 @@ void MainWindow::populateComboBoxes()
         ui->destCombo->addItem("No locations found", QVariant::fromValue(qint64(-1)));
         ui->simSourceCombo->addItem("No locations found", QVariant::fromValue(qint64(-1)));
         ui->simDestCombo->addItem("No locations found", QVariant::fromValue(qint64(-1)));
+        // --- NEW ---
+        ui->jamSourceCombo->addItem("No locations found", QVariant::fromValue(qint64(-1)));
+        ui->jamDestCombo->addItem("No locations found", QVariant::fromValue(qint64(-1)));
         return;
     }
 
@@ -374,6 +399,9 @@ void MainWindow::populateComboBoxes()
         ui->destCombo->addItem(loc.displayName, QVariant::fromValue(loc.nodeId));
         ui->simSourceCombo->addItem(loc.displayName, QVariant::fromValue(loc.nodeId));
         ui->simDestCombo->addItem(loc.displayName, QVariant::fromValue(loc.nodeId));
+        // --- NEW ---
+        ui->jamSourceCombo->addItem(loc.displayName, QVariant::fromValue(loc.nodeId));
+        ui->jamDestCombo->addItem(loc.displayName, QVariant::fromValue(loc.nodeId));
     }
 
     statusBar()->showMessage(QString("Ready to find routes between %1 locations")
@@ -496,26 +524,7 @@ void MainWindow::onStartSimulationClicked()
     ui->stopSimButton->setEnabled(true);
     statusBar()->showMessage("Traffic simulation started");
 
-    // Add a manual jam for demonstration
-    if (ui->simSourceCombo->count() > 20) {
-        qint64 from = ui->simSourceCombo->itemData(10).toLongLong();
-        qint64 to = ui->simSourceCombo->itemData(11).toLongLong();
-
-        if (from > 0 && to > 0 && from != to) {
-            trafficSimulator->addManualJam(from, to);
-            qDebug() << "--- MANUAL JAM ADDED between nodes" << from << "and" << to << "---";
-            QMessageBox::information(this, "Traffic Jam Added",
-                                     QString("A static traffic jam has been created between %1 and %2 to demonstrate rerouting.")
-                                         .arg(ui->simSourceCombo->itemText(10))
-                                         .arg(ui->simSourceCombo->itemText(11)));
-
-            // --- NEW: Tell the map to draw the jam ---
-            mapVisualization->setManualJams(trafficSimulator->getManualJams());
-
-        } else {
-            qDebug() << "--- Could not add manual jam (not enough nodes) ---";
-        }
-    }
+    // --- OLD HARDCODED JAM LOGIC REMOVED ---
 }
 // --- END MODIFIED FUNCTION ---
 
@@ -535,7 +544,7 @@ void MainWindow::onResetSimulationClicked()
     if (!trafficSimulator) return;
 
     trafficSimulator->stop();
-    trafficSimulator->reset();
+    trafficSimulator->reset(); // This clears manualJams in the simulator
     mapVisualization->clearTrafficVisualization();
 
     // --- NEW: Clear jam visualization from map ---
@@ -731,4 +740,40 @@ void MainWindow::on_actionChat_triggered()
         );
     feedDialog->setAttribute(Qt::WA_DeleteOnClose); // Auto-delete when closed
     feedDialog->show(); // Show as a non-modal window (so user can still use map)
+}
+
+
+// --- NEW SLOTS IMPLEMENTATION FOR MANUAL JAMS ---
+
+/**
+ * @brief Slot for the "Add Jam" button.
+ * Reads the selected nodes and tells the simulator to create a manual jam.
+ */
+void MainWindow::onAddJamClicked()
+{
+    if (!trafficSimulator) return;
+
+    qint64 from = ui->jamSourceCombo->currentData().toLongLong();
+    qint64 to = ui->jamDestCombo->currentData().toLongLong();
+
+    if (from <= 0 || to <= 0) {
+        QMessageBox::warning(this, "Invalid Selection", "Please select valid source and destination nodes for the jam.");
+        return;
+    }
+
+    if (from == to) {
+        QMessageBox::warning(this, "Same Location", "Source and destination nodes for the jam cannot be the same.");
+        return;
+    }
+
+    // Tell the simulator to add the jam (this function already existed)
+    trafficSimulator->addManualJam(from, to);
+
+    // Tell the map visualization to re-draw the jams
+    mapVisualization->setManualJams(trafficSimulator->getManualJams());
+
+    QMessageBox::information(this, "Jam Added",
+                             QString("Manual traffic jam added between:\n%1\nand\n%2")
+                                 .arg(ui->jamSourceCombo->currentText())
+                                 .arg(ui->jamDestCombo->currentText()));
 }

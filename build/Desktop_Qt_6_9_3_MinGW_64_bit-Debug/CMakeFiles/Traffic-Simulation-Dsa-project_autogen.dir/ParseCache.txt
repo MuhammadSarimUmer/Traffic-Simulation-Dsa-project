@@ -345,6 +345,9 @@ C:/Users/HP/Documents/Traffic-Control-DSA/database_manager.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
+C:/Users/HP/Documents/Traffic-Control-DSA/signup_dialog.cpp
+ uic:ui_signup_dialog.h
+C:/Users/HP/Documents/Traffic-Control-DSA/graph.h
 C:/Users/HP/Documents/Traffic-Control-DSA/login_dialog.h
  mmc:Q_OBJECT
  mdp:C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/moc_predefs.h
@@ -766,9 +769,6 @@ C:/Users/HP/Documents/Traffic-Control-DSA/login_dialog.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
-C:/Users/HP/Documents/Traffic-Control-DSA/signup_dialog.cpp
- uic:ui_signup_dialog.h
-C:/Users/HP/Documents/Traffic-Control-DSA/graph.h
 C:/Users/HP/Documents/Traffic-Control-DSA/mainwindow.h
  mmc:Q_OBJECT
  mdp:C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/moc_predefs.h
@@ -2784,6 +2784,7 @@ C:/Users/HP/Documents/Traffic-Control-DSA/mainwindow.cpp
  uic:ui_mainwindow.h
 C:/Users/HP/Documents/Traffic-Control-DSA/map_loader.cpp
 C:/Users/HP/Documents/Traffic-Control-DSA/mapwidget.cpp
+C:/Users/HP/Documents/Traffic-Control-DSA/notification_manager.cpp
 C:/Users/HP/Documents/Traffic-Control-DSA/incidentfeeddialog.h
  mmc:Q_OBJECT
  mdp:C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/moc_predefs.h
@@ -3173,10 +3174,7 @@ C:/Users/HP/Documents/Traffic-Control-DSA/incidentfeeddialog.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
-C:/Users/HP/Documents/Traffic-Control-DSA/notification_manager.cpp
 C:/Users/HP/Documents/Traffic-Control-DSA/traffic_simulator.cpp
-C:/Users/HP/Documents/Traffic-Control-DSA/incidentwidget.cpp
- uic:ui_incidentwidget.h
 C:/Users/HP/Documents/Traffic-Control-DSA/signup_dialog.h
  mmc:Q_OBJECT
  mdp:C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/moc_predefs.h
@@ -3598,6 +3596,8 @@ C:/Users/HP/Documents/Traffic-Control-DSA/signup_dialog.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/time.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/vadefs.h
  mdp:E:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
+C:/Users/HP/Documents/Traffic-Control-DSA/incidentwidget.cpp
+ uic:ui_incidentwidget.h
 C:/Users/HP/Documents/Traffic-Control-DSA/incidentreportdialog.h
  mmc:Q_OBJECT
  mdp:C:/Users/HP/Documents/Traffic-Control-DSA/build/Desktop_Qt_6_9_3_MinGW_64_bit-Debug/Traffic-Simulation-Dsa-project_autogen/moc_predefs.h
