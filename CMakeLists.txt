@@ -61,6 +61,7 @@ add_executable(${PROJECT_NAME} WIN32
     ${PROJECT_HEADERS}
     ${PROJECT_FORMS}
     resources.qrc
+    README.md
 )
 
 # Link the executable to the required Qt 6 libraries
