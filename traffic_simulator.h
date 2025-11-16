@@ -14,11 +14,14 @@
 #include "graph.h"
 #include "notification_manager.h"
 
+class MapWidget;
+
 class TrafficSimulator : public QObject
 {
     Q_OBJECT
 
 public:
+    MapWidget* mapWidget = nullptr;
     explicit TrafficSimulator(Graph* g, QObject* parent = nullptr);
 
     void start();
@@ -33,6 +36,7 @@ public:
     int getTrafficLightCount() const { return trafficLights.size(); }
     void addManualJam(qint64 from, qint64 to);
     void removeManualJam(qint64 from,qint64 to);
+    void updateVehiclePositions();
 
     // --- NEW ---
     // Getter for visualizing jams
@@ -43,6 +47,7 @@ public:
         qint64 id;
         QVector<qint64> path;
         int currentIndex;
+        int currentEdgeIndex;
         double progress;
         double baseSpeed;
         double speed;
@@ -51,6 +56,7 @@ public:
         bool rerouted;
         QColor color;
         QPointF position;
+        double progressOnEdge;
 
         // Enhancements:
         qint64 lastRerouteTime;  // timestamp for reroute cooldown tracking
@@ -104,11 +110,13 @@ private:
     QHash<qint64, QQueue<qint64>> lightQueues;
     QHash<qint64, double> lightReleaseTimers;
 
+public:
     // --- Enhancements ---
     double rerouteCooldown;   // seconds before vehicle can reroute again
     qint64 totalReroutes;     // counter for monitoring
     qint64 lastLogTime;       // for periodic console stats
     QSet<QPair<qint64, qint64>> manualJams; // <-- This stores the jams
+    void addManualJam(const QSet<QPair<qint64, qint64>>& edges); // multiple edges
 };
 
 #endif // TRAFFIC_SIMULATOR_H
