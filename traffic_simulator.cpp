@@ -1,4 +1,5 @@
 #include "traffic_simulator.h"
+#include "mapwidget.h"
 #include "graph.h"
 #include <QtMath>
 #include <QDebug>
@@ -54,15 +55,16 @@ void TrafficSimulator::reset() {
 }
 
 // --- NEW ---
-void TrafficSimulator::addManualJam(qint64 from, qint64 to)
-{
-    if (graph->hasNode(from) && graph->hasNode(to)) {
-        manualJams.insert(qMakePair(from, to));
-        // Also jam the other direction for simplicity
-        manualJams.insert(qMakePair(to, from));
-        qDebug() << "Manual jam added for edge" << from << "<->" << to;
-    }
+// Add a single edge (existing behavior)
+void TrafficSimulator::addManualJam(qint64 from, qint64 to) {
+    manualJams.insert(qMakePair(from, to));
 }
+
+// New: Add multiple edges at once
+void TrafficSimulator::addManualJam(const QSet<QPair<qint64, qint64>>& edges) {
+    manualJams.unite(edges); // Add all edges to manualJams
+}
+
 // --- END NEW ---
 void TrafficSimulator::removeManualJam(qint64 from, qint64 to)
 {
@@ -225,7 +227,7 @@ void TrafficSimulator::updateQueues(double deltaTime) {
 }
 
 void TrafficSimulator::updateVehicles(double deltaTime) {
-    const double MIN_GAP = 0.00002;
+    const double MIN_GAP = 0.0002;
 
     edgeVehicleCount.clear();
     QHash<QPair<qint64,qint64>, QList<qint64>> edgeVehicles;
@@ -333,7 +335,13 @@ void TrafficSimulator::updateVehicles(double deltaTime) {
             if (otherIdx < 0) continue;
             const Vehicle& other = vehicles[otherIdx];
             if (other.currentIndex == v.currentIndex && other.progress > v.progress) {
-                if ((other.progress - v.progress) < MIN_GAP) { tooClose = true; break; }
+                double distA = v.progress * edgeLength;
+                double distB = other.progress * edgeLength;
+
+                if ((distB - distA) < MIN_GAP) {
+                    tooClose = true;
+                    break;
+                }
             }
         }
         if (stopForLight || tooClose || v.waitingAtLight) continue;
@@ -355,6 +363,34 @@ void TrafficSimulator::updateVehicles(double deltaTime) {
 
         vehicleIndex[v.id] = i;
     }
+}
+
+void TrafficSimulator::updateVehiclePositions()
+{
+    for (auto &v : vehicles) {
+        if (v.path.size() < 2) continue;
+
+        // Determine current segment
+        int edgeIndex = v.currentEdgeIndex;
+        if (edgeIndex >= v.path.size() - 1) edgeIndex = v.path.size() - 2;
+
+        qint64 fromId = v.path[edgeIndex];
+        qint64 toId   = v.path[edgeIndex + 1];
+
+        const Graph::Node fromNode = graph->getNode(fromId);
+        const Graph::Node toNode   = graph->getNode(toId);
+
+        // Interpolate position along edge (0.0 - 1.0)
+        double t = v.progressOnEdge; // 0 = at 'from', 1 = at 'to'
+        double lat = fromNode.lat + t * (toNode.lat - fromNode.lat);
+        double lon = fromNode.lon + t * (toNode.lon - fromNode.lon);
+
+        v.position = QPointF(lon, lat);
+    }
+
+    // Notify MapWidget
+    if (mapWidget)
+        mapWidget->setVehicles(vehicles);
 }
 
 void TrafficSimulator::updateCongestion() {
@@ -458,3 +494,4 @@ void TrafficSimulator::handleRerouting(Vehicle& v, const QPair<qint64,qint64>& c
 QPointF TrafficSimulator::interpolatePosition(const QPointF& a, const QPointF& b, double t) {
     return QPointF(a.x() + (b.x() - a.x()) * t, a.y() + (b.y() - a.y()) * t);
 }
+
