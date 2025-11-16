@@ -550,6 +550,14 @@ Graph::PathResult Graph::dijkstra(qint64 source, qint64 destination)
     return result;
 }
 
+bool Graph::hasEdge(qint64 from, qint64 to) const {
+    if (!adj.contains(from)) return false;
+    for (const Edge &e : adj[from]) {
+        if (e.to == to) return true;
+    }
+    return false;
+}
+
 // --- Fixed A* Implementation ---
 Graph::PathResult Graph::aStar(qint64 source, qint64 destination, const QSet<QPair<qint64, qint64>>& blockedEdges)
 {
