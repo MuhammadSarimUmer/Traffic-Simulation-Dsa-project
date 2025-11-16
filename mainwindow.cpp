@@ -685,11 +685,31 @@ void MainWindow::onAddJamClicked()
         return;
     }
 
-    trafficSimulator->addManualJam(from, to);
+    // Find the actual path between selected nodes (do not pass jams to this search)
+    Graph::PathResult pathResult = graph.aStar(from, to, QSet<QPair<qint64,qint64>>());
+
+    if (!pathResult.found) {
+        QMessageBox::warning(this, "No Path", "No actual path exists between the selected nodes.");
+        return;
+    }
+
+    // Build edges from the path and add them to the simulator
+    QSet<QPair<qint64,qint64>> jamEdges;
+    for (int i = 0; i < pathResult.path.size() - 1; ++i) {
+        qint64 a = pathResult.path[i];
+        qint64 b = pathResult.path[i+1];
+        jamEdges.insert(qMakePair(a, b));        // block forward edge
+        // Do NOT insert reverse here unless you intend to block both directions:
+        jamEdges.insert(qMakePair(b, a));
+    }
+
+    // Add edges to simulator and update the map
+    trafficSimulator->addManualJam(jamEdges);
     mapVisualization->setManualJams(trafficSimulator->getManualJams());
+    mapVisualization->update();
 
     QMessageBox::information(this, "Jam Added",
-                             QString("Manual traffic jam added between:\n%1\nand\n%2")
+                             QString("Manual traffic jam added along path between:\n%1\nand\n%2")
                                  .arg(ui->jamSourceCombo->currentText())
                                  .arg(ui->jamDestCombo->currentText()));
 }
@@ -717,30 +737,34 @@ void MainWindow::onRerouteClicked()
 
     statusBar()->showMessage("Calculating alternative route...");
 
-    // Create a set of blocked edges from the *current* path
+    // Block forward edges of current path only
     QSet<QPair<qint64, qint64>> blockedEdges;
     for (int i = 0; i < m_currentPath.path.size() - 1; ++i) {
         qint64 from = m_currentPath.path[i];
-        qint64 to = m_currentPath.path[i+1];
-        blockedEdges.insert(qMakePair(from, to));
-        blockedEdges.insert(qMakePair(to, from)); // Block reverse direction too
+        qint64 to   = m_currentPath.path[i+1];
+        if (graph.hasEdge(from, to)) blockedEdges.insert(qMakePair(from, to));
     }
 
-    // Also add any manual jams from the simulator
+    // Add manual jams if they exist in the graph
     if (trafficSimulator) {
-        blockedEdges.unite(trafficSimulator->getManualJams());
+        for (auto jam : trafficSimulator->getManualJams()) {
+            if (graph.hasEdge(jam.first, jam.second)) {
+                blockedEdges.insert(jam);
+            }
+        }
     }
 
-    // Find a new path avoiding the blocked edges
+    // --- Step 3: Find alternative path avoiding all blocked edges ---
     Graph::PathResult newResult = graph.aStar(sourceId, destId, blockedEdges);
 
     if (!newResult.found) {
         statusBar()->showMessage("No alternative route found");
-        QMessageBox::warning(this, "No Alternative Path", "Could not find an alternative route. The original path may be the only one available, or all alternatives are also blocked.");
+        QMessageBox::warning(this, "No Alternative Path",
+                             "Could not find an alternative route. Either the original path is the only option, or all alternatives are blocked.");
         return;
     }
 
-    // Display the new (alternative) path
+    // --- Step 4: Display the new path ---
     mapVisualization->setShortestPath(newResult.path);
     displayRouteDetails(newResult);
     mapVisualization->focusOnPath(newResult.path);
@@ -749,6 +773,6 @@ void MainWindow::onRerouteClicked()
                                  .arg(newResult.totalDistance, 0, 'f', 2)
                                  .arg(newResult.path.size()));
 
-    // Store this new path as the "current" one, so user can reroute again
+    // --- Step 5: Save the new path ---
     m_currentPath = newResult;
 }
