@@ -88,6 +88,7 @@ public:
                  const QString& roadName, qint64 wayId);
     QString generateNodeName(const Node& node, int index) const;
     void generateDisplayNames();
+    bool hasEdge(qint64 from, qint64 to) const;
 };
 
 #endif // GRAPH_H
